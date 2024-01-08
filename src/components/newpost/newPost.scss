@@ -1,0 +1,103 @@
+@import "../../style.scss";
+
+.new-post {
+  @include themify($themes) {
+    margin-bottom: 16px;
+    display: flex;
+    width: 100%;
+    overflow: hidden;
+    -webkit-box-shadow: 0px 0px 25px -10px rgba(0, 0, 0, 0.25);
+    -moz-box-shadow: 0px 0px 25px -10px rgba(0, 0, 0, 0.25);
+    box-shadow: 0px 0px 25px -10px rgba(0, 0, 0, 0.25);
+    border-radius: 16px;
+    background-color: themed("bg");
+    color: themed("textColor");
+
+    .wrapper {
+      display: flex;
+      padding: 16px;
+      width: 100%;
+      flex-direction: column;
+
+      .title {
+        color: themed("textColor");
+        padding-bottom: 12px;
+      }
+
+      .first-row {
+        display: flex;
+        width: 100%;
+        justify-content: flex-end;
+
+        .hide {
+          display: none;
+        }
+
+        div {
+          display: flex;
+          img {
+            width: 40px;
+            height: 40px;
+            object-fit: cover;
+            border-radius: 50%;
+            margin-right: 8px;
+          }
+        }
+
+        .animation {
+          width: 100% !important;
+        }
+
+        .text-box {
+          min-height: 40px;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          width: calc(100% - 48px);
+          padding: 8px 12px;
+          background-color: themed("commentBgColor");
+          border-radius: 20px;
+          transition: width 0.25s ease-in-out;
+
+          .write-new-post {
+            border: none;
+            outline: none;
+            resize: none;
+            background: none;
+            width: 100%;
+            font-size: 1.025rem;
+            font-family: Arial, Helvetica, sans-serif;
+
+            &::placeholder {
+              color: themed("textColor");
+            }
+          }
+        }
+      }
+
+      .second-row {
+        display: flex;
+        overflow: hidden;
+        margin-top: 12px;
+        padding-top: 8px;
+        border-top: 1px solid themed("border");
+
+        .item {
+          flex: 1;
+          padding: 8px;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          gap: 8px;
+          cursor: pointer;
+          border-radius: 8px;
+          color: themed("textColor");
+
+          &:hover {
+            background-color: themed("overlayColor");
+          }
+        }
+      }
+    }
+  }
+}
