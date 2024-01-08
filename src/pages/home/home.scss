@@ -1,0 +1,29 @@
+@import "../../style.scss";
+
+.home {
+  @include themify($themes) {
+    display: flex;
+    flex: 1 1 0;
+    justify-content: space-between;
+    height: calc(100vh - 56px);
+    min-width: 320px;
+
+    .middle {
+      display: flex;
+      justify-content: center;
+      flex-direction: row;
+      flex: 1 1 744px;
+      padding-inline: 32px;
+
+      .news-feed {
+        display: flex;
+        flex-shrink: 0;
+        max-width: 100%;
+        flex-direction: column;
+        max-width: 590px;
+        min-width: 500px;
+        flex: 1;
+      }
+    }
+  }
+}

@@ -1,0 +1,76 @@
+@import "../../style.scss";
+
+.leftBar {
+    @include themify($themes) {
+        flex: 0 9999 360px;
+        position: sticky;
+        top: 56px;
+        min-height: inherit;
+        max-width: 360px;
+        min-width: 280px;
+        overflow-x: hidden;
+        overflow-y: hidden;
+        color: themed("textColor");
+
+        @include mobile {
+            display: none;
+        }
+
+        &::-webkit-scrollbar {
+            display: none;
+        }
+
+        .container {
+            margin-top: 16px;
+            padding-inline: 16px;
+
+            hr {
+                margin: 16px 0px;
+                border: none;
+                height: 1px;
+                background-color: themed("border");
+            }
+
+            .menu {
+                display: flex;
+                flex-direction: column;
+                gap: 20px;
+
+                span {
+                    font-size: 12px;
+                }
+
+                .user {
+                    display: flex;
+                    align-items: center;
+                    gap: 10px;
+
+                    img {
+                        width: 30px;
+                        height: 30px;
+                        border-radius: 50%;
+                        object-fit: cover;
+                    }
+
+                    span {
+                        font-size: 14px;
+                    }
+                }
+
+                .item {
+                    display: flex;
+                    align-items: center;
+                    gap: 10px;
+
+                    img {
+                        width: 30px;
+                    }
+
+                    span {
+                        font-size: 14px;
+                    }
+                }
+            }
+        }
+    }
+}

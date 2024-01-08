@@ -1,0 +1,14 @@
+@import "../../style.scss";
+
+.comment {
+  @include themify($themes) {
+    .info {
+      padding: 12px;
+      background-color: themed("commentBgColor");
+      border-radius: 8px;
+    }
+
+    .date {
+    }
+  }
+}

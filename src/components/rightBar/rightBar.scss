@@ -1,0 +1,106 @@
+@import "../../style.scss";
+
+.rightBar {
+  @include themify($themes) {
+    flex: 2;
+    position: sticky;
+    top: 56px;
+    height: calc(100vh - 70px);
+    overflow-x: hidden;
+    overflow-y: auto;
+
+    @include mobile {
+      display: none;
+    }
+
+    @include tablet {
+      display: none;
+    }
+
+    &::-webkit-scrollbar {
+      display: none;
+    }
+
+    .container {
+      padding: 20px;
+
+      hr {
+        margin: 16px 0px;
+        border: none;
+        height: 1px;
+        background-color: themed("border");
+      }
+
+      .item {
+        padding: 16px;
+        gap: 16px;
+
+        span {
+          color: gray;
+        }
+
+        .user {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          margin: 20px 0px;
+
+          .userInfo {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            position: relative;
+
+            img {
+              width: 40px;
+              height: 40px;
+              border-radius: 50%;
+              object-fit: cover;
+            }
+
+            .online {
+              width: 12px;
+              height: 12px;
+              border-radius: 50%;
+              background-color: limegreen;
+              position: absolute;
+              bottom: 0;
+              left: 30px;
+              border: 2px solid white;
+            }
+
+            p {
+              color: themed("textColorSoft");
+            }
+
+            span {
+              font-weight: 500;
+              color: themed("textColor");
+            }
+          }
+
+          .buttons {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+
+            button {
+              border: none;
+              padding: 5px;
+              color: white;
+              cursor: pointer;
+
+              &:first-child {
+                background-color: #5271ff;
+              }
+
+              &:last-child {
+                background-color: #f0544f;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
