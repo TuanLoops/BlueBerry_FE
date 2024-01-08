@@ -1,4 +1,4 @@
-import {Link, useNavigate} from "react-router-dom";
+import {Link} from "react-router-dom";
 import "./login.scss";
 import {useDispatch} from "react-redux";
 import {login} from "../../redux/service/userService.jsx";
@@ -7,12 +7,10 @@ import * as Yup from "yup";
 
 const Login = () => {
     const dispatch = useDispatch();
-    const navigate = useNavigate();
 
-    const handleLogin = (values) => {
-        dispatch(login(values)).then(()=>{
-            navigate("/")
-        })
+    const handleLogin = async (values) => {
+        await dispatch(login(values));
+        window.location.href="/"
     }
     return (
         <div className="login">
@@ -56,7 +54,7 @@ const Login = () => {
                         }}
                     >
                         <Form>
-                            <Field type="email" name="email"  autoComplete="email" placeholder="Email" />
+                            <Field type="email" name="email" autoComplete="email" placeholder="Email"/>
                             <ErrorMessage name="email" component="div" className="error-message"/>
                             <Field type="password" name="password" autoComplete="password" placeholder="Password"/>
                             <ErrorMessage name="password" component="div" className="error-message"/>
