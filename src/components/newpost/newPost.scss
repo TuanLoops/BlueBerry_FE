@@ -19,10 +19,15 @@
       width: 100%;
       flex-direction: column;
 
+      .title {
+        color: themed("textColor");
+        padding-bottom: 12px;
+      }
+
       .first-row {
         display: flex;
         width: 100%;
-        justify-content: space-between;
+        justify-content: flex-end;
 
         .hide {
           display: none;
@@ -39,15 +44,20 @@
           }
         }
 
+        .animation {
+          width: 100% !important;
+        }
+
         .text-box {
           min-height: 40px;
           display: flex;
           justify-content: center;
           align-items: center;
-          width: calc(100% - 16px);
+          width: calc(100% - 48px);
           padding: 8px 12px;
           background-color: themed("commentBgColor");
           border-radius: 20px;
+          transition: width 0.25s ease-in-out;
 
           .write-new-post {
             border: none;

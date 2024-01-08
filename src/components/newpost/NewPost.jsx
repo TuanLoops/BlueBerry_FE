@@ -9,11 +9,14 @@ function NewPost() {
   return (
     <div className="new-post">
       <div className="wrapper">
+        <div className="title">
+          <h4>Bạn đang nghĩ gì</h4>
+        </div>
         <div className="first-row">
           <div className={content ? "hide" : ""}>
             <img src={currentUser.profilePic} alt="" />
           </div>
-          <div className="text-box">
+          <div className={`text-box ${content ? "animation" : ""}`}>
             <TextareaAutosize
               className="write-new-post"
               placeholder={`What's on your mind, ${currentUser.name}?`}
