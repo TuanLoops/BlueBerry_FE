@@ -3,7 +3,6 @@ import Register from "./pages/register/Register";
 import {
   createBrowserRouter,
   RouterProvider,
-  Route,
   Outlet,
   Navigate,
 } from "react-router-dom";
@@ -13,10 +12,9 @@ import Profile from "./pages/profile/Profile";
 import "./style.scss";
 import { useContext } from "react";
 import { DarkModeContext } from "./context/darkModeContext";
-import { AuthContext } from "./context/authContext";
 
 function App() {
-  const { currentUser } = useContext(AuthContext);
+  const  currentUser= localStorage.getItem("users")
   const { darkMode } = useContext(DarkModeContext);
 
   const Layout = () => {
@@ -31,6 +29,7 @@ function App() {
     );
   };
 
+  // eslint-disable-next-line react/prop-types
   const ProtectedRoute = ({ children }) => {
     if (!currentUser) {
       return <Navigate to="/login" />;

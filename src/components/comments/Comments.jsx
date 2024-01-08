@@ -1,11 +1,9 @@
 import { useContext, useState } from "react";
 import "./comments.scss";
-import { AuthContext } from "../../context/authContext";
 import Comment from "../comment/Comment";
 import TextareaAutosize from "react-textarea-autosize";
 
 const Comments = () => {
-  const { currentUser } = useContext(AuthContext);
   //Temporary
   const comments = [
     {
@@ -30,7 +28,7 @@ const Comments = () => {
       <hr />
       <div className="write">
         <div className="avatar">
-          <img src={currentUser.profilePic} alt="" />
+          <img  alt="" />
         </div>
         <div className="comment-wrapper">
           <TextareaAutosize

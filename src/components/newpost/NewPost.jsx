@@ -1,11 +1,9 @@
-import { useContext, useState } from "react";
+import { useState } from "react";
 import "./newPost.scss";
-import { AuthContext } from "../../context/authContext";
 import TextareaAutosize from "react-textarea-autosize";
 
 function NewPost() {
   const [content, setContent] = useState("");
-  const { currentUser } = useContext(AuthContext);
   return (
     <div className="new-post">
       <div className="wrapper">
@@ -14,12 +12,12 @@ function NewPost() {
         </div>
         <div className="first-row">
           <div className={content ? "hide" : ""}>
-            <img src={currentUser.profilePic} alt="" />
+            <img  alt="" />
           </div>
           <div className={`text-box ${content ? "animation" : ""}`}>
             <TextareaAutosize
               className="write-new-post"
-              placeholder={`What's on your mind, ${currentUser.name}?`}
+              placeholder={`What's on your mind`}
               value={content}
               onChange={(e) => {
                 setContent(e.target.value);
