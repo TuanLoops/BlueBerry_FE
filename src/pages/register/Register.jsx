@@ -44,24 +44,24 @@ const Register = () => {
                                 password: "",
                                 confirmPassword: "",
                             }}
-                            // validationSchema={Yup.object({
-                            //     email: Yup.string()
-                            //         .required('Required')
-                            //         .matches(
-                            //             /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@(gmail\.com|example\.com\.vn|microsoft\.com\.vn)$/,
-                            //             'Invalid email format. Should end with @gmail.com, @example.com.vn, or @microsoft.com.vn'
-                            //         ),
-                            //     password: Yup.string()
-                            //         .required('Required')
-                            //         .min(8, 'Password should be at least 8 characters long')
-                            //         .matches(
-                            //             /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[#?!@$%^&*-])[A-Za-z\d@$!%*?&]{8,}$/,
-                            //             'Password must meet the following criteria:\n- Requires at least one lowercase letter.\n- Requires at least one capital letter.\n- Requires at least one digit.\n- Requires at least one special character from the list.\n- Requires a minimum length of 8 characters and can contain letters, numbers, and special characters from the list'
-                            //         ),
-                            //     confirmPassword: Yup.string()
-                            //         .required('Required')
-                            //         .oneOf([Yup.ref("password")], 'Passwords must match'),
-                            // })}
+                            validationSchema={Yup.object({
+                                email: Yup.string()
+                                    .required('Required')
+                                    .matches(
+                                        /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@(gmail\.com|example\.com\.vn|microsoft\.com\.vn)$/,
+                                        'Invalid email format. Should end with @gmail.com, @example.com.vn, or @microsoft.com.vn'
+                                    ),
+                                password: Yup.string()
+                                    .required('Required')
+                                    .min(8, 'Password should be at least 8 characters long')
+                                    .matches(
+                                        /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[#?!@$%^&*-])[A-Za-z\d@$!%*?&]{8,}$/,
+                                        'Password must meet the following criteria:\n- Requires at least one lowercase letter.\n- Requires at least one capital letter.\n- Requires at least one digit.\n- Requires at least one special character from the list.\n- Requires a minimum length of 8 characters and can contain letters, numbers, and special characters from the list'
+                                    ),
+                                confirmPassword: Yup.string()
+                                    .required('Required')
+                                    .oneOf([Yup.ref("password")], 'Passwords must match'),
+                            })}
                             onSubmit={(values, {setSubmitting}) => {
                                 handleRegister(values)
                                 setSubmitting(false);
