@@ -13,7 +13,7 @@ export const ConfirmAccount = () => {
     useEffect(() => {
         const fetch = async () => {
             try {
-                await axios.get(`http://localhost:8080/users/api/auth/register/confirm?token=${token}`);
+                await axios.get(`http://localhost:8080/auth/api/users/register/confirm?token=${token}`);
             } catch (error) {
                 console.error(error);
             }
