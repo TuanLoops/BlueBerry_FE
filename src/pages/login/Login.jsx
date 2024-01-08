@@ -2,7 +2,7 @@ import {Link, useNavigate} from "react-router-dom";
 import "./login.scss";
 import {useDispatch} from "react-redux";
 import {login} from "../../redux/service/userService.jsx";
-import {Field, Form, Formik} from "formik";
+import {ErrorMessage, Field, Form, Formik} from "formik";
 import * as Yup from "yup";
 
 const Login = () => {
@@ -41,15 +41,14 @@ const Login = () => {
                                 .required('Required')
                                 .matches(
                                     /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@(gmail\.com|example\.com\.vn|microsoft\.com\.vn)$/,
-                                    'Invalid email format. Should end with @gmail.com, @example.com.vn, or @microsoft.com.vn'
+                                    'Định dạng email không hợp lệ. Nên kết thúc bằng @gmail.com, @example.com.vn hoặc @microsoft.com.vn'
                                 ),
                             password: Yup.string()
                                 .required('Required')
                                 .min(8, 'Password should be at least 8 characters long')
                                 .matches(
                                     /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[#?!@$%^&*-])[A-Za-z\d@$!%*?&]{8,}$/,
-                                    'Password must meet the following criteria:\n- Requires at least one lowercase letter.\n- Requires at least one capital letter.\n- Requires at least one digit.\n- Requires at least one special character from the list.\n- Requires a minimum length of 8 characters and can contain letters, numbers, and special characters from the list'
-                                )
+                                    'Yêu cầu độ dài tối thiểu 8 ký tự và có thể chứa ít nhất một chữ cái viết thường, ít nhất một chữ cái viết hoa, ít nhất một chữ số ký tự đặc biệt từ danh sách (@, $, !, %, *, ?, &)')
                         })}
                         onSubmit={(values, {setSubmitting}) => {
                             handleLogin(values)
@@ -58,7 +57,9 @@ const Login = () => {
                     >
                         <Form>
                             <Field type="email" name="email"  autoComplete="email" placeholder="Email" />
+                            <ErrorMessage name="email" component="div" className="error-message"/>
                             <Field type="password" name="password" autoComplete="password" placeholder="Password"/>
+                            <ErrorMessage name="password" component="div" className="error-message"/>
                             <button type="submit">SignIn</button>
                         </Form>
                     </Formik>
