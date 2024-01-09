@@ -7,7 +7,6 @@ import { getImageURL, uploadImage } from "../../firebase";
 import { v4 as uuidv4 } from "uuid";
 
 function NewPost() {
-  const { currentUser } = useContext(AuthContext);
   const [content, setContent] = useState("");
   const [images, setImages] = useState([]);
 
