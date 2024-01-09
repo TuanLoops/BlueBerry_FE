@@ -39,7 +39,7 @@ const Comments = () => {
           />
         </div>
           <div className="button-wrapper">
-            <button>Send</button>
+            <button >Send</button>
           </div>
       </div>
       {comments.map((comment) => (

@@ -2,7 +2,7 @@
 
 .new-post {
   @include themify($themes) {
-    margin-bottom: 16px;
+    margin-top: 16px;
     display: flex;
     width: 100%;
     overflow: hidden;
@@ -11,11 +11,10 @@
     box-shadow: 0px 0px 25px -10px rgba(0, 0, 0, 0.25);
     border-radius: 16px;
     background-color: themed("bg");
-    color: themed("textColor");
 
     .wrapper {
       display: flex;
-      padding: 16px;
+      padding: 16px 16px 8px 16px;
       width: 100%;
       flex-direction: column;
 
@@ -54,7 +53,7 @@
           justify-content: center;
           align-items: center;
           width: calc(100% - 48px);
-          padding: 8px 12px;
+          padding: 12px;
           background-color: themed("commentBgColor");
           border-radius: 20px;
           transition: width 0.25s ease-in-out;
@@ -67,10 +66,7 @@
             width: 100%;
             font-size: 1.025rem;
             font-family: Arial, Helvetica, sans-serif;
-
-            &::placeholder {
-              color: themed("textColor");
-            }
+            color: themed("textColor");
           }
         }
       }
@@ -96,6 +92,18 @@
           &:hover {
             background-color: themed("overlayColor");
           }
+
+          [type="file"] {
+            display: none;
+          }
+        }
+
+        .post-button {
+          flex: 1;
+          gap: 8px;
+          display: flex;
+          justify-content: center;
+          align-items: center;
         }
       }
     }

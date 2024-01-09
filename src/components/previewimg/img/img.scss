@@ -1,0 +1,54 @@
+@import "../../../style.scss";
+
+.image-container {
+  @include themify($themes) {
+    flex: 1;
+    min-width: 25%;
+    max-width: 25%;
+    padding: 8px;
+    margin-top: 10px;
+
+    .image-wrapper {
+      position: relative;
+      width: 100%;
+      padding: 6px;
+      border-radius: 6px;
+      display: flex;
+
+      .close {
+        position: absolute;
+        width: 24px;
+        height: 24px;
+        background-color: rgb(228, 228, 228);
+        top: -12px;
+        right: -12px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        cursor: pointer;
+        border-radius: 50%;
+        visibility: hidden;
+
+        svg {
+          scale: 0.8;
+        }
+      }
+
+      img {
+        width: 100%;
+        object-fit: cover;
+        aspect-ratio: 1;
+        border-radius: 4px;
+      }
+    }
+
+    &:hover {
+      .image-wrapper {
+        outline: 1px solid themed("border");
+        .close {
+          visibility: visible;
+        }
+      }
+    }
+  }
+}

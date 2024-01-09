@@ -32,6 +32,7 @@
         padding: 12px;
         background-color: themed("commentBgColor");
         border-radius: 8px;
+        
         .input-field {
           flex: 5;
           color: themed("textColor");
@@ -55,17 +56,19 @@
       }
 
       .button-wrapper {
+
         button {
           border: none;
           background-color: #5271ff;
           color: white;
-          padding: 13px;
+          padding: 12px;
           cursor: pointer;
           border-radius: 8px;
           font-weight: bold;
         }
       }
     }
+
     .comment {
       margin-top: 16px;
       display: flex;

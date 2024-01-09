@@ -8,6 +8,7 @@
     border-radius: 16px;
     background-color: themed("bg");
     color: themed("textColor");
+    margin-bottom: 16px;
 
     .container {
       padding: 16px;
@@ -59,10 +60,43 @@
       .content {
         margin: 16px 0px;
 
-        img {
-          width: 100%;
-          max-height: 512px;
-          object-fit: cover;
+        .images-container {
+          margin-top: 16px;
+          min-height: 350px;
+          height: fit-content;
+
+          img {
+            width: 100%;
+            max-height: 512px;
+            object-fit: cover;
+          }
+        }
+
+        .medium {
+          img {
+            aspect-ratio: 200/250 !important;
+          }
+        }
+
+        .many {
+          img {
+            aspect-ratio: 1 !important;
+          }
+        }
+
+        .too-many {
+          img {
+            aspect-ratio: 1 !important;
+            position: relative;
+
+            &:last-child {
+              content: "";
+              position: absolute;
+              inset: 0;
+              background-color: black;
+              z-index: 99;
+            }
+          }
         }
       }
 
@@ -70,6 +104,7 @@
         display: flex;
         align-items: center;
         justify-content: space-between;
+
         .item {
           display: flex;
           align-items: center;

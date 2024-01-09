@@ -5,7 +5,7 @@
     display: flex;
     flex: 1 1 0;
     justify-content: space-between;
-    height: calc(100vh - 56px);
+    min-height: calc(100vh - 56px);
     min-width: 320px;
 
     .middle {
@@ -21,7 +21,7 @@
         max-width: 100%;
         flex-direction: column;
         max-width: 590px;
-        min-width: 500px;
+        min-width: 460px;
         flex: 1;
       }
     }
