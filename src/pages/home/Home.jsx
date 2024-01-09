@@ -1,6 +1,5 @@
 import LeftBar from "../../components/leftBar/LeftBar";
 import NewPost from "../../components/newpost/NewPost";
-import Posts from "../../components/posts/Posts";
 import RightBar from "../../components/rightBar/RightBar";
 import "./home.scss";
 

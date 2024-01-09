@@ -1,0 +1,30 @@
+h1.info-confirm {
+  text-align: center;
+  margin-top: 100px;
+  border-radius: 8px;
+}
+
+.success {
+  background-color: #5cb85c; /* Green background for success */
+  color: white;
+}
+
+.failure {
+  background-color: #d9534f; /* Red background for failure */
+  color: white;
+}
+
+.loading::after {
+  content: ' ⏳'; /* Add a loading emoji after the text */
+  display: inline-block;
+  animation: spin 1s infinite linear; /* Add a spinning animation to loading emoji */
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}

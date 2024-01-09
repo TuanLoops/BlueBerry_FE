@@ -1,6 +1,5 @@
-import { useContext, useState } from "react";
+import { useState } from "react";
 import "./newPost.scss";
-import { AuthContext } from "../../context/authContext";
 import TextareaAutosize from "react-textarea-autosize";
 import PostButton from "./postbutton/PostButton";
 import PreviewImg from "../previewimg/PreviewImg";
@@ -44,12 +43,12 @@ function NewPost() {
         </div>
         <div className="first-row">
           <div className={content ? "hide" : ""}>
-            <img src={currentUser.profilePic} alt="" />
+            <img  alt="" />
           </div>
           <div className={`text-box ${content ? "animation" : ""}`}>
             <TextareaAutosize
               className="write-new-post"
-              placeholder={`What's on your mind, ${currentUser.name}?`}
+              placeholder={`What's on your mind`}
               value={content}
               onChange={(e) => {
                 setContent(e.target.value);
