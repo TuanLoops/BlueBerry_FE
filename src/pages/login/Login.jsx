@@ -12,6 +12,7 @@ const Login = () => {
   const handleLogin = async (values) => {
     dispatch(login(values)).then(() => navigate("/"));
   };
+  
   return (
     <div className="login">
       <div className="card">
