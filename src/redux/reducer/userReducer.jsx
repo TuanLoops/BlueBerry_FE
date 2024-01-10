@@ -6,7 +6,7 @@ const initialState = {
 }
 
 const userReducer = createSlice({
-    name:"users",
+    name:"user",
     initialState,
     extraReducers:builder => {
         builder.addCase(login.fulfilled,(state,{payload}) => {
