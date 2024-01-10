@@ -11,6 +11,5 @@ export const login = createAsyncThunk(
 )
 
 export const register = (data) => {
-    toast.success("Vui lòng kiểm khoản email và kích hoạt để bắt đầu sử dụng")
-    return UrlUser().post("register",data);
+    return UrlUser().post("register", data);
 }
