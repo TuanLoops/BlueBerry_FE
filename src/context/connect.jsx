@@ -7,11 +7,11 @@ export const Url = () => {
 }
 
 export const UrlUser = () => {
-    let currentUser = JSON.parse(localStorage.getItem("users"));
+    let currentUser = JSON.parse(localStorage.getItem("AccessToken"));
     if (currentUser){
         return axios.create({
             baseURL: 'http://localhost:8080/auth/api/users',
-            headers: {"authority" :  `Bearer ${currentUser.token}`}
+            headers: {"authority" :  `Bearer ${currentUser}`}
         })
     }else {
         return axios.create({

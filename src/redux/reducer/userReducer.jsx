@@ -2,7 +2,7 @@ import {createSlice} from "@reduxjs/toolkit";
 import {login} from "../service/userService.jsx";
 
 const initialState = {
-    currentUser : JSON.parse(localStorage.getItem("user")),
+    currentUser : JSON.parse(localStorage.getItem("AccessToken")),
 }
 
 const userReducer = createSlice({
@@ -10,8 +10,7 @@ const userReducer = createSlice({
     initialState,
     extraReducers:builder => {
         builder.addCase(login.fulfilled,(state,{payload}) => {
-            localStorage.setItem("users", JSON.stringify(payload))
-            state.currentUser = payload;
+            localStorage.setItem("AccessToken", JSON.stringify(payload.token))
         })
     }
 })

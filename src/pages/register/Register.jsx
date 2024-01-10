@@ -9,7 +9,6 @@ import * as Yup from "yup";
 const Register = () => {
     const navigate = useNavigate();
     const handleRegister = (values) => {
-
         register(values).then(() => {
             navigate("/login")
         })
