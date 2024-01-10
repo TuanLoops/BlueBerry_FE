@@ -7,15 +7,43 @@ export const Url = () => {
 }
 
 export const UrlUser = () => {
-    let currentUser = JSON.parse(localStorage.getItem("users"));
-    if (currentUser){
+    let accessToken = JSON.parse(localStorage.getItem("AccessToken"));
+    if (accessToken){
         return axios.create({
             baseURL: 'http://localhost:8080/auth/api/users',
-            headers: {"authority" :  `Bearer ${currentUser.token}`}
+            headers: {"Authorization" :  `Bearer ${accessToken}`}
         })
     }else {
         return axios.create({
             baseURL: 'http://localhost:8080/auth/api/users',
+        })
+    }
+}
+
+export const UrlAppUser = () => {
+    let accessToken = JSON.parse(localStorage.getItem("AccessToken"));
+    if (accessToken){
+        return axios.create({
+            baseURL: 'http://localhost:8080/auth/api/appusers',
+            headers: {"Authorization" :  `Bearer ${accessToken}`}
+        })
+    }else {
+        return axios.create({
+            baseURL: 'http://localhost:8080/auth/api/appusers',
+        })
+    }
+}
+
+export const UrlStatus = () => {
+    let currentUser = JSON.parse(localStorage.getItem("AccessToken"));
+    if (currentUser){
+        return axios.create({
+            baseURL: 'http://localhost:8080/auth/api/status',
+            headers: {"Authorization" :  `Bearer ${currentUser}`}
+        })
+    }else {
+        return axios.create({
+            baseURL: 'http://localhost:8080/auth/api/status',
         })
     }
 }

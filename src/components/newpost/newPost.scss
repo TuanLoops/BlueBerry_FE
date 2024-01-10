@@ -27,13 +27,19 @@
         display: flex;
         width: 100%;
         justify-content: flex-end;
+        position: relative;
 
         .hide {
-          display: none;
+          opacity: 0 !important;
         }
 
-        div {
+        .avatar-container {
           display: flex;
+          position: absolute;
+          left: 0;
+          opacity: 1;
+          transition: opacity 0.25s ease-in-out;
+
           img {
             width: 40px;
             height: 40px;
@@ -43,7 +49,7 @@
           }
         }
 
-        .animation {
+        .stretch {
           width: 100% !important;
         }
 
@@ -56,7 +62,8 @@
           padding: 12px;
           background-color: themed("commentBgColor");
           border-radius: 20px;
-          transition: width 0.25s ease-in-out;
+          transition: width 0.2s ease-in-out;
+          z-index: 1;
 
           .write-new-post {
             border: none;

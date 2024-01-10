@@ -1,14 +1,19 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import "./newPost.scss";
 import TextareaAutosize from "react-textarea-autosize";
 import PostButton from "./postbutton/PostButton";
 import PreviewImg from "../previewimg/PreviewImg";
 import { getImageURL, uploadImage } from "../../firebase";
 import { v4 as uuidv4 } from "uuid";
+import { useDispatch } from "react-redux";
+import { addStatus, showStatus } from "../../redux/service/statusService.jsx";
+import { useSelector } from "react-redux";
 
 function NewPost() {
-  const [content, setContent] = useState("");
-  const [images, setImages] = useState([]);
+  const dispatch = useDispatch();
+  const currentUser = useSelector(({ user }) => user.currentUser);
+  const [body, setBody] = useState("");
+  const [imageList, setImageList] = useState([]);
 
   const handleFileChange = async (e) => {
     if (e.target.files[0]?.type.includes("image/")) {
@@ -16,7 +21,7 @@ function NewPost() {
       const randomName = uuidv4();
       await uploadImage(randomName, file);
       const imageURL = await getImageURL(randomName);
-      setImages(([...images]) => {
+      setImageList(([...images]) => {
         images.push({ imageLink: imageURL });
         return images;
       });
@@ -24,14 +29,16 @@ function NewPost() {
   };
 
   const handleFileRemove = (index) => {
-    setImages(([...images]) => {
+    setImageList(([...images]) => {
       images.splice(index, 1);
       return images;
     });
   };
 
   const handlePost = () => {
-    //TODO: post to backend
+    dispatch(addStatus({ body, imageList })).then(() => {
+      dispatch(showStatus());
+    });
   };
 
   return (
@@ -41,21 +48,21 @@ function NewPost() {
           <h4>Make a new post</h4>
         </div>
         <div className="first-row">
-          <div className={content ? "hide" : ""}>
-            <img  alt="" />
+          <div className={`avatar-container ${body ? "hide" : ""}`}>
+            <img src={currentUser?.avatarImage} alt="" />
           </div>
-          <div className={`text-box ${content ? "animation" : ""}`}>
+          <div className={`text-box ${body ? "stretch" : ""}`}>
             <TextareaAutosize
               className="write-new-post"
               placeholder={`What's on your mind`}
-              value={content}
+              value={body}
               onChange={(e) => {
-                setContent(e.target.value);
+                setBody(e.target.value);
               }}
             />
           </div>
         </div>
-        <PreviewImg imageList={images} remove={handleFileRemove} />
+        <PreviewImg imageList={imageList} remove={handleFileRemove} />
         <div className="second-row">
           <div className="item">
             <img src="https://static.xx.fbcdn.net/rsrc.php/v3/yr/r/c0dWho49-X3.png" />
@@ -69,15 +76,13 @@ function NewPost() {
               accept="image/*"
               id="file"
               type="file"
+              multiple
               onChange={handleFileChange}
             />
           </label>
 
           <div className="post-button">
-            <PostButton
-              onClick={handlePost}
-              disabled={content ? false : true}
-            />
+            <PostButton onClick={handlePost} disabled={body ? false : true} />
           </div>
         </div>
       </div>

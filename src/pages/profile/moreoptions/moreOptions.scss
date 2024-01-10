@@ -1,0 +1,43 @@
+@import "../../../style.scss";
+
+.more-options {
+  @include themify($themes) {
+    background-color: themed("bg");
+    border-radius: 16px;
+    position: absolute;
+    top: 48px;
+    left: 50%;
+    transform: translate(-50%, 0);
+    color: themed("textColor");
+    -webkit-box-shadow: 0px 0px 25px -10px rgba(0, 0, 0, 0.5);
+    -moz-box-shadow: 0px 0px 25px -10px rgba(0, 0, 0, 0.5);
+    box-shadow: 0px 0px 25px -10px rgba(0, 0, 0, 0.5);
+    max-width: 400px;
+
+    .wrapper {
+      padding: 8px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      min-width: 100%;
+
+      .option-item {
+        min-width: 240px;
+        max-width: 360px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 12px;
+        gap: 8px;
+        border-radius: 8px;
+        user-select: none;
+
+        &:hover {
+          cursor: pointer;
+          background-color: themed("bgSecondaryHover");
+        }
+      }
+    }
+  }
+}
