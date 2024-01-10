@@ -2,6 +2,7 @@ import LeftBar from "../../components/leftBar/LeftBar";
 import NewPost from "../../components/newpost/NewPost";
 import RightBar from "../../components/rightBar/RightBar";
 import "./home.scss";
+import Posts from "../../components/posts/Posts.jsx";
 
 const Home = () => {
   return (
