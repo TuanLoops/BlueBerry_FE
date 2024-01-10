@@ -2,7 +2,7 @@ import {createAsyncThunk} from "@reduxjs/toolkit";
 import {UrlStatus} from "../../context/connect.jsx";
 
 export const showStatus  = createAsyncThunk(
-    "status/getAllStatus",
+    "GET_ALL_STATUS",
     async () => {
         const res = await UrlStatus().get("");
         return res.data;
@@ -10,7 +10,7 @@ export const showStatus  = createAsyncThunk(
 )
 
 export const addStatus = createAsyncThunk(
-    "status/addStatus",
+    "ADD_STATUS",
     async (status) => {
         const res = await UrlStatus().post("",status);
         return res.data;
