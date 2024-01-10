@@ -43,10 +43,10 @@ function NewPost() {
           <h4>Make a new post</h4>
         </div>
         <div className="first-row">
-          <div className={content ? "hide" : ""}>
+          <div className={`avatar-container ${content ? "hide" : ""}`}>
             <img src={currentUser.profilePic} alt="" />
           </div>
-          <div className={`text-box ${content ? "animation" : ""}`}>
+          <div className={`text-box ${content ? "stretch" : ""}`}>
             <TextareaAutosize
               className="write-new-post"
               placeholder={`What's on your mind`}

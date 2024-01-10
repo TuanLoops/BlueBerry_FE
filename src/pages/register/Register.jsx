@@ -68,9 +68,9 @@ const Register = () => {
                                 setSubmitting(false);
                             }}>
                             <Form>
-                                <Field type="text" name="firstName" placeholder="FirstName"/>
+                                <Field type="text" name="firstName" placeholder="First Name"/>
 
-                                <Field type="text" name="lastName" placeholder="LastName"/>
+                                <Field type="text" name="lastName" placeholder="Last Name"/>
 
                                 <Field type="email" name="email" placeholder="Email"/>
                                 <ErrorMessage name="email" component="div" className="error-message"/>
@@ -78,7 +78,7 @@ const Register = () => {
                                 <Field type="password" name="password" placeholder="Password"/>
                                 <ErrorMessage name="password" component="div" className="error-message"/>
 
-                                <Field type="password" name="confirmPassword" placeholder="confirmPasswor"/>
+                                <Field type="password" name="confirmPassword" placeholder="Confirm Password"/>
                                 <ErrorMessage name="confirmPassword" component="div" className="error-message"/>
                                 <button type="submit">Register</button>
                             </Form>

@@ -9,7 +9,7 @@ const fakeUser = {
 };
 
 const initialState = {
-  currentUser: JSON.parse(localStorage.getItem("user") || fakeUser),
+  currentUser: JSON.parse(localStorage.getItem("user")),
 };
 
 const userReducer = createSlice({
