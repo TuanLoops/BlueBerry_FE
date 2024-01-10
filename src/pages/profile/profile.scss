@@ -125,6 +125,22 @@
           align-items: center;
           justify-content: flex-end;
           gap: 10px;
+
+          .wrapper {
+            cursor: pointer;
+            position: relative;
+            .dots {
+              display: flex;
+              justify-content: center;
+              align-items: center;
+              padding: 8px;
+              border-radius: 50%;
+
+              &:hover {
+                background-color: themed("overlayColor");
+              }
+            }
+          }
         }
       }
     }

@@ -8,6 +8,8 @@ $themes: (
     border: lightgray,
     overlayColor: rgba(0, 0, 0, 0.05),
     commentBgColor: rgb(235, 235, 235),
+    bgSecondary: white,
+    bgSecondaryHover: darken(white, 3%),
   ),
   dark: (
     textColor: whitesmoke,
@@ -18,6 +20,8 @@ $themes: (
     border: #444,
     overlayColor: rgba(255, 255, 255, 0.1),
     commentBgColor: rgb(65, 65, 65),
+    bgSecondary: #1d1d1d,
+    bgSecondaryHover: lighten(#1d1d1d, 10%),
   ),
 );
 
@@ -62,5 +66,5 @@ $themes: (
   padding: 0;
   margin: 0;
   box-sizing: border-box;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
 }

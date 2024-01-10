@@ -5,8 +5,10 @@ import PostButton from "./postbutton/PostButton";
 import PreviewImg from "../previewimg/PreviewImg";
 import { getImageURL, uploadImage } from "../../firebase";
 import { v4 as uuidv4 } from "uuid";
+import { useSelector } from "react-redux";
 
 function NewPost() {
+  const currentUser = useSelector(({ user }) => user.currentUser);
   const [content, setContent] = useState("");
   const [images, setImages] = useState([]);
 
@@ -42,7 +44,7 @@ function NewPost() {
         </div>
         <div className="first-row">
           <div className={content ? "hide" : ""}>
-            <img  alt="" />
+            <img src={currentUser.profilePic} alt="" />
           </div>
           <div className={`text-box ${content ? "animation" : ""}`}>
             <TextareaAutosize
@@ -69,6 +71,7 @@ function NewPost() {
               accept="image/*"
               id="file"
               type="file"
+              multiple
               onChange={handleFileChange}
             />
           </label>

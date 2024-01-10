@@ -10,8 +10,10 @@ import SearchOutlinedIcon from "@mui/icons-material/SearchOutlined";
 import { Link } from "react-router-dom";
 import { useContext } from "react";
 import { DarkModeContext } from "../../context/darkModeContext";
+import { useSelector } from "react-redux";
 
 const Navbar = () => {
+  const currentUser = useSelector(({ user }) => user.currentUser);
   const { toggle, darkMode } = useContext(DarkModeContext);
   return (
     <div className="navbar">
@@ -36,7 +38,7 @@ const Navbar = () => {
         <EmailOutlinedIcon />
         <NotificationsOutlinedIcon />
         <div className="user">
-          <img  alt="" />
+          <img src={currentUser.profilePic} alt="" />
           <span></span>
         </div>
       </div>
