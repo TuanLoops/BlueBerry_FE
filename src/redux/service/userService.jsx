@@ -17,7 +17,6 @@ export const login = createAsyncThunk(
 export const getCurrentUser = createAsyncThunk(
   "GET_CURRENT_USER",
   async (_, { rejectWithValue }) => {
-    console.log("ok");
     try {
       let res = await UrlAppUser().get("current-user");
       return res.data;

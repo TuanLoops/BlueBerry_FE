@@ -1,6 +1,6 @@
 $themes: (
   light: (
-    textColor: #555,
+    textColor: #696969,
     bg: white,
     logo: darkblue,
     bgSoft: #f6f3f3,
@@ -9,7 +9,9 @@ $themes: (
     overlayColor: rgba(0, 0, 0, 0.05),
     commentBgColor: rgb(235, 235, 235),
     bgSecondary: white,
-    bgSecondaryHover: darken(white, 3%),
+    bgSecondaryHover: darken(white, 5%),
+    infoPopup: rgba(34, 34, 34, 0.623),
+    infoPopupText: white,
   ),
   dark: (
     textColor: whitesmoke,
@@ -22,6 +24,8 @@ $themes: (
     commentBgColor: rgb(65, 65, 65),
     bgSecondary: #1d1d1d,
     bgSecondaryHover: lighten(#1d1d1d, 10%),
+    infoPopup: rgba(255, 255, 255, 0.726),
+    infoPopupText: black,
   ),
 );
 
@@ -51,13 +55,13 @@ $themes: (
 }
 
 @mixin mobile {
-  @media (max-width: 480px) {
+  @media (max-width: 760px) {
     @content;
   }
 }
 
 @mixin tablet {
-  @media (max-width: 960px) {
+  @media (max-width: 1000px) {
     @content;
   }
 }
