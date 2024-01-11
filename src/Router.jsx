@@ -47,6 +47,7 @@ function Router() {
           <Route element={<PrivateRoutes />}>
             <Route path="/" exact element={<Home />} />
             <Route path="/profile/:id" element={<Profile />} />
+            <Route path="/search/all/:keyword" />
             <Route path="*" element={<Navigate to={"/"} />} />
           </Route>
         ) : (

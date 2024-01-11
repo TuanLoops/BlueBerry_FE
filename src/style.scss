@@ -24,6 +24,7 @@ $themes: (
     commentBgColor: rgb(65, 65, 65),
     bgSecondary: #1d1d1d,
     bgSecondaryHover: lighten(#1d1d1d, 10%),
+    // filter: invert(89%) sepia(6%) hue-rotate(185deg)
     infoPopup: rgba(255, 255, 255, 0.726),
     infoPopupText: black,
   ),

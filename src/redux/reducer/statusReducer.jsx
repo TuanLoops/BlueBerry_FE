@@ -2,7 +2,8 @@ import {createSlice} from "@reduxjs/toolkit";
 import {addStatus, showStatus} from "../service/statusService.jsx";
 
 const initialState = {
-    list:[]
+    list:[],
+    filterList: []
 }
 const statusReducer = createSlice({
     name:"status",
@@ -11,7 +12,10 @@ const statusReducer = createSlice({
         builder.addCase(showStatus.fulfilled,(state,action)=>{
             state.list = action.payload;
         })
-        builder.addCase(addStatus.fulfilled)
+        builder.addCase(addStatus.fulfilled, (state, action) => {
+            state.list.push(action.payload);
+            state.filterList = state.list;
+        })
     }
 })
 export default statusReducer.reducer;
