@@ -9,7 +9,7 @@ import EditNoteOutlinedIcon from "@mui/icons-material/EditNoteOutlined";
 import DeleteForeverOutlinedIcon from "@mui/icons-material/DeleteForeverOutlined";
 import VpnLockOutlinedIcon from "@mui/icons-material/VpnLockOutlined";
 import Comments from "../comments/Comments";
-import { useState } from "react";
+import {useState} from "react";
 import UsernameLink from "./../usernamelink/UsernameLink";
 import PhotoAlbum from "react-photo-album";
 import Lightbox from "yet-another-react-lightbox";

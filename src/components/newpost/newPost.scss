@@ -96,9 +96,13 @@
           border-radius: 8px;
           color: themed("textColor");
           user-select: none;
+          border: none;
+          background-color: transparent;
+          font-size: 16px;
+          font-weight: 400;
 
           &:hover {
-            background-color: themed("overlayColor");
+            background-color: themed("overlayColor") !important;
           }
 
           [type="file"] {

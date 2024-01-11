@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { useState } from "react";
 import "./newPost.scss";
 import TextareaAutosize from "react-textarea-autosize";
 import PostButton from "./postbutton/PostButton";
@@ -38,9 +38,11 @@ function NewPost() {
       if (item.type.includes("image")) {
         var blob = item.getAsFile();
         const randomName = uuidv4();
+        setIsUploading(true);
         await uploadImage(randomName, blob);
         const imageURL = await getImageURL(randomName);
         images.push({ imageLink: imageURL });
+        setIsUploading(false);
       }
     }
     setImageList([...imageList, ...images]);
@@ -85,19 +87,19 @@ function NewPost() {
         <PreviewImg imageList={imageList} remove={handleFileRemove} />
         <div className="second-row">
           <div className="item">
+            <span>Live video</span>
             <img
               draggable="false"
               src="https://static.xx.fbcdn.net/rsrc.php/v3/yr/r/c0dWho49-X3.png"
             />
-            <span>Live video</span>
           </div>
 
           <label htmlFor="file" className="item">
+            <span>Pick photo</span>
             <img
               draggable="false"
               src="https://static.xx.fbcdn.net/rsrc.php/v3/y7/r/Ivw7nhRtXyo.png"
             />
-            <span>Pick photo</span>
             <input
               accept="image/*"
               id="file"
@@ -106,14 +108,12 @@ function NewPost() {
               onChange={handleFileChange}
             />
           </label>
-
-          <div className="post-button">
-            <PostButton
-              onClick={handlePost}
-              loading={isUploading}
-              disabled={body ? false : true}
-            />
-          </div>
+          <PostButton
+            className="item"
+            onClick={handlePost}
+            loading={isUploading}
+            disabled={body ? false : true}
+          />
         </div>
       </div>
     </div>
