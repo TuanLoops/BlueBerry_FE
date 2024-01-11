@@ -1,4 +1,5 @@
 /* eslint-disable react/prop-types */
+import UsernameLink from "../usernamelink/UsernameLink";
 import "./comment.scss";
 
 const Comment = ({ comment }) => {
@@ -6,10 +7,14 @@ const Comment = ({ comment }) => {
     <div className="comment">
       <img src={comment.profilePicture} alt="" />
       <div className="info">
-        <span>{comment.name}</span>
-        <p>{comment.desc}</p>
+        <div className="author-name">
+          <UsernameLink username={comment.name}/>
+        </div>
+        <div className="comment-body">
+          <p>{comment.desc}</p>
+        </div>
       </div>
-      <span className="date">1 hour ago</span>
+      <span className="time">1 hour ago</span>
     </div>
   );
 };

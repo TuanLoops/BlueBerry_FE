@@ -4,8 +4,8 @@ import "./usernameLink.scss";
 
 const UsernameLink = ({ userId, username, style }) => {
   return (
-    <Link to={`/profile/${userId}`} style={style}>
-      <span className="name">{username}</span>
+    <Link to={`/profile/${userId}`} style={style} className="name">
+      <span>{username}</span>
     </Link>
   );
 };

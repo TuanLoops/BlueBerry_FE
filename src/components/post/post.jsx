@@ -103,7 +103,7 @@ const Post = ({ post }) => {
         </div>
         <div className="content">
           <div>
-            <div>{post.body}</div>
+            <div className="post-body">{post.body}</div>
           </div>
           {post.imageList.length > 0 && (
             <div

@@ -141,6 +141,13 @@
       .content {
         margin: 16px 0px;
 
+        .post-body {
+          white-space: pre-line;
+          word-break: break-word;
+          word-wrap: break-word;
+          font-size: 16px;
+        }
+
         .images-container {
           margin-top: 16px;
           height: fit-content;

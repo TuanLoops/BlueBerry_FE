@@ -2,8 +2,10 @@ import { useContext, useState } from "react";
 import "./comments.scss";
 import Comment from "../comment/Comment";
 import TextareaAutosize from "react-textarea-autosize";
+import { useSelector } from "react-redux";
 
 const Comments = () => {
+  const currentUser = useSelector(({ user }) => user.currentUser);
   //Temporary
   const comments = [
     {
@@ -28,7 +30,7 @@ const Comments = () => {
       <hr />
       <div className="write">
         <div className="avatar">
-          <img  alt="" />
+          <img src={currentUser.avatarLink} alt="" />
         </div>
         <div className="comment-wrapper">
           <TextareaAutosize
@@ -36,9 +38,9 @@ const Comments = () => {
             placeholder="Write a comment..."
           />
         </div>
-          <div className="button-wrapper">
-            <button >Send</button>
-          </div>
+        <div className="button-wrapper">
+          <button>Send</button>
+        </div>
       </div>
       {comments.map((comment) => (
         <Comment key={comment.id} comment={comment} />
