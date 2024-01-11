@@ -41,7 +41,7 @@ const Post = ({ post }) => {
   };
 
   const handleEditPost = () => {
-    //TODO: edit post
+    console.log(post.id)
   };
 
   const handleDeletePost = async () => {
@@ -51,7 +51,7 @@ const Post = ({ post }) => {
   };
 
   return (
-    <div className="post">
+    <div className="post" >
       <div className="container">
         <div className="user">
           <div className="userInfo">
