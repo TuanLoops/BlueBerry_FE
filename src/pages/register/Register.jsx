@@ -2,16 +2,22 @@ import {Link, useNavigate} from "react-router-dom";
 import "./register.scss";
 import {register} from "../../redux/service/userService.jsx";
 import {ErrorMessage, Field, Form, Formik} from "formik";
-import {ToastContainer} from 'react-toastify';
+import {toast, ToastContainer} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import * as Yup from "yup";
+import {useState} from "react";
 
 const Register = () => {
     const navigate = useNavigate();
+    const [message,setMessage] =useState("")
     const handleRegister = (values) => {
-
         register(values).then(() => {
-            navigate("/login")
+            toast.success("Vui lòng kiểm khoản email và kích hoạt để bắt đầu sử dụng")
+            setTimeout(()=>{
+                navigate("/login")
+            },2000)
+        }).catch((err)=>{
+            setMessage(err.response.data.message)
         })
     }
 
@@ -74,6 +80,7 @@ const Register = () => {
 
                                 <Field type="email" name="email" placeholder="Email"/>
                                 <ErrorMessage name="email" component="div" className="error-message"/>
+                                {message && message=== "Email has been used" ?<div className="error-message">{message}</div> : ""}
 
                                 <Field type="password" name="password" placeholder="Password"/>
                                 <ErrorMessage name="password" component="div" className="error-message"/>

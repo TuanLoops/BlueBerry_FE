@@ -15,15 +15,15 @@ import Fund from "../../assets/13.png";
 import { useSelector } from "react-redux";
 
 const LeftBar = () => {
-  const user = useSelector(({ user }) => user.currentUser);
+  const currentUser = useSelector(({ user }) => user.currentUser);
 
   return (
     <div className="leftBar">
       <div className="container">
         <div className="menu">
           <div className="user">
-            <img src={user.profilePic} alt="" />
-            <span>{user.name}</span>
+            <img src={currentUser.avatarImage} alt="" />
+            <span>{currentUser.fullName}</span>
           </div>
           <div className="item">
             <img src={Friends} alt="" />

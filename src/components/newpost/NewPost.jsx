@@ -1,39 +1,63 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import "./newPost.scss";
 import TextareaAutosize from "react-textarea-autosize";
 import PostButton from "./postbutton/PostButton";
 import PreviewImg from "../previewimg/PreviewImg";
 import { getImageURL, uploadImage } from "../../firebase";
 import { v4 as uuidv4 } from "uuid";
+import { useDispatch } from "react-redux";
+import { addStatus, showStatus } from "../../redux/service/statusService.jsx";
 import { useSelector } from "react-redux";
 
 function NewPost() {
+  const dispatch = useDispatch();
   const currentUser = useSelector(({ user }) => user.currentUser);
-  const [content, setContent] = useState("");
-  const [images, setImages] = useState([]);
+  const [body, setBody] = useState("");
+  const [imageList, setImageList] = useState([]);
+  const [isUploading, setIsUploading] = useState(false);
 
   const handleFileChange = async (e) => {
-    if (e.target.files[0]?.type.includes("image/")) {
-      const file = e.target.files[0];
-      const randomName = uuidv4();
-      await uploadImage(randomName, file);
-      const imageURL = await getImageURL(randomName);
-      setImages(([...images]) => {
+    const images = [];
+    for (const file of e.target.files) {
+      if (file.type.includes("image")) {
+        const randomName = uuidv4();
+        setIsUploading(true);
+        await uploadImage(randomName, file);
+        const imageURL = await getImageURL(randomName);
         images.push({ imageLink: imageURL });
-        return images;
-      });
+        setIsUploading(false);
+      }
     }
+    setImageList([...imageList, ...images]);
+  };
+
+  const handlePaste = async (e) => {
+    const images = [];
+    let items = e.clipboardData.items;
+    for (const item of items) {
+      if (item.type.includes("image")) {
+        var blob = item.getAsFile();
+        const randomName = uuidv4();
+        await uploadImage(randomName, blob);
+        const imageURL = await getImageURL(randomName);
+        images.push({ imageLink: imageURL });
+      }
+    }
+    setImageList([...imageList, ...images]);
   };
 
   const handleFileRemove = (index) => {
-    setImages(([...images]) => {
-      images.splice(index, 1);
-      return images;
+    setImageList(([...imageList]) => {
+      imageList.splice(index, 1);
+      return imageList;
     });
   };
 
-  const handlePost = () => {
-    //TODO: post to backend
+  const handlePost = async () => {
+    await dispatch(addStatus({ body, imageList })).unwrap();
+    await dispatch(showStatus()).unwrap();
+    setBody("");
+    setImageList([]);
   };
 
   return (
@@ -43,30 +67,37 @@ function NewPost() {
           <h4>Make a new post</h4>
         </div>
         <div className="first-row">
-          <div className={`avatar-container ${content ? "hide" : ""}`}>
-            <img src={currentUser.profilePic} alt="" />
+          <div className={`avatar-container ${body ? "hide" : ""}`}>
+            <img src={currentUser?.avatarImage} alt="" />
           </div>
-          <div className={`text-box ${content ? "stretch" : ""}`}>
+          <div className={`text-box ${body ? "stretch" : ""}`}>
             <TextareaAutosize
               className="write-new-post"
               placeholder={`What's on your mind`}
-              value={content}
+              value={body}
               onChange={(e) => {
-                setContent(e.target.value);
+                setBody(e.target.value);
               }}
+              onPaste={handlePaste}
             />
           </div>
         </div>
-        <PreviewImg imageList={images} remove={handleFileRemove} />
+        <PreviewImg imageList={imageList} remove={handleFileRemove} />
         <div className="second-row">
           <div className="item">
-            <img src="https://static.xx.fbcdn.net/rsrc.php/v3/yr/r/c0dWho49-X3.png" />
+            <img
+              draggable="false"
+              src="https://static.xx.fbcdn.net/rsrc.php/v3/yr/r/c0dWho49-X3.png"
+            />
             <span>Live video</span>
           </div>
 
           <label htmlFor="file" className="item">
-            <img src="https://static.xx.fbcdn.net/rsrc.php/v3/y7/r/Ivw7nhRtXyo.png" />
-            <span>Live video</span>
+            <img
+              draggable="false"
+              src="https://static.xx.fbcdn.net/rsrc.php/v3/y7/r/Ivw7nhRtXyo.png"
+            />
+            <span>Pick photo</span>
             <input
               accept="image/*"
               id="file"
@@ -79,7 +110,8 @@ function NewPost() {
           <div className="post-button">
             <PostButton
               onClick={handlePost}
-              disabled={content ? false : true}
+              loading={isUploading}
+              disabled={body ? false : true}
             />
           </div>
         </div>

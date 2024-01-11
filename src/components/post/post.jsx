@@ -5,6 +5,9 @@ import FavoriteOutlinedIcon from "@mui/icons-material/FavoriteOutlined";
 import TextsmsOutlinedIcon from "@mui/icons-material/TextsmsOutlined";
 import ShareOutlinedIcon from "@mui/icons-material/ShareOutlined";
 import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
+import EditNoteOutlinedIcon from "@mui/icons-material/EditNoteOutlined";
+import DeleteForeverOutlinedIcon from "@mui/icons-material/DeleteForeverOutlined";
+import VpnLockOutlinedIcon from "@mui/icons-material/VpnLockOutlined";
 import Comments from "../comments/Comments";
 import { useState } from "react";
 import UsernameLink from "./../usernamelink/UsernameLink";
@@ -17,14 +20,15 @@ import Counter from "yet-another-react-lightbox/plugins/counter";
 import "yet-another-react-lightbox/plugins/counter.css";
 import Zoom from "yet-another-react-lightbox/plugins/zoom";
 import "yet-another-react-lightbox/styles.css";
+import { format, formatDistanceToNow } from "date-fns";
 
 const Post = ({ post }) => {
   const [commentOpen, setCommentOpen] = useState(false);
   const [index, setIndex] = useState(-1);
+  const [showMore, setShowMore] = useState(false);
 
   const liked = false;
-  const length = post.img.length;
-
+  const length = post.imageList.length;
   const count = () => {
     if (length === 1) {
       return 1;
@@ -33,32 +37,75 @@ const Post = ({ post }) => {
     }
   };
 
+  const handleEditPost = () => {
+    //TODO: edit post
+  };
+
+  const handleDeletePost = () => {
+    //TODO: delete post
+  };
+
   return (
     <div className="post">
       <div className="container">
         <div className="user">
           <div className="userInfo">
-            <img src={post.profilePic} alt="" />
+            <img src={post.author.avatarImage} alt="" />
             <div className="details">
               <div>
                 <UsernameLink
-                  userId={post.userId}
-                  username={post.name}
+                  userId={post.author.id}
+                  username={post.author.fullName}
                   style={{ textDecoration: "none", color: "inherit" }}
                 />
               </div>
-              <span className="date">1 min ago</span>
+              <span className="time">
+                <div className="time-container">
+                  {formatDistanceToNow(post.createdAt)} ago
+                </div>
+                <div className="time-popup">
+                  <div className="popup-wrapper">
+                    {format(post.createdAt, "dd/MM/yyyy hh:mm:ss")}
+                  </div>
+                </div>
+              </span>
             </div>
           </div>
-          <div className="more">
-            <MoreHorizIcon />
+          <div className="more-container">
+            <div className="more" onClick={() => setShowMore(!showMore)}>
+              <MoreHorizIcon />
+            </div>
+            {showMore && (
+              <div className="more-popup">
+                <div className="wrapper">
+                  <div className="item" onClick={handleEditPost}>
+                    <span className="icon">
+                      <EditNoteOutlinedIcon />
+                    </span>
+                    <span>Edit your post</span>
+                  </div>
+                  <div className="item" onClick={handleDeletePost}>
+                    <span className="icon">
+                      <DeleteForeverOutlinedIcon />
+                    </span>
+                    <span>Delete your post</span>
+                  </div>
+                  <div className="item">
+                    <span className="icon">
+                      <VpnLockOutlinedIcon />
+                    </span>
+                    <span className="title">Change post's privacy</span>
+                  </div>
+                </div>
+              </div>
+            )}
           </div>
         </div>
         <div className="content">
           <div>
-            <p>{post.desc}</p>
+            <div>{post.body}</div>
           </div>
-          {post.img && (
+          {post.imageList.length > 0 && (
             <div
               className={`images-container ${
                 length > 5
@@ -76,9 +123,14 @@ const Post = ({ post }) => {
                 onClick={({ index }) => {
                   setIndex(index);
                 }}
-                photos={post.img
+                photos={post.imageList
                   .map((item, index) => {
-                    return { src: item, width: 200, height: 300, key: index };
+                    return {
+                      src: item.imageLink,
+                      width: 200,
+                      height: 300,
+                      key: index,
+                    };
                   })
                   .splice(0, 5)}
               />
@@ -100,8 +152,8 @@ const Post = ({ post }) => {
               gap: 16,
               showToggle: false,
             }}
-            slides={post.img?.map((item) => {
-              return { src: item };
+            slides={post.imageList.map((item) => {
+              return { src: item.imageLink };
             })}
           />
         </div>

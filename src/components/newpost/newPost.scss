@@ -38,7 +38,7 @@
           position: absolute;
           left: 0;
           opacity: 1;
-          transition: opacity 0.25s ease-in-out;
+          transition: opacity 0.15s ease-in-out;
 
           img {
             width: 40px;
@@ -95,6 +95,7 @@
           cursor: pointer;
           border-radius: 8px;
           color: themed("textColor");
+          user-select: none;
 
           &:hover {
             background-color: themed("overlayColor");

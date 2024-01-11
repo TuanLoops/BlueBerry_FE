@@ -8,28 +8,18 @@
   background-color: #5271ff;
   padding: 4px;
   width: 100px;
+  height: 32px;
   border: none;
   outline: none;
   cursor: pointer;
   font-size: 16px;
 
-  &:hover {
+  &:not(:disabled):hover {
     background-color: #6a86ff;
   }
 }
 
-.disabled {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 8px;
-  border-radius: 8px;
-  color: white;
+:disabled {
   background-color: rgb(133, 133, 133);
-  padding: 4px;
-  width: 100px;
-  border: none;
-  outline: none;
   cursor: not-allowed;
-  font-size: 16px;
 }
