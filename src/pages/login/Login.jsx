@@ -21,9 +21,13 @@ const Login = () => {
       await dispatch(login(values)).unwrap();
       navigate("/");
     } catch (err) {
-      console.log(err);
       setLoading(false);
       setMessage(err.response.data.message);
+      if (err.response.request.status === 403){
+        setMessage(err.response.data.message);
+      }else {
+          setMessage("Sai tài khoản hoặc mật khẩu")
+      }
     }
   };
   useEffect(() => {

@@ -21,7 +21,7 @@ import "yet-another-react-lightbox/styles.css";
 const Post = ({post}) => {
     const [commentOpen, setCommentOpen] = useState(false);
     const [index, setIndex] = useState(-1);
-
+    const fullName = post.author.firstName + " " + post.author.lastName;
     const liked = false;
     const length = post.imageList.length;
     const count = () => {
@@ -31,8 +31,6 @@ const Post = ({post}) => {
             return 2;
         }
     };
-
-
     return (
         <div className="post">
             <div className="container">
@@ -42,8 +40,8 @@ const Post = ({post}) => {
                         <div className="details">
                             <div>
                                 <UsernameLink
-                                    userId={post.userId}
-                                    username={post.name}
+                                    userId={post.author.id}
+                                    username={fullName}
                                     style={{textDecoration: "none", color: "inherit"}}
                                 />
                             </div>
