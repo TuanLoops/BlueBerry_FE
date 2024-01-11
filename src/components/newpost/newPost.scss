@@ -38,7 +38,7 @@
           position: absolute;
           left: 0;
           opacity: 1;
-          transition: opacity 0.25s ease-in-out;
+          transition: opacity 0.15s ease-in-out;
 
           img {
             width: 40px;
@@ -95,9 +95,14 @@
           cursor: pointer;
           border-radius: 8px;
           color: themed("textColor");
+          user-select: none;
+          border: none;
+          background-color: transparent;
+          font-size: 16px;
+          font-weight: 400;
 
           &:hover {
-            background-color: themed("overlayColor");
+            background-color: themed("overlayColor") !important;
           }
 
           [type="file"] {

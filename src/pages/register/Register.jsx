@@ -80,7 +80,7 @@ const Register = () => {
 
                                 <Field type="email" name="email" placeholder="Email"/>
                                 <ErrorMessage name="email" component="div" className="error-message"/>
-                                {message && message=== "Email đã được sử dụng"  ?<div className="error-message">{message}</div> : ""}
+                                {message && message=== "Email has been used" ?<div className="error-message">{message}</div> : ""}
 
                                 <Field type="password" name="password" placeholder="Password"/>
                                 <ErrorMessage name="password" component="div" className="error-message"/>
