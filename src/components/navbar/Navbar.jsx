@@ -155,7 +155,7 @@ const Navbar = () => {
                                                 </div>
                                                 <div className="body-item">
                                                     <span>LogOut</span>
-                                                    <i className="icon-item"></i>
+                                                    <i className="icon-item-logout"></i>
                                                 </div>
                                             </Link>
                                         </div>

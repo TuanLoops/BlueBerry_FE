@@ -1,5 +1,5 @@
 import {createSlice} from "@reduxjs/toolkit";
-import {addStatus, showStatus} from "../service/statusService.jsx";
+import {addStatus, deleteStatus, showStatus} from "../service/statusService.jsx";
 
 const initialState = {
     list:[],
@@ -15,6 +15,12 @@ const statusReducer = createSlice({
         builder.addCase(addStatus.fulfilled, (state, action) => {
             state.list.push(action.payload);
             state.filterList = state.list;
+        })
+        builder.addCase(deleteStatus.fulfilled,(state,{payload})=>{
+            const removedStatusIndex = state.list.findIndex(status => status.id === payload);
+            if (removedStatusIndex !== -1) {
+                state.list.splice(removedStatusIndex, 1)
+            }
         })
     }
 })
