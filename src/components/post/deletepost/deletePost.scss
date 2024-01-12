@@ -1,6 +1,6 @@
 @import "../../../style.scss";
 
-.privacy-modal {
+.delete-post-modal {
   @include themify($themes) {
     position: fixed;
     background-color: themed("modalBg");
@@ -11,19 +11,19 @@
     align-items: center;
     justify-content: center;
 
-    .privacy-container {
+    .delete-container {
       border-radius: 16px;
       background-color: themed("bg");
       -webkit-box-shadow: 0px 0px 25px -10px rgba(0, 0, 0, 0.25);
       -moz-box-shadow: 0px 0px 25px -10px rgba(0, 0, 0, 0.25);
       box-shadow: 0px 0px 25px -10px rgba(0, 0, 0, 0.25);
 
-      .privacy-wrapper {
+      .delete-wrapper {
         min-width: 480px;
         display: flex;
         flex-direction: column;
 
-        .modal-header {
+        .delete-header {
           font-size: 24px;
           border-bottom: 1px solid themed("border");
           display: flex;
@@ -33,63 +33,18 @@
           font-weight: bold;
         }
 
-        .modal-body {
+        .delete-body {
+          padding: 16px;
           display: flex;
           justify-content: center;
-          align-self: center;
-          flex-direction: column;
-          width: 100%;
-          padding: 8px;
-
-          .item {
-            display: flex;
-            align-items: center;
-            padding: 8px;
-            border-radius: 16px;
-            cursor: pointer;
-
-            &:hover {
-              background-color: themed("bgSecondaryHover");
-
-              .icon {
-                background-color: themed("modalIconBgHover");
-              }
-            }
-
-            .icon {
-              display: flex;
-              padding: 16px;
-              border-radius: 50%;
-              background-color: themed("modalIconBg");
-              margin-right: 12px;
-            }
-
-            .text {
-              flex: 1;
-
-              .title {
-                font-size: 18px;
-              }
-
-              .description {
-                font-size: 16px;
-                color: rgb(165, 165, 165);
-              }
-            }
-
-            input[type="radio"] {
-              padding: 16px;
-              width: 20px;
-              height: 20px;
-              background-color: transparent;
-            }
-          }
+          align-items: center;
+          font-size: 20px;
         }
 
-        .modal-footer {
+        .delete-footer {
           text-align: right;
           padding: 12px;
-          border-top: 1px solid themed("border");
+        //   border-top: 1px solid themed("border");
 
           button {
             padding: 5px 32px;
@@ -111,9 +66,9 @@
               }
             }
 
-            &.save {
+            &.delete {
               background-color: #2e70ff;
-              
+
               &:hover {
                 background-color: lighten(#2e70ff, 10);
               }

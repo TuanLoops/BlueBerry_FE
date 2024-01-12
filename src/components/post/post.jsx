@@ -51,7 +51,7 @@ const Post = ({ post }) => {
               </div>
               <span className="time">
                 <div className="time-container">
-                  {formatDistanceToNow(post.createdAt)} ago
+                  {formatDistanceToNow(post.createdAt) + " ago"}
                 </div>
                 <div className="time-popup">
                   <div className="popup-wrapper">
@@ -71,6 +71,7 @@ const Post = ({ post }) => {
             </div>
             {showMore && (
               <MoreOptions
+                post={post}
                 buttonRef={showMoreButtonRef}
                 onClose={() => setShowMore(false)}
               />

@@ -4,7 +4,7 @@ import LockIcon from "@mui/icons-material/Lock";
 import PublicOutlinedIcon from "@mui/icons-material/PublicOutlined";
 import { useRef, useState } from "react";
 
-function PrivacySetting({ onClose, defaultChecked }) {
+function PrivacySetting({ onClose, defaultChecked, postId }) {
   const [checked, setChecked] = useState(defaultChecked);
   const modalRef = useRef(null);
   const handleClose = (e) => {
@@ -13,15 +13,19 @@ function PrivacySetting({ onClose, defaultChecked }) {
     }
   };
 
+  const handleSave = () => {
+    //TODO: save edit
+  };
+
   return (
-    <div className="privacy-setting" ref={modalRef} onClick={handleClose}>
+    <div className="privacy-modal" ref={modalRef} onClick={handleClose}>
       <div className="privacy-container">
         <div className="privacy-wrapper">
           <div className="modal-header">
             <span>Privacy setting</span>
           </div>
           <div className="modal-body">
-            <div className="item" onClick={() => setChecked(0)}>
+            <div className="item" onClick={() => setChecked("PUBLIC")}>
               <div className="icon">
                 <PublicOutlinedIcon />
               </div>
@@ -29,9 +33,13 @@ function PrivacySetting({ onClose, defaultChecked }) {
                 <div className="title">Public</div>
                 <div className="description">Everybody can see yor post</div>
               </div>
-              <input type="radio" checked={checked === 0} />
+              <input
+                onChange={() => setChecked("PUBLIC")}
+                type="radio"
+                checked={checked === "PUBLIC"}
+              />
             </div>
-            <div className="item" onClick={() => setChecked(1)}>
+            <div className="item" onClick={() => setChecked("FRIENDS")}>
               <div className="icon">
                 <PeopleAltIcon />
               </div>
@@ -41,9 +49,13 @@ function PrivacySetting({ onClose, defaultChecked }) {
                   Your friends can see your post
                 </div>
               </div>
-              <input type="radio" checked={checked === 1} />
+              <input
+                onChange={() => setChecked("FRIENDS")}
+                type="radio"
+                checked={checked === "FRIENDS"}
+              />
             </div>
-            <div className="item" onClick={() => setChecked(2)}>
+            <div className="item" onClick={() => setChecked("PRIVATE")}>
               <div className="icon">
                 <LockIcon />
               </div>
@@ -53,11 +65,18 @@ function PrivacySetting({ onClose, defaultChecked }) {
                   No one can see your post but you
                 </div>
               </div>
-              <input type="radio" checked={checked === 2} />
+              <input
+                onChange={() => setChecked("PRIVATE")}
+                type="radio"
+                checked={checked === "PRIVATE"}
+              />
             </div>
           </div>
           <div className="modal-footer">
-            <button>
+            <button className="cancel" onClick={() => onClose()}>
+              <div>Cancel</div>
+            </button>
+            <button className="save" onClick={handleSave}>
               <div>Save</div>
             </button>
           </div>

@@ -1,6 +1,6 @@
 @import "../../../style.scss";
 
-.privacy-modal {
+.edit-post-modal {
   @include themify($themes) {
     position: fixed;
     background-color: themed("modalBg");
@@ -11,19 +11,19 @@
     align-items: center;
     justify-content: center;
 
-    .privacy-container {
+    .edit-container {
       border-radius: 16px;
       background-color: themed("bg");
       -webkit-box-shadow: 0px 0px 25px -10px rgba(0, 0, 0, 0.25);
       -moz-box-shadow: 0px 0px 25px -10px rgba(0, 0, 0, 0.25);
       box-shadow: 0px 0px 25px -10px rgba(0, 0, 0, 0.25);
 
-      .privacy-wrapper {
-        min-width: 480px;
+      .edit-wrapper {
+        width: 520px;
         display: flex;
         flex-direction: column;
 
-        .modal-header {
+        .edit-header {
           font-size: 24px;
           border-bottom: 1px solid themed("border");
           display: flex;
@@ -33,63 +33,90 @@
           font-weight: bold;
         }
 
-        .modal-body {
+        .edit-body {
+          padding: 16px;
           display: flex;
+          align-items: center;
           justify-content: center;
-          align-self: center;
           flex-direction: column;
-          width: 100%;
-          padding: 8px;
 
-          .item {
+          .author-info {
             display: flex;
             align-items: center;
-            padding: 8px;
-            border-radius: 16px;
-            cursor: pointer;
+            justify-content: center;
+            width: 100%;
 
-            &:hover {
-              background-color: themed("bgSecondaryHover");
-
-              .icon {
-                background-color: themed("modalIconBgHover");
-              }
-            }
-
-            .icon {
+            .avatar {
               display: flex;
-              padding: 16px;
-              border-radius: 50%;
-              background-color: themed("modalIconBg");
-              margin-right: 12px;
+              margin-right: 16px;
+
+              img {
+                width: 40px;
+                height: 40px;
+                border-radius: 50%;
+              }
             }
 
-            .text {
+            .author-container {
+              display: flex;
+              align-items: flex-start;
+              justify-content: center;
               flex: 1;
+              flex-direction: column;
 
-              .title {
-                font-size: 18px;
+              .author-name {
+                font-weight: 600;
               }
 
-              .description {
-                font-size: 16px;
-                color: rgb(165, 165, 165);
+              .time {
+                color: themed("textColor");
+                font-size: 12px;
+                display: flex;
+                align-items: center;
+                justify-content: flex-start;
+
+                .privacy-icon {
+                  width: 14px;
+                  height: 14px;
+                  margin-right: 3px;
+                }
               }
             }
+          }
 
-            input[type="radio"] {
-              padding: 16px;
-              width: 20px;
-              height: 20px;
+          .post-content {
+            width: 100%;
+            margin-top: 8px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            min-height: 180px;
+
+            [type="file"] {
+              display: none;
+            }
+
+            textarea {
+              width: 100%;
+              resize: none;
               background-color: transparent;
+              outline: none;
+              word-wrap: break-word;
+              word-break: break-word;
+              flex: 1;
+              border: none;
             }
           }
         }
 
-        .modal-footer {
+        .edit-footer {
           text-align: right;
           padding: 12px;
           border-top: 1px solid themed("border");
+          display: flex;
+          justify-content: flex-end;
+          align-items: center;
 
           button {
             padding: 5px 32px;
@@ -101,6 +128,7 @@
             border: none;
             outline: none;
             cursor: pointer;
+            min-width: 100px;
 
             &.cancel {
               background-color: transparent;
@@ -113,14 +141,20 @@
 
             &.save {
               background-color: #2e70ff;
-              
+
               &:hover {
                 background-color: lighten(#2e70ff, 10);
               }
             }
 
-            div {
-              margin-bottom: 2px;
+            .btn-content {
+              display: flex;
+              justify-content: center;
+              align-items: center;
+
+              div {
+                margin-bottom: 2px;
+              }
             }
           }
         }
