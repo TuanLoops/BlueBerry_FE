@@ -27,7 +27,8 @@
         align-items: center;
         cursor: pointer;
         border-radius: 50%;
-        visibility: hidden;
+        opacity: 0;
+        transition: opacity 0.1s ease-in-out;
 
         svg {
           scale: 0.8;
@@ -46,7 +47,7 @@
       .image-wrapper {
         outline: 1px solid themed("border");
         .close {
-          visibility: visible;
+          opacity: 1;
         }
       }
     }

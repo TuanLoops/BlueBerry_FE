@@ -209,6 +209,7 @@
               .icon {
                 margin-right: 10px;
                 margin-left: 10px;
+                display: flex;
 
                 img {
                   width: 40px;
@@ -224,6 +225,7 @@
 
               .name-uer {
                 font-size: 20px;
+                margin-bottom: 4px;
               }
 
               &:hover {

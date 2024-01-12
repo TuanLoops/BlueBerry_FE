@@ -91,50 +91,7 @@
             }
           }
 
-          .more-popup {
-            display: flex;
-            background-color: themed("bg");
-            border-radius: 16px;
-            position: absolute;
-            top: 48px;
-            left: 50%;
-            transform: translate(-50%, 0);
-            color: themed("textColor");
-            -webkit-box-shadow: 0px 0px 25px -10px rgba(0, 0, 0, 0.5);
-            -moz-box-shadow: 0px 0px 25px -10px rgba(0, 0, 0, 0.5);
-            box-shadow: 0px 0px 25px -10px rgba(0, 0, 0, 0.5);
-            min-width: 260px;
-            z-index: 10;
-
-            .wrapper {
-              display: flex;
-              flex-direction: column;
-              padding: 8px;
-              width: 100%;
-
-              .item {
-                display: flex;
-                align-items: center;
-                user-select: none;
-                cursor: pointer;
-                padding: 8px;
-                border-radius: 8px;
-
-                &:hover {
-                  background-color: themed("bgSecondaryHover");
-                }
-
-                .icon {
-                  margin-right: 8px;
-                  display: flex;
-                }
-
-                .title {
-                  margin-right: 8px;
-                }
-              }
-            }
-          }
+          
         }
       }
 

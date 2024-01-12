@@ -12,8 +12,6 @@ const Home = () => {
   const [added, setAdded] = useState(true);
   const posts = useSelector((state) => state.status.list);
 
-  console.log(posts);
-
   useEffect(() => {
     dispatch(showStatus());
   }, []);

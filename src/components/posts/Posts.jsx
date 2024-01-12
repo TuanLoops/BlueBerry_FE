@@ -1,7 +1,7 @@
 import Post from "../post/Post";
 import "./posts.scss";
 
-const Posts = ({posts}) => {
+const Posts = ({ posts }) => {
   return (
     <div className="posts">
       {posts?.map((post) => (

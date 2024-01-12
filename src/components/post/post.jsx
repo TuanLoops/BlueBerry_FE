@@ -1,16 +1,12 @@
-/* eslint-disable react/prop-types */
 import "./post.scss";
 import FavoriteBorderOutlinedIcon from "@mui/icons-material/FavoriteBorderOutlined";
 import FavoriteOutlinedIcon from "@mui/icons-material/FavoriteOutlined";
 import TextsmsOutlinedIcon from "@mui/icons-material/TextsmsOutlined";
 import ShareOutlinedIcon from "@mui/icons-material/ShareOutlined";
 import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
-import EditNoteOutlinedIcon from "@mui/icons-material/EditNoteOutlined";
-import DeleteForeverOutlinedIcon from "@mui/icons-material/DeleteForeverOutlined";
-import VpnLockOutlinedIcon from "@mui/icons-material/VpnLockOutlined";
 import Comments from "../comments/Comments";
-import {useState} from "react";
-import UsernameLink from "./../usernamelink/UsernameLink";
+import { useRef, useState } from "react";
+import UsernameLink from "../usernamelink/UsernameLink";
 import PhotoAlbum from "react-photo-album";
 import Lightbox from "yet-another-react-lightbox";
 import "yet-another-react-lightbox/styles.css";
@@ -21,11 +17,13 @@ import "yet-another-react-lightbox/plugins/counter.css";
 import Zoom from "yet-another-react-lightbox/plugins/zoom";
 import "yet-another-react-lightbox/styles.css";
 import { format, formatDistanceToNow } from "date-fns";
+import MoreOptions from "./moreoptions/MoreOptions";
 
 const Post = ({ post }) => {
   const [commentOpen, setCommentOpen] = useState(false);
   const [index, setIndex] = useState(-1);
   const [showMore, setShowMore] = useState(false);
+  const showMoreButtonRef = useRef(null);
 
   const liked = false;
   const length = post.imageList.length;
@@ -35,14 +33,6 @@ const Post = ({ post }) => {
     } else {
       return 2;
     }
-  };
-
-  const handleEditPost = () => {
-    //TODO: edit post
-  };
-
-  const handleDeletePost = () => {
-    //TODO: delete post
   };
 
   return (
@@ -72,32 +62,18 @@ const Post = ({ post }) => {
             </div>
           </div>
           <div className="more-container">
-            <div className="more" onClick={() => setShowMore(!showMore)}>
+            <div
+              className="more"
+              ref={showMoreButtonRef}
+              onClick={() => setShowMore(!showMore)}
+            >
               <MoreHorizIcon />
             </div>
             {showMore && (
-              <div className="more-popup">
-                <div className="wrapper">
-                  <div className="item" onClick={handleEditPost}>
-                    <span className="icon">
-                      <EditNoteOutlinedIcon />
-                    </span>
-                    <span>Edit your post</span>
-                  </div>
-                  <div className="item" onClick={handleDeletePost}>
-                    <span className="icon">
-                      <DeleteForeverOutlinedIcon />
-                    </span>
-                    <span>Delete your post</span>
-                  </div>
-                  <div className="item">
-                    <span className="icon">
-                      <VpnLockOutlinedIcon />
-                    </span>
-                    <span className="title">Change post's privacy</span>
-                  </div>
-                </div>
-              </div>
+              <MoreOptions
+                buttonRef={showMoreButtonRef}
+                onClose={() => setShowMore(false)}
+              />
             )}
           </div>
         </div>
