@@ -54,9 +54,9 @@ const Navbar = () => {
         <>
             <div className="navbar">
                 <div className="left">
-                    <div to="/" style={{textDecoration: "none"}}>
+                    <Link to="/" style={{textDecoration: "none"}}>
                         <span>Blueberry</span>
-                    </div>
+                    </Link>
                     <div className="nav-item">
                         <HomeOutlinedIcon/>
                         <div className="label-acc">Home</div>
@@ -100,14 +100,14 @@ const Navbar = () => {
                             <>
                                 <div className="popup">
                                     <div className="info-user">
-                                        <Link to={{}} className="icon-user">
+                                        <Link to={`/profile/${currentUser.id}`} className="icon-user">
                                             <div className="icon">
                                                 <img
-                                                    src="https://timbaby.net/wp-content/uploads/2022/11/313029929_1526245037804341_7796672797032138353_n.jpg"
+                                                    src={currentUser.avatarImage}
                                                     alt=""/>
                                             </div>
                                             <div className="name-uer">
-                                                <span>{currentUser?.firstName + " " + currentUser?.lastName}</span>
+                                                <span>{currentUser.fullName}</span>
                                             </div>
                                         </Link>
                                         <Link to={{}} className="href">

@@ -4,8 +4,8 @@ import "./posts.scss";
 const Posts = ({posts}) => {
   return (
     <div className="posts">
-      {posts?.map((post) => (
-        <Post post={post} key={post.id} />
+      {posts?.map((posts) => (
+        <Post post={posts} key={posts.id} />
       ))}
     </div>
   );

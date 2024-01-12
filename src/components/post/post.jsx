@@ -23,6 +23,7 @@ import "yet-another-react-lightbox/styles.css";
 import { format, formatDistanceToNow } from "date-fns";
 import {useDispatch} from "react-redux";
 import {deleteStatus, showStatus} from "../../redux/service/statusService.jsx";
+import {Link} from "react-router-dom";
 
 const Post = ({ post }) => {
   const [commentOpen, setCommentOpen] = useState(false);
@@ -55,9 +56,11 @@ const Post = ({ post }) => {
       <div className="container">
         <div className="user">
           <div className="userInfo">
-            <img src={post.author.avatarImage} alt="" />
+            <Link to={`profile/${post.id}`}>
+              <img src={post.author.avatarImage} alt=""/>
+            </Link>
             <div className="details">
-              <div>
+            <div>
                 <UsernameLink
                   userId={post.author.id}
                   username={post.author.fullName}
