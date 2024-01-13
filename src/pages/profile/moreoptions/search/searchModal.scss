@@ -1,0 +1,98 @@
+@import "../../../../style.scss";
+
+.search-modal {
+  @include themify($themes) {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 2;
+    display: flex;
+
+    .overlay {
+      position: absolute;
+      background: rgba(0, 0, 0, 0.5);
+      width: 100%;
+      height: 100%;
+    }
+    .modal-content {
+      width: 600px;
+      height: 300px;
+      background-color: themed("bg");
+      margin: auto;
+      position: relative;
+      border-radius: 15px;
+
+      .div {
+        margin-top: 20px;
+        margin-left: 35px;
+        display: flex;
+        align-items: center;
+
+        .search-input {
+          display: flex;
+          align-items: center;
+          background-color: #9b9999;
+          border-radius: 25px;
+          margin-right: 15px;
+
+          .icon-search {
+            margin-left: 15px;
+            color: themed("textColorSoft");
+          }
+        }
+
+        input {
+          background-color: #9b9999;
+          width: 440px;
+          height: 50px;
+          border: none;
+          margin-right: 20px;
+          outline: none;
+          text-indent: 20px;
+          font-size: 18px;
+          color: themed("textColorSoft");
+
+          &::placeholder {
+            font-family: "inherit", Tahoma, Geneva, Verdana, sans-serif;
+            color: themed("textColor");
+            font-weight: 300;
+            font-size: 18px;
+          }
+        }
+
+        .remove-icon {
+          width: 40px;
+          height: 40px;
+          background-color: #9b9999;
+          border-radius: 50%;
+          padding: 5px;
+          color: themed("textColorSoft");
+        }
+
+        .user {
+          text-align: center;
+          display: flex;
+          flex-direction: column;
+          margin-right: 30px;
+          align-items: center;
+          color: themed("textColor");
+          width: 100%;
+          gap: 10px;
+          img {
+            border-radius: 50%;
+            margin-top: 20px;
+            margin-bottom: 5px;
+          }
+          span{
+            width: 500px;
+          }
+          .b{
+            font-size: 12px;
+          }
+        }
+      }
+    }
+  }
+}

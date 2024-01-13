@@ -33,7 +33,7 @@
         cursor: pointer;
 
         &:hover {
-          background-color: themed("bgSecondaryHover");
+          background-color: themed("modalBg");
         }
       }
     }
