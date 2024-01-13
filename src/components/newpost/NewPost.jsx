@@ -36,7 +36,7 @@ function NewPost() {
     let items = e.clipboardData.items;
     for (const item of items) {
       if (item.type.includes("image")) {
-        var blob = item.getAsFile();
+        const blob = item.getAsFile();
         const randomName = uuidv4();
         setIsUploading(true);
         await uploadImage(randomName, blob);
@@ -91,7 +91,7 @@ function NewPost() {
             <img
               draggable="false"
               src="https://static.xx.fbcdn.net/rsrc.php/v3/yr/r/c0dWho49-X3.png"
-            />
+             alt=""/>
           </div>
 
           <label htmlFor="file" className="item">
@@ -99,7 +99,7 @@ function NewPost() {
             <img
               draggable="false"
               src="https://static.xx.fbcdn.net/rsrc.php/v3/y7/r/Ivw7nhRtXyo.png"
-            />
+             alt=""/>
             <input
               accept="image/*"
               id="file"
@@ -112,7 +112,7 @@ function NewPost() {
             className="item"
             onClick={handlePost}
             loading={isUploading}
-            disabled={body ? false : true}
+            disabled={!body}
           />
         </div>
       </div>

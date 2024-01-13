@@ -18,12 +18,16 @@ import Zoom from "yet-another-react-lightbox/plugins/zoom";
 import "yet-another-react-lightbox/styles.css";
 import { format, formatDistanceToNow } from "date-fns";
 import MoreOptions from "./moreoptions/MoreOptions";
+import {useDispatch} from "react-redux";
+import {deleteStatus, showStatus} from "../../redux/service/statusService.jsx";
+import {Link} from "react-router-dom";
 
 const Post = ({ post }) => {
   const [commentOpen, setCommentOpen] = useState(false);
   const [index, setIndex] = useState(-1);
   const [showMore, setShowMore] = useState(false);
   const showMoreButtonRef = useRef(null);
+  const dispatch = useDispatch();
 
   const liked = false;
   const length = post.imageList.length;
@@ -35,14 +39,26 @@ const Post = ({ post }) => {
     }
   };
 
+  const handleEditPost = () => {
+    console.log(post.id)
+  };
+
+  const handleDeletePost = async () => {
+     await dispatch(deleteStatus(post.id))
+
+      dispatch(showStatus());
+  };
+
   return (
-    <div className="post">
+    <div className="post" >
       <div className="container">
         <div className="user">
           <div className="userInfo">
-            <img src={post.author.avatarImage} alt="" />
+            <Link to={`profile/${post.id}`}>
+              <img src={post.author.avatarImage} alt=""/>
+            </Link>
             <div className="details">
-              <div>
+            <div>
                 <UsernameLink
                   userId={post.author.id}
                   username={post.author.fullName}
