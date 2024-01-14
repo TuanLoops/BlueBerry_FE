@@ -15,7 +15,6 @@ import { ConfirmAccount } from "./pages/confirm/ConfirmAccount";
 import Register from "./pages/register/Register";
 import Login from "./pages/login/Login";
 import { getCurrentUser } from "./redux/service/userService";
-import { removeFalseToken } from "./redux/reducer/userReducer";
 
 function Router() {
   const accessToken = useSelector(({ user }) => user.accessToken);
@@ -34,7 +33,7 @@ function Router() {
         setFetched(true);
       }
     };
-    fetchData();
+    fetchData().then();
   }, [accessToken]);
 
   const PrivateRoutes = () => {

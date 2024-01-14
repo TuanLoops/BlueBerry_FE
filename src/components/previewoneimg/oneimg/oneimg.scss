@@ -1,0 +1,42 @@
+@import "../../../style.scss";
+
+.one-image-container{
+  @include  themify($themes){
+    flex: 1;
+    width: 100%;
+    height: 100%;
+    padding: 8px;
+    margin-top: 10px;
+    .one-image-wrapper{
+      position: relative;
+      width: 100%;
+      height: 100%;
+      .close {
+        position: absolute;
+        width: 24px;
+        height: 24px;
+        background-color: rgb(228, 228, 228);
+        top: -12px;
+        right: -12px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        cursor: pointer;
+        border-radius: 50%;
+        opacity: 0;
+        transition: opacity 0.1s ease-in-out;
+        svg {
+          scale: 0.8;
+        }
+      }
+      .pic {
+        width: 100%;
+        object-fit: cover;
+        aspect-ratio: 1;
+        height: 600px;
+        border-bottom-left-radius: 0 !important;
+        border-bottom-right-radius: 0 !important;
+      }
+    }
+  }
+}
