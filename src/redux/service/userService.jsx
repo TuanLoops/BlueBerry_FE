@@ -36,6 +36,17 @@ export const changeAvatar = async (imageLink) => {
     }
 }
 
+export const changePhoto = async (imageLink) => {
+    try {
+        console.log(UrlAppUser())
+        const response = await UrlAppUser().patch("change-banner", { imageLink });
+        return response.data;
+    } catch (error) {
+        console.log(error)
+    }
+}
+
+
 
 export const register = (data) => {
     return UrlUser().post("register", data);

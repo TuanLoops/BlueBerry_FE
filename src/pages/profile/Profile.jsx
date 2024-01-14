@@ -118,7 +118,7 @@ const Profile = () => {
 
                                 <div className="gallery-photos">
                                     <div className="gallery-photos-rowFirst">
-                                        {posts.slice(0, 9).filter(post => post.imageList.length > 0 && post.imageList[0].imageLink !== '')
+                                        {posts.slice(0, 10).filter(post => post.imageList.length > 0 && post.imageList[0].imageLink !== '')
                                             .map((post, idx) => (
                                                 <div className="first-friend" key={post.id}>
                                                     <img

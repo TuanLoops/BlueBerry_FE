@@ -57,7 +57,7 @@ function MoreOptions({onClose, buttonRef, onSearchChange }) {
                 </div>
             </div>
             {changeAvatar && <ChangeAvatar onClose={() => setChangeAvatar(false)}/>}
-            {changePhoto && <ChangePhoto/>}
+            {changePhoto && <ChangePhoto onClose={() => setChangePhoto(false)}/>}
             {showSearch && <SearchModal onClose={() => setShowSearch(false)} onSearchChange={onSearchChange} />}
             {editProfile && <EditProfile/>}
         </div>
