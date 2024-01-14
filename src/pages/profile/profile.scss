@@ -239,7 +239,20 @@
               margin-top: 10px;
               margin-left: 20px;
               font-size: 25px;
-
+            .goBack{
+              margin-left: 20px;
+              background-color: themed("bgSoft");
+              color: themed("textColor");
+              width: 90px;
+              height: 35px;
+              border-radius: 10px;
+              border: none;
+              font-size: 20px;
+              transition: background-color 0.3s;
+              &:hover{
+                background-color: lighten(themed("bgSoft"),10%);
+              }
+            }
           }
           .status-field-container {
             margin-top: 20px;

@@ -29,10 +29,14 @@ const Profile = () => {
     }, []);
     const handleSearchChange = async (value) => {
         const result = await dispatch(searchStatus(value));
-        if (result.payload) {
+        if (result.payload !== null) {
             setFilteredPosts(result.payload);
+        } else {
+            const results = await dispatch(showStatus())
+            setFilteredPosts(results.payload);
         }
     };
+
     const handleOuterClick = (event) => {
         if (!imagesContainerRef.current.contains(event.target)) {
             setOpen(false);
@@ -176,7 +180,10 @@ const Profile = () => {
                             <NewPost></NewPost>
                             {filteredPosts ? (
                                 <>
-                                    <div className="info-search">Tìm kiếm có {filteredPosts.length} kết quả</div>
+                                    <div className="info-search">
+                                        Search: {filteredPosts.length} result
+                                        <button className="goBack" onClick={() => setFilteredPosts(null)}>GoBack</button>
+                                    </div>
                                     <Posts posts={filteredPosts}/>
                                 </>
                             ) : (

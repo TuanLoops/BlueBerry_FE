@@ -20,8 +20,10 @@ export const SearchModal = ({onClose, onSearchChange}) => {
 
     const handleKeyDown = (e) => {
         if (e.key === 'Enter') {
-            onSearchChange(searchTerm);
-            onClose();
+            if (searchTerm !== null && searchTerm.trim() !== "") {
+                onSearchChange(searchTerm);
+                onClose();
+            }
         }
     };
 
