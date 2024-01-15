@@ -3,11 +3,12 @@ import "./editPost.scss";
 import { formatDistanceToNow } from "date-fns";
 import PrivacyIcon from "./../../privacyicon/PrivacyIcon";
 import { CircularProgress } from "@mui/material";
-// import TextareaAutosize from "react-textarea-autosize";
 import { TextareaAutosize } from "@mui/base/TextareaAutosize";
 import PreviewImg from "../../previewimg/PreviewImg";
 import { getImageURL, uploadImage } from "../../../firebase";
 import { v4 as uuidv4 } from "uuid";
+import { useDispatch } from "react-redux";
+import { editStatus } from "../../../redux/service/statusService";
 
 function EditPost({ post, onClose }) {
   const [body, setBody] = useState(post.body);
@@ -15,6 +16,7 @@ function EditPost({ post, onClose }) {
   const [isUploading, setIsUploading] = useState(false);
   const modalRef = useRef(null);
   const inputRef = useRef(null);
+  const dispatch = useDispatch();
 
   useEffect(() => {
     const input = inputRef.current;
@@ -67,8 +69,12 @@ function EditPost({ post, onClose }) {
     });
   };
 
-  const handleSave = () => {
-    //TODO: save edited post
+  const handleSave = async () => {
+    if (!body) return;
+    await dispatch(
+      editStatus({ id: post.id, status: { body, imageList } })
+    ).unwrap();
+    onClose();
   };
 
   return (

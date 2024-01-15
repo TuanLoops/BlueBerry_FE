@@ -7,11 +7,11 @@ import NotificationsOutlinedIcon from "@mui/icons-material/NotificationsOutlined
 import EmailOutlinedIcon from "@mui/icons-material/EmailOutlined";
 import PersonOutlinedIcon from "@mui/icons-material/PersonOutlined";
 import SearchOutlinedIcon from "@mui/icons-material/SearchOutlined";
-import {Link, Navigate, useNavigate} from "react-router-dom";
-import {useContext, useState} from "react";
-import {DarkModeContext} from "../../context/darkModeContext";
-import {useDispatch, useSelector} from "react-redux";
-import {logOut} from "../../redux/service/userService.jsx";
+import { Link, useNavigate } from "react-router-dom";
+import { useContext, useState } from "react";
+import { DarkModeContext } from "../../context/darkModeContext";
+import { useDispatch, useSelector } from "react-redux";
+import { logOut } from "../../redux/service/userService.jsx";
 
 const Navbar = () => {
     const currentUser = useSelector(({ user }) => user.currentUser);
@@ -62,7 +62,7 @@ const Navbar = () => {
         <>
             <div className="navbar">
                 <div className="left">
-                    <Link to="/" style={{textDecoration: "none"}}>
+                    <Link to="/" style={{ textDecoration: "none" }}>
                         <span>Blueberry</span>
                     </Link>
                     <div className="nav-item">
@@ -112,7 +112,7 @@ const Navbar = () => {
                                             <div className="icon">
                                                 <img
                                                     src={currentUser.avatarImage}
-                                                    alt=""/>
+                                                    alt="" />
                                             </div>
                                             <div className="name-uer">
                                                 <span>{currentUser.fullName}</span>

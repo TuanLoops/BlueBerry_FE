@@ -26,9 +26,20 @@ export const getCurrentUser = createAsyncThunk(
     }
 );
 
+export const getInfoCurrentUser = createAsyncThunk(
+    "GET_INFO_CURRENT_USER",
+    async (id) => {
+        try {
+            const res = await UrlAppUser().get(`${id}`);
+            return res.data;
+        }catch (e){
+            console.log(e)
+        }
+    }
+)
+
 export const changeAvatar = async (imageLink) => {
     try {
-        console.log(UrlAppUser())
         const response = await UrlAppUser().patch("change-avatar", { imageLink });
         return response.data;
     } catch (error) {
@@ -45,6 +56,25 @@ export const changePhoto = async (imageLink) => {
         console.log(error)
     }
 }
+
+export const updateProfile = createAsyncThunk(
+    "UPDATE_PROFILE",
+    async (userInfo,{rejectWithValue}) => {
+        try {
+            const  res = await UrlAppUser().put(`${userInfo.id}`,{
+                dob: userInfo.dob,
+                phoneNumber: userInfo.phoneNumber,
+                firstName: userInfo.firstName,
+                lastName: userInfo.lastName,
+                hobbies: userInfo.hobbies,
+                address: userInfo.address,
+            });
+            return res.data;
+        }catch (e){
+            return rejectWithValue(e.response.data)
+        }
+    }
+)
 
 
 

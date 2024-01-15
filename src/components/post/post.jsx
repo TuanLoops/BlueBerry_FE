@@ -17,11 +17,6 @@ import "yet-another-react-lightbox/plugins/counter.css";
 import Zoom from "yet-another-react-lightbox/plugins/zoom";
 import "yet-another-react-lightbox/styles.css";
 import MoreOptions from "./moreoptions/MoreOptions";
-import { useDispatch } from "react-redux";
-import {
-  deleteStatus,
-  showStatus,
-} from "../../redux/service/statusService.jsx";
 import { Link } from "react-router-dom";
 import PrivacyIcon from "../privacyicon/PrivacyIcon.jsx";
 import Time from "../time/Time.jsx";
@@ -31,7 +26,6 @@ const Post = ({ post }) => {
   const [index, setIndex] = useState(-1);
   const [showMore, setShowMore] = useState(false);
   const showMoreButtonRef = useRef(null);
-  const dispatch = useDispatch();
 
   const liked = false;
   const length = post.imageList.length;
@@ -41,16 +35,6 @@ const Post = ({ post }) => {
     } else {
       return 2;
     }
-  };
-
-  const handleEditPost = () => {
-    console.log(post.id);
-  };
-
-  const handleDeletePost = async () => {
-    await dispatch(deleteStatus(post.id));
-
-    dispatch(showStatus());
   };
 
   return (
@@ -158,7 +142,7 @@ const Post = ({ post }) => {
           </div>
           <div className="item" onClick={() => setCommentOpen(!commentOpen)}>
             <TextsmsOutlinedIcon />
-            12 Comments
+            {post.comment} Comments
           </div>
           <div className="item">
             <ShareOutlinedIcon />

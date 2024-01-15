@@ -2,12 +2,14 @@ import "./comments.scss";
 import Comment from "../comment/Comment";
 import { useSelector } from "react-redux";
 import { TextareaAutosize } from "@mui/material";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import ImageIcon from "@mui/icons-material/Image";
 import { v4 as uuidv4 } from "uuid";
 import { getImageURL, uploadImage } from "../../firebase";
 import PreviewImg from "../previewimg/PreviewImg";
 import CircularProgress from "@mui/material/CircularProgress";
+import { createComment, getAllComments } from "../../redux/service/commentService.jsx";
+
 
 const Comments = ({ postId }) => {
   const currentUser = useSelector(({ user }) => user.currentUser);
@@ -16,54 +18,33 @@ const Comments = ({ postId }) => {
   const [imageList, setImageList] = useState([]);
   const [isUploading, setIsUploading] = useState(false);
   const fileInputId = uuidv4();
+  const fileInputRef = useRef(null)
 
   useEffect(() => {
     // Get comments from API
     // setComments(commentsFromAPI)
-    setComments([
-      {
-        id: 1,
-        body: "Lorem ipsum dolor sit amet consectetur adiaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaapisicing elit. Autem nequeaspernatur ullam aperiam. Lorem ipsum dolor sit amet consectetur adipisicing elit. Autem nequeaspernatur ullam aperiam",
-        createdAt: "2023-01-27T12:30:01.000Z",
-        author: {
-          id: 1,
-          fullName: "John Doe",
-          avatarImage:
-            "https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
-        },
-        imageLink:
-          "https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
-      },
-      {
-        id: 2,
-        body: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Autem nequeaspernatur ullam aperiam",
-        createdAt: "2023-01-27T12:38:00.000Z",
-        author: {
-          id: 2,
-          fullName: "Jane Doe",
-          avatarImage:
-            "https://images.pexels.com/photos/1036623/pexels-photo-1036623.jpeg?auto=compress&cs=tinysrgb&w=1600",
-        },
-        imageLink:
-          "https://firebasestorage.googleapis.com/v0/b/blueberry-3a0b0.appspot.com/o/images%2F66432d9a-f5d0-4818-8c61-7123c450987c?alt=media&token=65a2e95b-88dd-4011-9c1c-416f878b2d19",
-      },
-      {
-        id: 3,
-        body: "Lorem ipsum",
-        createdAt: "2023-01-27T12:33:02.000Z",
-        author: {
-          id: 2,
-          fullName: "Jane Doe",
-          avatarImage:
-            "https://images.pexels.com/photos/1036623/pexels-photo-1036623.jpeg?auto=compress&cs=tinysrgb&w=1600",
-        },
-      },
-    ]);
+    const fetch = async () => {
+      let data = await getAllComments(postId)
+      setComments(data)
+    }
+    fetch()
   }, []);
 
-  const handleComment = () => {
+  const handleComment = async () => {
     if (body) {
-      // Add comment logic
+      const comment = {
+        body: body,
+        image: imageList[0]
+      }
+      try {
+        const comment1 = await createComment(postId, comment)
+        setBody("")
+        setImageList([])
+        setComments([comment1, ...comments])
+      } catch (e) {
+        console.log(e)
+      }
+
     }
   };
 
@@ -76,6 +57,7 @@ const Comments = ({ postId }) => {
         const imageURL = await getImageURL(randomName);
         setImageList([{ imageLink: imageURL }]);
         setIsUploading(false);
+        fileInputRef.current.value = "";
       }
     }
   };
@@ -102,7 +84,7 @@ const Comments = ({ postId }) => {
             />
             <label htmlFor={fileInputId} className="attach-image">
               <ImageIcon />
-              <input id={fileInputId} type="file" onChange={handleFileChange} />
+              <input accept="image/*" ref={fileInputRef} id={fileInputId} type="file" onChange={handleFileChange} />
             </label>
           </div>
           <PreviewImg imageList={imageList} remove={handleFileRemove} />

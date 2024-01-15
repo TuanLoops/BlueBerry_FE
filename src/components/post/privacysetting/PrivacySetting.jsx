@@ -25,6 +25,7 @@ function PrivacySetting({ onClose, defaultChecked, postId }) {
     // TODO: save edit
     try {
       dispatch(changePrivacy(status))
+      onClose();
     }catch (e){
       console.log(e)
     }

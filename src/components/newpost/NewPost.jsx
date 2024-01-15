@@ -6,7 +6,7 @@ import PreviewImg from "../previewimg/PreviewImg";
 import { getImageURL, uploadImage } from "../../firebase";
 import { v4 as uuidv4 } from "uuid";
 import { useDispatch } from "react-redux";
-import { addStatus, showStatus } from "../../redux/service/statusService.jsx";
+import { addStatus } from "../../redux/service/statusService.jsx";
 import { useSelector } from "react-redux";
 import PrivacySelect from "./privacyselect/PrivacySelect.jsx";
 
@@ -61,7 +61,7 @@ function NewPost() {
   const handlePost = async () => {
     if (!body) return;
     await dispatch(addStatus({ body, imageList, privacyLevel })).unwrap();
-    await dispatch(showStatus()).unwrap();
+    // await dispatch(showStatus()).unwrap();
     setBody("");
     setImageList([]);
   };

@@ -8,25 +8,42 @@ import Thumbnails from "yet-another-react-lightbox/plugins/thumbnails";
 import Counter from "yet-another-react-lightbox/plugins/counter";
 import Zoom from "yet-another-react-lightbox/plugins/zoom";
 import Lightbox from "yet-another-react-lightbox";
-import {Link} from "react-router-dom";
+import {Link, useParams} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
-import {searchStatus, showStatus} from "../../redux/service/statusService.jsx";
+import {getStatusByUser, searchStatus, showStatus} from "../../redux/service/statusService.jsx";
 import img from '../../Pic-banner.jpg'
+import PermPhoneMsgIcon from '@mui/icons-material/PermPhoneMsg';
+import HomeIcon from '@mui/icons-material/Home';
+import BookmarksIcon from '@mui/icons-material/Bookmarks';
+import LoadingButton from '@mui/lab/LoadingButton';
+import Box from "@mui/material/Box";
+import {EditProfile} from "./editprofile/EditProfile.jsx";
+import { getInfoCurrentUser } from "../../redux/service/userService.jsx";
 
 const Profile = () => {
+    const {id} = useParams();
     const [showMoreOptions, setShowMoreOptions] = useState(false);
     const [open, setOpen] = useState(false);
     const [openBox, setOpenBox] = useState(false);
     const [index, setIndex] = useState(-1);
     const [filteredPosts, setFilteredPosts] = useState(null);
+    const [showInputHobbies, setShowInputHobbies] = useState(false);
+    const [loadInputHobbies, setLoadInputHobbies] = useState(false);
+    const [showEditHobbies, setShowEditHobbies] = useState(false);
     const showMoreButtonRef = useRef(null);
+    const showEditButtonRef = useRef(null);
     const imagesContainerRef = useRef(null);
     const dispatch = useDispatch()
     const posts = useSelector((state) => state.status.list);
     const user = useSelector(({user}) => user.currentUser)
+    const infoCurrentUser = useSelector(({user: user2})=>user2.infoCurrentUser);
+
     useEffect(() => {
-        dispatch(showStatus());
+        // dispatch(getStatusByUser(id));
+        // dispatch(showStatus());
+        dispatch(getInfoCurrentUser(user.id))
     }, []);
+
     const handleSearchChange = async (value) => {
         const result = await dispatch(searchStatus(value));
         if (result.payload !== null) {
@@ -43,6 +60,13 @@ const Profile = () => {
             setOpenBox(false);
         }
     };
+    const handleClick = () => {
+        setLoadInputHobbies(true);
+        setTimeout(()=>{
+            setLoadInputHobbies(false)
+            setShowInputHobbies(true);
+        },2000);
+    }
     return (
         <div className="profile" onClick={handleOuterClick}>
             <div className="x54ghk">
@@ -86,7 +110,7 @@ const Profile = () => {
                     <div className="profileContainer">
                         <div className="uInfo">
                             <div className="center">
-                                <span>Jane Doe</span>
+                                <span>{user.fullName}</span>
                             </div>
 
                         </div>
@@ -102,11 +126,80 @@ const Profile = () => {
                     <div className="content-profile-container">
                         <div className="profile-left-sidebar">
                             <div className="left-profile-sidebar-top">
-                                <div className="intro-bio">
-                                    <h4>Intro</h4>
+                                <div className="Xch745">
+                                    <div className="intro-bio">
+                                        <h4>Intro</h4>
+                                    </div>
+                                    <div className="Xj481">
+                                        <button className="btnE" onClick={() => setShowEditHobbies(true)}>
+                                          DETAILS
+                                        </button>
+                                    </div>
                                 </div>
-                                <div className="background-details">
-
+                                {loadInputHobbies ? (
+                                    <div className="overlay">
+                                        <Box className="div-overlay" sx={{'& > button': {m: 1}}}>
+                                            <LoadingButton
+                                                className="loading"
+                                                loading={showInputHobbies}
+                                            >
+                                            </LoadingButton>
+                                        </Box>
+                                    </div>
+                                ) : (
+                                    <>
+                                    </>
+                                )}
+                                <div className="intro-details">
+                                    {infoCurrentUser !== null && (
+                                        <>
+                                            {infoCurrentUser.hobbies ? (
+                                                <div className="hobbies" >
+                                                    <label><BookmarksIcon/> Hobbies:</label>
+                                                    <span>{infoCurrentUser.hobbies}</span>
+                                                </div>
+                                            ) : (
+                                                <>
+                                                    {showInputHobbies ? (
+                                                        <>
+                                                            <input type="text" placeholder="Sở thích của bạn"/>
+                                                            <div className="action">
+                                                                <button onClick={()=> setShowInputHobbies(false)}>Cancel</button>
+                                                                <button>Save</button>
+                                                            </div>
+                                                        </>
+                                                    ): (
+                                                        <div className="btn-add" onClick={handleClick}>
+                                                            <button>Add Hobbies</button>
+                                                        </div>
+                                                    )}
+                                                </>
+                                            )}
+                                            {infoCurrentUser.address && infoCurrentUser.phoneNumber ? (
+                                                <>
+                                                    <div className="address">
+                                                        <label><HomeIcon/> Address:</label>
+                                                        <span>{infoCurrentUser.address}</span>
+                                                    </div>
+                                                    <div className="phone">
+                                                        <label><PermPhoneMsgIcon/> Phone Number:</label>
+                                                        <span>{infoCurrentUser.phoneNumber}</span>
+                                                    </div>
+                                                </>
+                                            ) : (
+                                                <>
+                                                    <div className="btn-add" ref={showEditButtonRef} onClick={()=> setShowEditHobbies(true)}>
+                                                        <button>Edit details</button>
+                                                    </div>
+                                                    {showEditHobbies && (
+                                                        <EditProfile infoCurrentUser = {infoCurrentUser}
+                                                                     buttonRef={showEditButtonRef}
+                                                                     onclose={()=>setShowEditHobbies(false)}/>
+                                                    )}
+                                                </>
+                                            )}
+                                        </>
+                                    )}
                                 </div>
                             </div>
 
@@ -188,8 +281,6 @@ const Profile = () => {
                                 </>
                             ) : (
                                 <>
-                                    <Posts posts={posts}/>
-                                    <Posts posts={posts}/>
                                     <Posts posts={posts}/>
                                 </>
                             )}
