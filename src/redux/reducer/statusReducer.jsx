@@ -17,9 +17,11 @@ const statusReducer = createSlice({
             state.filterList = state.list;
         })
         builder.addCase(deleteStatus.fulfilled, (state, {payload}) => {
+            console.log(payload);
             const removedStatusIndex = state.list.findIndex(status => status.id === payload);
+            console.log(removedStatusIndex);
             if (removedStatusIndex !== -1) {
-                state.list.splice(removedStatusIndex, 1)
+               state.list.splice(removedStatusIndex, 1)
             }
         })
         builder.addCase(searchStatus.fulfilled, (state, {payload}) => {
