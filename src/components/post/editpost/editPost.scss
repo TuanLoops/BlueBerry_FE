@@ -78,7 +78,7 @@
                 .privacy-icon {
                   width: 14px;
                   height: 14px;
-                  margin-right: 3px;
+                  margin-right: 4px;
                 }
               }
             }
@@ -91,20 +91,19 @@
             justify-content: center;
             align-items: center;
             flex-direction: column;
-            min-height: 180px;
-
+            
             [type="file"] {
               display: none;
             }
-
+            
             textarea {
+              color: themed("textColor");
               width: 100%;
               resize: none;
               background-color: transparent;
               outline: none;
               word-wrap: break-word;
               word-break: break-word;
-              flex: 1;
               border: none;
             }
           }

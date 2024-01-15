@@ -1,6 +1,6 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import "./newPost.scss";
-import TextareaAutosize from "react-textarea-autosize";
+import { TextareaAutosize } from "@mui/base/TextareaAutosize";
 import PostButton from "./postbutton/PostButton";
 import PreviewImg from "../previewimg/PreviewImg";
 import { getImageURL, uploadImage } from "../../firebase";
@@ -8,13 +8,16 @@ import { v4 as uuidv4 } from "uuid";
 import { useDispatch } from "react-redux";
 import { addStatus, showStatus } from "../../redux/service/statusService.jsx";
 import { useSelector } from "react-redux";
+import PrivacySelect from "./privacyselect/PrivacySelect.jsx";
 
 function NewPost() {
   const dispatch = useDispatch();
   const currentUser = useSelector(({ user }) => user.currentUser);
+  const inputRef = useRef(null);
   const [body, setBody] = useState("");
   const [imageList, setImageList] = useState([]);
   const [isUploading, setIsUploading] = useState(false);
+  const [privacyLevel, setPrivacyLevel] = useState("PUBLIC");
 
   const handleFileChange = async (e) => {
     const images = [];
@@ -56,7 +59,8 @@ function NewPost() {
   };
 
   const handlePost = async () => {
-    await dispatch(addStatus({ body, imageList })).unwrap();
+    if (!body) return;
+    await dispatch(addStatus({ body, imageList, privacyLevel })).unwrap();
     await dispatch(showStatus()).unwrap();
     setBody("");
     setImageList([]);
@@ -67,15 +71,25 @@ function NewPost() {
       <div className="wrapper">
         <div className="title">
           <h4>Make a new post</h4>
+          <PrivacySelect
+            privacyLevel={privacyLevel}
+            setPrivacyLevel={setPrivacyLevel}
+          />
         </div>
         <div className="first-row">
           <div className={`avatar-container ${body ? "hide" : ""}`}>
             <img src={currentUser?.avatarImage} alt="" />
           </div>
-          <div className={`text-box ${body ? "stretch" : ""}`}>
+          <div
+            className={`text-box ${body ? "stretch" : ""}`}
+            onClick={() => inputRef.current.focus()}
+          >
             <TextareaAutosize
+              ref={inputRef}
+              maxRows={12}
+              spellCheck="false"
               className="write-new-post"
-              placeholder={`What's on your mind`}
+              placeholder={`What's on your mind, ${currentUser.lastName}?`}
               value={body}
               onChange={(e) => {
                 setBody(e.target.value);
@@ -91,7 +105,8 @@ function NewPost() {
             <img
               draggable="false"
               src="https://static.xx.fbcdn.net/rsrc.php/v3/yr/r/c0dWho49-X3.png"
-             alt=""/>
+              alt=""
+            />
           </div>
 
           <label htmlFor="file" className="item">
@@ -99,7 +114,8 @@ function NewPost() {
             <img
               draggable="false"
               src="https://static.xx.fbcdn.net/rsrc.php/v3/y7/r/Ivw7nhRtXyo.png"
-             alt=""/>
+              alt=""
+            />
             <input
               accept="image/*"
               id="file"

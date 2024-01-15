@@ -1,9 +1,10 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import "./editPost.scss";
 import { formatDistanceToNow } from "date-fns";
 import PrivacyIcon from "./../../privacyicon/PrivacyIcon";
 import { CircularProgress } from "@mui/material";
-import TextareaAutosize from "react-textarea-autosize";
+// import TextareaAutosize from "react-textarea-autosize";
+import { TextareaAutosize } from "@mui/base/TextareaAutosize";
 import PreviewImg from "../../previewimg/PreviewImg";
 import { getImageURL, uploadImage } from "../../../firebase";
 import { v4 as uuidv4 } from "uuid";
@@ -13,6 +14,13 @@ function EditPost({ post, onClose }) {
   const [imageList, setImageList] = useState(post.imageList);
   const [isUploading, setIsUploading] = useState(false);
   const modalRef = useRef(null);
+  const inputRef = useRef(null);
+
+  useEffect(() => {
+    const input = inputRef.current;
+    input.setSelectionRange(input.value.length, input.value.length);
+    input.focus();
+  });
 
   const handleClose = (e) => {
     if (e.target === modalRef.current) {
@@ -53,10 +61,8 @@ function EditPost({ post, onClose }) {
   };
 
   const handleFileRemove = (index) => {
-    console.log(index);
     setImageList(([...imageList]) => {
       imageList.splice(index, 1);
-      console.log(imageList);
       return imageList;
     });
   };
@@ -82,7 +88,7 @@ function EditPost({ post, onClose }) {
                 <div className="time">
                   <PrivacyIcon
                     className="privacy-icon"
-                    privacyLevel={"PUBLIC"}
+                    privacyLevel={post.privacyLevel}
                   />
                   {`${formatDistanceToNow(post.createdAt)} ago`}
                 </div>
@@ -90,8 +96,12 @@ function EditPost({ post, onClose }) {
             </div>
             <div className="post-content">
               <TextareaAutosize
+                ref={inputRef}
+                minRows={imageList.length > 0 ? 4 : 8}
+                maxRows={12}
                 placeholder={`What's on your mind`}
                 value={body}
+                spellCheck="false"
                 onChange={(e) => {
                   setBody(e.target.value);
                 }}

@@ -21,6 +21,9 @@
       .title {
         color: themed("textColor");
         padding-bottom: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
       }
 
       .first-row {
@@ -64,6 +67,7 @@
           border-radius: 20px;
           transition: width 0.2s ease-in-out;
           z-index: 1;
+          cursor: text;
 
           .write-new-post {
             border: none;
