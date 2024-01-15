@@ -71,7 +71,7 @@ function MoreOptions({ onClose, buttonRef, post }) {
         {showPrivacySetting && (
           <PrivacySetting
             postId={post.id}
-            defaultChecked={"PUBLIC"}
+            defaultChecked={post.privacyLevel}
             onClose={() => setShowPrivacySettings(false)}
           />
         )}

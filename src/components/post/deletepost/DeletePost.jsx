@@ -18,7 +18,8 @@ function DeletePost({ postId, onClose }) {
       dispatch(deleteStatus(postId)).then();
       onClose();
     }catch (e) {
-      console.log(e)
+      if(e.response){}
+      alert("Success")
     }
   };
 
