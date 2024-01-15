@@ -4,6 +4,7 @@ import {
   changePrivacy,
   deleteStatus,
   editStatus,
+  getStatusByUser,
   searchStatus,
   showStatus,
 } from "../service/statusService.jsx";
@@ -51,6 +52,9 @@ const statusReducer = createSlice({
             }
             return status
         })
+    })
+    builder.addCase(getStatusByUser.fulfilled,(state, {payload}) => {
+        state.list = payload;
     })
   },
 });

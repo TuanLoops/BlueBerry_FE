@@ -8,12 +8,13 @@ import Thumbnails from "yet-another-react-lightbox/plugins/thumbnails";
 import Counter from "yet-another-react-lightbox/plugins/counter";
 import Zoom from "yet-another-react-lightbox/plugins/zoom";
 import Lightbox from "yet-another-react-lightbox";
-import {Link} from "react-router-dom";
+import {Link, useParams} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
-import {searchStatus, showStatus} from "../../redux/service/statusService.jsx";
+import {getStatusByUser, searchStatus, showStatus} from "../../redux/service/statusService.jsx";
 import img from '../../Pic-banner.jpg'
 
 const Profile = () => {
+    const {id} = useParams();
     const [showMoreOptions, setShowMoreOptions] = useState(false);
     const [open, setOpen] = useState(false);
     const [openBox, setOpenBox] = useState(false);
@@ -25,7 +26,7 @@ const Profile = () => {
     const posts = useSelector((state) => state.status.list);
     const user = useSelector(({user}) => user.currentUser)
     useEffect(() => {
-        dispatch(showStatus());
+        dispatch(getStatusByUser(id));
     }, []);
     const handleSearchChange = async (value) => {
         const result = await dispatch(searchStatus(value));
@@ -188,8 +189,6 @@ const Profile = () => {
                                 </>
                             ) : (
                                 <>
-                                    <Posts posts={posts}/>
-                                    <Posts posts={posts}/>
                                     <Posts posts={posts}/>
                                 </>
                             )}

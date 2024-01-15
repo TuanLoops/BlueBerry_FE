@@ -49,7 +49,15 @@ export const changePrivacy= createAsyncThunk(
     "CHANGE_PRIVACY",
     async (status)=>{
         console.log(status)
-        let res = await UrlStatus().put(status.id+`change-privacy`, status);
+        await UrlStatus().put(status.id+`/change-privacy`, status);
         return status;
     }
+)
+
+export const getStatusByUser= createAsyncThunk(
+  "GET_STATUS_BY_USER",
+  async (userId)=>{
+      const res = await UrlStatus().get(`/users/${userId}`);
+      return res.data;
+  }
 )

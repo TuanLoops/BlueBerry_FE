@@ -61,7 +61,7 @@ function NewPost() {
   const handlePost = async () => {
     if (!body) return;
     await dispatch(addStatus({ body, imageList, privacyLevel })).unwrap();
-    await dispatch(showStatus()).unwrap();
+    // await dispatch(showStatus()).unwrap();
     setBody("");
     setImageList([]);
   };
