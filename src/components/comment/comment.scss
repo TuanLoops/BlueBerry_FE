@@ -148,6 +148,7 @@
             }
           }
         }
+
         .delete-comment-modal {
           position: fixed;
           background-color: themed("modalBg");
@@ -223,6 +224,167 @@
 
                   div {
                     margin-bottom: 2px;
+                  }
+                }
+              }
+            }
+          }
+        }
+
+        .edit-comment-modal {
+          position: fixed;
+          background-color: themed("modalBg");
+          inset: 0;
+          z-index: 99;
+          backdrop-filter: blur(5px);
+          display: flex;
+          align-items: center;
+          justify-content: center;
+
+          .edit-container {
+            border-radius: 16px;
+            background-color: themed("bg");
+            -webkit-box-shadow: 0px 0px 25px -10px rgba(0, 0, 0, 0.25);
+            -moz-box-shadow: 0px 0px 25px -10px rgba(0, 0, 0, 0.25);
+            box-shadow: 0px 0px 25px -10px rgba(0, 0, 0, 0.25);
+
+            .edit-wrapper {
+              width: 520px;
+              display: flex;
+              flex-direction: column;
+
+              .edit-header {
+                font-size: 24px;
+                border-bottom: 1px solid themed("border");
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                padding: 16px;
+                font-weight: bold;
+              }
+
+              .edit-body {
+                padding: 16px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                flex-direction: column;
+
+                .author-info {
+                  display: flex;
+                  align-items: center;
+                  justify-content: center;
+                  width: 100%;
+
+                  .avatar {
+                    display: flex;
+                    margin-right: 16px;
+
+                    img {
+                      width: 40px;
+                      height: 40px;
+                      border-radius: 50%;
+                      object-fit: cover;
+                    }
+                  }
+
+                  .author-container {
+                    display: flex;
+                    align-items: flex-start;
+                    justify-content: center;
+                    flex: 1;
+                    flex-direction: column;
+
+                    .author-name {
+                      font-weight: 600;
+                    }
+
+                    .time {
+                      color: themed("textColor");
+                      font-size: 12px;
+                      display: flex;
+                      align-items: center;
+                      justify-content: flex-start;
+
+                      .privacy-icon {
+                        width: 14px;
+                        height: 14px;
+                        margin-right: 4px;
+                      }
+                    }
+                  }
+                }
+
+                .post-content {
+                  width: 100%;
+                  margin-top: 8px;
+                  display: flex;
+                  justify-content: center;
+                  align-items: center;
+                  flex-direction: column;
+
+                  [type="file"] {
+                    display: none;
+                  }
+
+                  textarea {
+                    color: themed("textColor");
+                    width: 100%;
+                    resize: none;
+                    background-color: transparent;
+                    outline: none;
+                    word-wrap: break-word;
+                    word-break: break-word;
+                    border: none;
+                  }
+                }
+              }
+
+              .edit-footer {
+                text-align: right;
+                padding: 12px;
+                border-top: 1px solid themed("border");
+                display: flex;
+                justify-content: flex-end;
+                align-items: center;
+
+                button {
+                  padding: 5px 32px;
+                  margin-left: 16px;
+                  font-size: 16px;
+                  font-weight: 600;
+                  color: white;
+                  border-radius: 8px;
+                  border: none;
+                  outline: none;
+                  cursor: pointer;
+                  min-width: 100px;
+
+                  &.cancel {
+                    background-color: transparent;
+                    color: #2e70ff;
+
+                    &:hover {
+                      outline: 1px solid #2e70ff;
+                    }
+                  }
+
+                  &.save {
+                    background-color: #2e70ff;
+
+                    &:hover {
+                      background-color: lighten(#2e70ff, 10);
+                    }
+                  }
+
+                  .btn-content {
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+
+                    div {
+                      margin-bottom: 2px;
+                    }
                   }
                 }
               }

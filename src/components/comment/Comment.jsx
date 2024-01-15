@@ -8,6 +8,13 @@ import FavoriteOutlinedIcon from "@mui/icons-material/FavoriteOutlined";
 import Lightbox from "yet-another-react-lightbox";
 import Zoom from "yet-another-react-lightbox/plugins/zoom";
 import { useEffect, useRef, useState } from "react";
+import { v4 as uuidv4 } from "uuid";
+import { CircularProgress, TextareaAutosize } from "@mui/material";
+import { formatDistanceToNow } from "date-fns";
+import PrivacyIcon from "../privacyicon/PrivacyIcon";
+import PreviewImg from "../previewimg/PreviewImg";
+import { getImageURL, uploadImage } from "../../firebase";
+import { useDispatch } from "react-redux";
 
 const Comment = ({ comment }) => {
   const actionButtonRef = useRef(null);
@@ -33,15 +40,19 @@ const Comment = ({ comment }) => {
           <div className="comment-body">
             <div>{comment.body}</div>
           </div>
-          {comment.imageLink && (
+          {comment.image && (
             <div className="image">
-              <img src={comment.imageLink} onClick={() => setIndex(0)} alt="" />
+              <img
+                src={comment.image.imageLink}
+                onClick={() => setIndex(0)}
+                alt=""
+              />
               <Lightbox
                 index={index}
                 open={index >= 0}
                 close={() => setIndex(-1)}
                 plugins={[Zoom]}
-                slides={[{ src: comment.imageLink }]}
+                slides={[{ src: comment.image.imageLink }]}
               />
             </div>
           )}
@@ -159,6 +170,129 @@ function DeleteComment({ commentId, onClose }) {
             </button>
             <button className="delete" onClick={handleDelete}>
               <div>Delete</div>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function EditPost({ comment, onClose }) {
+  const [body, setBody] = useState(comment.body);
+  const [imageList, setImageList] = useState([comment.image]);
+  const [isUploading, setIsUploading] = useState(false);
+  const modalRef = useRef(null);
+  const inputRef = useRef(null);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    const input = inputRef.current;
+    input.setSelectionRange(input.value.length, input.value.length);
+    input.focus();
+  }, []);
+
+  const handleClose = (e) => {
+    if (e.target === modalRef.current) {
+      onClose();
+    }
+  };
+
+  const handleFileChange = async (e) => {
+    const images = [];
+    for (const file of e.target.files) {
+      if (file.type.includes("image")) {
+        const randomName = uuidv4();
+        setIsUploading(true);
+        await uploadImage(randomName, file);
+        const imageURL = await getImageURL(randomName);
+        images.push({ imageLink: imageURL });
+        setIsUploading(false);
+      }
+    }
+    setImageList([...imageList, ...images]);
+  };
+
+  const handlePaste = async (e) => {
+    const images = [];
+    let items = e.clipboardData.items;
+    for (const item of items) {
+      if (item.type.includes("image")) {
+        setIsUploading(true);
+        var blob = item.getAsFile();
+        const randomName = uuidv4();
+        await uploadImage(randomName, blob);
+        const imageURL = await getImageURL(randomName);
+        images.push({ imageLink: imageURL });
+        setIsUploading(false);
+      }
+    }
+    setImageList(images);
+  };
+
+  const handleFileRemove = (index) => {
+    setImageList([]);
+  };
+
+  const handleSave = async () => {
+    if (!body) return;
+    // TODO: edit
+  };
+
+  return (
+    <div className="edit-comment-modal" ref={modalRef} onClick={handleClose}>
+      <div className="edit-container">
+        <div className="edit-wrapper">
+          <div className="edit-header">
+            <span>Edit comment</span>
+          </div>
+          <div className="edit-body">
+            <div className="author-info">
+              <div className="avatar">
+                <img src={comment.author.avatarImage} alt="" />
+              </div>
+              <div className="author-container">
+                <div className="author-name">{comment.author.fullName}</div>
+                <div className="time">
+                  {`${formatDistanceToNow(comment.createdAt)} ago`}
+                </div>
+              </div>
+            </div>
+            <div className="post-content">
+              <TextareaAutosize
+                ref={inputRef}
+                minRows={imageList.length > 0 ? 4 : 8}
+                maxRows={12}
+                placeholder={`What's on your mind`}
+                value={body}
+                spellCheck="false"
+                onChange={(e) => {
+                  setBody(e.target.value);
+                }}
+                onPaste={handlePaste}
+              />
+              <input
+                accept="image/*"
+                id="file"
+                type="file"
+                multiple
+                onChange={handleFileChange}
+              />
+              <PreviewImg imageList={imageList} remove={handleFileRemove} />
+            </div>
+          </div>
+          <div className="edit-footer">
+            <button className="cancel" onClick={() => onClose()}>
+              <div>Cancel</div>
+            </button>
+            <button className="save" onClick={handleSave}>
+              <div className="btn-content">
+                {isUploading ? (
+                  <CircularProgress color="inherit" size={20} />
+                ) : (
+                  <div>Save</div>
+                )}
+              </div>
             </button>
           </div>
         </div>

@@ -31,8 +31,10 @@ const Comments = ({ postId }) => {
           avatarImage:
             "https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
         },
-        imageLink:
-          "https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
+        image: {
+          imageLink:
+            "https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
+        },
       },
       {
         id: 2,
@@ -44,8 +46,10 @@ const Comments = ({ postId }) => {
           avatarImage:
             "https://images.pexels.com/photos/1036623/pexels-photo-1036623.jpeg?auto=compress&cs=tinysrgb&w=1600",
         },
-        imageLink:
-          "https://firebasestorage.googleapis.com/v0/b/blueberry-3a0b0.appspot.com/o/images%2F66432d9a-f5d0-4818-8c61-7123c450987c?alt=media&token=65a2e95b-88dd-4011-9c1c-416f878b2d19",
+        image: {
+          imageLink:
+            "https://firebasestorage.googleapis.com/v0/b/blueberry-3a0b0.appspot.com/o/images%2F66432d9a-f5d0-4818-8c61-7123c450987c?alt=media&token=65a2e95b-88dd-4011-9c1c-416f878b2d19",
+        },
       },
       {
         id: 3,
