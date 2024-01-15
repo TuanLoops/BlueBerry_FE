@@ -24,11 +24,12 @@ const Navbar = () => {
     const handleLogOut = async () => {
         try {
             await dispatch(logOut()).unwrap();
-            navigate("/login")
+            window.location.reload();
         } catch (e) {
             console.log(e)
         }
     }
+    
     const handleSearchChange = (event) => {
         setSearchValue(event.target.value);
     };
@@ -129,7 +130,6 @@ const Navbar = () => {
                                                 </div>
                                                 <div className="body-item">
                                                     <span>Settings & Privacy</span>
-                                                    <i className="icon-item"></i>
                                                 </div>
                                             </Link>
                                         </div>
@@ -139,8 +139,7 @@ const Navbar = () => {
                                                     <i className="help-support"></i>
                                                 </div>
                                                 <div className="body-item">
-                                                    <span>Help & Support</span>
-                                                    <i className="icon-item"></i>
+                                                    <span>Change Password</span>
                                                 </div>
                                             </Link>
                                         </div>
@@ -151,7 +150,6 @@ const Navbar = () => {
                                                 </div>
                                                 <div className="body-item">
                                                     <span>Screen & accessibility</span>
-                                                    <i className="icon-item"></i>
                                                 </div>
                                             </Link>
                                         </div>
