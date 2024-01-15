@@ -13,7 +13,6 @@ import { CircularProgress, TextareaAutosize } from "@mui/material";
 import { formatDistanceToNow } from "date-fns";
 import PreviewImg from "../previewimg/PreviewImg";
 import { getImageURL, uploadImage } from "../../firebase";
-import { useDispatch } from "react-redux";
 
 const Comment = ({ comment }) => {
   const actionButtonRef = useRef(null);
@@ -182,7 +181,6 @@ function EditPost({ comment, onClose }) {
   const [isUploading, setIsUploading] = useState(false);
   const modalRef = useRef(null);
   const inputRef = useRef(null);
-  const dispatch = useDispatch();
 
   useEffect(() => {
     const input = inputRef.current;
@@ -228,7 +226,7 @@ function EditPost({ comment, onClose }) {
     setImageList(images);
   };
 
-  const handleFileRemove = (index) => {
+  const handleFileRemove = () => {
     setImageList([]);
   };
 

@@ -7,15 +7,15 @@ import NotificationsOutlinedIcon from "@mui/icons-material/NotificationsOutlined
 import EmailOutlinedIcon from "@mui/icons-material/EmailOutlined";
 import PersonOutlinedIcon from "@mui/icons-material/PersonOutlined";
 import SearchOutlinedIcon from "@mui/icons-material/SearchOutlined";
-import {Link, useNavigate} from "react-router-dom";
-import {useContext, useState} from "react";
-import {DarkModeContext} from "../../context/darkModeContext";
-import {useDispatch, useSelector} from "react-redux";
-import {logOut} from "../../redux/service/userService.jsx";
+import { Link, useNavigate } from "react-router-dom";
+import { useContext, useState } from "react";
+import { DarkModeContext } from "../../context/darkModeContext";
+import { useDispatch, useSelector } from "react-redux";
+import { logOut } from "../../redux/service/userService.jsx";
 
 const Navbar = () => {
-    const currentUser = useSelector(({user}) => user.currentUser);
-    const {toggle, darkMode} = useContext(DarkModeContext);
+    const currentUser = useSelector(({ user }) => user.currentUser);
+    const { toggle, darkMode } = useContext(DarkModeContext);
     const [isPopupVisible, setPopupVisible] = useState(false);
     const [searchValue, setSearchValue] = useState("");
     const dispatch = useDispatch();
@@ -23,7 +23,7 @@ const Navbar = () => {
     const handleLogOut = async () => {
         try {
             await dispatch(logOut()).unwrap();
-            navigate("/login")
+            window.location.reload();
         } catch (e) {
             console.log(e)
         }
@@ -54,46 +54,46 @@ const Navbar = () => {
         <>
             <div className="navbar">
                 <div className="left">
-                    <Link to="/" style={{textDecoration: "none"}}>
+                    <Link to="/" style={{ textDecoration: "none" }}>
                         <span>Blueberry</span>
                     </Link>
                     <div className="nav-item">
-                        <HomeOutlinedIcon/>
+                        <HomeOutlinedIcon />
                         <div className="label-acc">Home</div>
                     </div>
                     <div className="nav-item">
                         {darkMode ? (
-                            <WbSunnyOutlinedIcon onClick={toggle}/>
+                            <WbSunnyOutlinedIcon onClick={toggle} />
                         ) : (
-                            <DarkModeOutlinedIcon onClick={toggle}/>
+                            <DarkModeOutlinedIcon onClick={toggle} />
                         )}
                         <div className="label-acc">Mode</div>
                     </div>
                     <div className="nav-item">
-                        <GridViewOutlinedIcon/>
+                        <GridViewOutlinedIcon />
                         <div className="label-acc">View</div>
                     </div>
                     <div className="search">
-                        <SearchOutlinedIcon/>
+                        <SearchOutlinedIcon />
                         <input type="text" placeholder="Search..." value={searchValue} onChange={handleSearchChange}
-                               onKeyDown={handleKeyPress}/>
+                            onKeyDown={handleKeyPress} />
                     </div>
                 </div>
                 <div className="right">
                     <div className="nav-item-right">
-                        <PersonOutlinedIcon/>
+                        <PersonOutlinedIcon />
                         <div className="label-acc">Person</div>
                     </div>
                     <div className="nav-item-right">
-                        <EmailOutlinedIcon/>
+                        <EmailOutlinedIcon />
                         <div className="label-acc">Mail</div>
                     </div>
                     <div className="nav-item-right">
-                        <NotificationsOutlinedIcon/>
+                        <NotificationsOutlinedIcon />
                         <div className="label-acc">Notification</div>
                     </div>
                     <div className="user" onClick={togglePopup}>
-                        <img src={currentUser?.avatarImage} alt=""/>
+                        <img src={currentUser?.avatarImage} alt="" />
                         <span></span>
                         <div className="label-acc">Account</div>
                         {isPopupVisible && (
@@ -104,7 +104,7 @@ const Navbar = () => {
                                             <div className="icon">
                                                 <img
                                                     src={currentUser.avatarImage}
-                                                    alt=""/>
+                                                    alt="" />
                                             </div>
                                             <div className="name-uer">
                                                 <span>{currentUser.fullName}</span>

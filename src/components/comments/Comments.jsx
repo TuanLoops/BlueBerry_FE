@@ -2,7 +2,7 @@ import "./comments.scss";
 import Comment from "../comment/Comment";
 import { useSelector } from "react-redux";
 import { TextareaAutosize } from "@mui/material";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import ImageIcon from "@mui/icons-material/Image";
 import { v4 as uuidv4 } from "uuid";
 import { getImageURL, uploadImage } from "../../firebase";
@@ -18,6 +18,7 @@ const Comments = ({ postId }) => {
   const [imageList, setImageList] = useState([]);
   const [isUploading, setIsUploading] = useState(false);
   const fileInputId = uuidv4();
+  const fileInputRef = useRef(null)
 
   useEffect(() => {
     // Get comments from API
@@ -38,7 +39,8 @@ const Comments = ({ postId }) => {
       try {
         const comment1 = await createComment(postId, comment)
         setBody("")
-        setComments([...comments, comment1])
+        setImageList([])
+        setComments([comment1, ...comments])
       } catch (e) {
         console.log(e)
       }
@@ -55,6 +57,7 @@ const Comments = ({ postId }) => {
         const imageURL = await getImageURL(randomName);
         setImageList([{ imageLink: imageURL }]);
         setIsUploading(false);
+        fileInputRef.current.value = "";
       }
     }
   };
@@ -81,7 +84,7 @@ const Comments = ({ postId }) => {
             />
             <label htmlFor={fileInputId} className="attach-image">
               <ImageIcon />
-              <input id={fileInputId} type="file" onChange={handleFileChange} />
+              <input accept="image/*" ref={fileInputRef} id={fileInputId} type="file" onChange={handleFileChange} />
             </label>
           </div>
           <PreviewImg imageList={imageList} remove={handleFileRemove} />
