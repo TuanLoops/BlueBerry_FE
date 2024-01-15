@@ -11,7 +11,6 @@ import { useEffect, useRef, useState } from "react";
 import { v4 as uuidv4 } from "uuid";
 import { CircularProgress, TextareaAutosize } from "@mui/material";
 import { formatDistanceToNow } from "date-fns";
-import PrivacyIcon from "../privacyicon/PrivacyIcon";
 import PreviewImg from "../previewimg/PreviewImg";
 import { getImageURL, uploadImage } from "../../firebase";
 import { useDispatch } from "react-redux";
@@ -21,74 +20,72 @@ const Comment = ({ comment }) => {
   const [index, setIndex] = useState(-1);
   const [liked, setLiked] = useState(false);
   const [showActions, setShowActions] = useState(false);
-
   const handleLike = () => {
     setLiked(!liked);
     // call api to like comment
   };
 
-  return (
-    <div className="comment-container">
-      <div className="comment-left">
-        <img src={comment.author.avatarImage} alt="" />
-      </div>
-      <div className="comment-middle">
-        <div className="comment-wrapper">
-          <div className="author-name">
-            <UsernameLink username={comment.author.fullName} />
-          </div>
-          <div className="comment-body">
-            <div>{comment.body}</div>
-          </div>
-          {comment.image && (
-            <div className="image">
-              <img
-                src={comment.image.imageLink}
-                onClick={() => setIndex(0)}
-                alt=""
-              />
-              <Lightbox
-                index={index}
-                open={index >= 0}
-                close={() => setIndex(-1)}
-                plugins={[Zoom]}
-                slides={[{ src: comment.image.imageLink }]}
-              />
-            </div>
-          )}
+
+  return <div className="comment-container">
+    <div className="comment-left">
+      <img src={comment.author.avatarImage} alt="" />
+    </div>
+    <div className="comment-middle">
+      <div className="comment-wrapper">
+        <div className="author-name">
+          <UsernameLink username={comment.author.fullName} />
         </div>
-        <div className="comment-footer">
-          <div className="like" onClick={handleLike}>
-            {liked ? (
-              <FavoriteOutlinedIcon className="liked" />
-            ) : (
-              <FavoriteBorderOutlinedIcon />
-            )}
-            <span>10 Likes</span>
-          </div>
-          <Time time={comment.createdAt} />
+        <div className="comment-body">
+          <div>{comment.body}</div>
         </div>
-      </div>
-      <div className="comment-right">
-        <div className="actions">
-          <div
-            className="dot"
-            ref={actionButtonRef}
-            onClick={() => setShowActions(!showActions)}
-          >
-            <MoreHorizIcon />
-          </div>
-          {showActions && (
-            <Popup
-              comment={comment}
-              buttonRef={actionButtonRef}
-              onClose={() => setShowActions(false)}
+        {comment.image && (
+          <div className="image">
+            <img
+              src={comment.image.imageLink}
+              onClick={() => setIndex(0)}
+              alt=""
             />
+            <Lightbox
+              index={index}
+              open={index >= 0}
+              close={() => setIndex(-1)}
+              plugins={[Zoom]}
+              slides={[{ src: comment.image.imageLink }]}
+            />
+          </div>
+        )}
+      </div>
+      <div className="comment-footer">
+        <div className="like" onClick={handleLike}>
+          {liked ? (
+            <FavoriteOutlinedIcon className="liked" />
+          ) : (
+            <FavoriteBorderOutlinedIcon />
           )}
+          <span>10 Likes</span>
         </div>
+        <Time time={comment.createdAt} />
       </div>
     </div>
-  );
+    <div className="comment-right">
+      <div className="actions">
+        <div
+          className="dot"
+          ref={actionButtonRef}
+          onClick={() => setShowActions(!showActions)}
+        >
+          <MoreHorizIcon />
+        </div>
+        {showActions && (
+          <Popup
+            comment={comment}
+            buttonRef={actionButtonRef}
+            onClose={() => setShowActions(false)}
+          />
+        )}
+      </div>
+    </div>
+  </div>
 };
 
 export default Comment;
@@ -152,6 +149,7 @@ function DeleteComment({ commentId, onClose }) {
 
   const handleDelete = () => {
     //TODO: delete post
+
   };
 
   return (
