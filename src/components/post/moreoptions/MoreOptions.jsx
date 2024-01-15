@@ -10,13 +10,13 @@ import EditPost from "../editpost/EditPost";
 function MoreOptions({ onClose, buttonRef, post }) {
   const popupRef = useRef(null);
   const [showEditModal, setShowEditModal] = useState(false);
-  const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [showPrivacySetting, setShowPrivacySettings] = useState(false);
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
 
   useEffect(() => {
-    window.addEventListener("click", handleOutsideClick);
+    document.addEventListener("click", handleOutsideClick);
     return () => {
-      window.removeEventListener("click", handleOutsideClick);
+      document.removeEventListener("click", handleOutsideClick);
     };
   }, []);
 
@@ -40,25 +40,22 @@ function MoreOptions({ onClose, buttonRef, post }) {
               </span>
               <span>Edit your post</span>
             </div>
-            <div className="item" onClick={() => setShowDeleteModal(true)}>
-              <span className="icon">
-                <DeleteForeverOutlinedIcon />
-              </span>
-              <span>Delete your post</span>
-            </div>
             <div className="item" onClick={() => setShowPrivacySettings(true)}>
               <span className="icon">
                 <VpnLockOutlinedIcon />
               </span>
               <span className="title">Change post's privacy</span>
             </div>
+            <div className="item" onClick={() => setShowDeleteModal(true)}>
+              <span className="icon">
+                <DeleteForeverOutlinedIcon />
+              </span>
+              <span>Delete your post</span>
+            </div>
           </div>
         </div>
         {showEditModal && (
-          <EditPost
-            post={post}
-            onClose={() => setShowEditModal(false)}
-          />
+          <EditPost post={post} onClose={() => setShowEditModal(false)} />
         )}
         {showDeleteModal && (
           <DeletePost
@@ -71,7 +68,7 @@ function MoreOptions({ onClose, buttonRef, post }) {
         {showPrivacySetting && (
           <PrivacySetting
             postId={post.id}
-            defaultChecked={"PUBLIC"}
+            defaultChecked={post.privacyLevel}
             onClose={() => setShowPrivacySettings(false)}
           />
         )}

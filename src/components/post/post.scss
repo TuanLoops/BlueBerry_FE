@@ -27,7 +27,17 @@
 
         .userInfo {
           display: flex;
-          gap: 16px;
+          gap: 8px;
+
+          a {
+            display: flex;
+
+            span {
+              display: flex;
+              height: 18px;
+              align-items: flex-end;
+            }
+          }
 
           img {
             width: 40px;
@@ -41,39 +51,13 @@
             flex-direction: column;
             justify-content: center;
 
-            .time {
-              font-size: 12px;
-              position: relative;
+            .info {
+              display: flex;
+              gap: 4px;
 
-              .time-container {
-                cursor: pointer;
-              }
-
-              &:hover {
-                .time-popup {
-                  display: flex !important;
-                }
-              }
-
-              .time-popup {
-                position: absolute;
-                top: 16px;
-                left: 50%;
-                display: none;
-                transform: translate(-50%, 0);
-                background-color: themed("infoPopup");
-                border-radius: 4px;
-
-                .popup-wrapper {
-                  padding: 8px;
-                  display: flex;
-                  justify-content: center;
-                  align-items: center;
-                  color: themed("infoPopupText");
-                  text-align: center;
-                  text-wrap: nowrap;
-                  width: max-content;
-                }
+              .icon {
+                width: 14px;
+                height: 14px;
               }
             }
           }
@@ -90,8 +74,6 @@
               background-color: themed("overlayColor");
             }
           }
-
-          
         }
       }
 
@@ -99,7 +81,7 @@
         margin: 16px 0px;
 
         .post-body {
-          white-space: pre-line;
+          white-space: pre-wrap;
           word-break: break-word;
           word-wrap: break-word;
           font-size: 16px;
@@ -110,9 +92,10 @@
           height: fit-content;
 
           img {
+            border: 1px solid themed("border");
             width: 100%;
             object-fit: cover;
-            aspect-ratio: auto!important;
+            aspect-ratio: auto !important;
           }
         }
 
