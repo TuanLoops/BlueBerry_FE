@@ -3,10 +3,13 @@ import PeopleAltIcon from "@mui/icons-material/PeopleAlt";
 import LockIcon from "@mui/icons-material/Lock";
 import PublicOutlinedIcon from "@mui/icons-material/PublicOutlined";
 import { useRef, useState } from "react";
+import {useDispatch} from "react-redux";
+import {changePrivacy} from "../../../redux/service/statusService.jsx";
 
 function PrivacySetting({ onClose, defaultChecked, postId }) {
   const [checked, setChecked] = useState(defaultChecked);
   const modalRef = useRef(null);
+  const dispatch = useDispatch();
   const handleClose = (e) => {
     if (e.target === modalRef.current) {
       onClose();
@@ -14,7 +17,17 @@ function PrivacySetting({ onClose, defaultChecked, postId }) {
   };
 
   const handleSave = () => {
-    //TODO: save edit
+    const status= {
+      id:postId,
+      privacyLevel: checked
+    }
+    console.log(status)
+    // TODO: save edit
+    try {
+      dispatch(changePrivacy(status))
+    }catch (e){
+      console.log(e)
+    }
   };
 
   return (

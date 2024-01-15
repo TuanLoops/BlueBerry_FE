@@ -1,5 +1,5 @@
 import {createSlice} from "@reduxjs/toolkit";
-import {addStatus, deleteStatus, searchStatus, showStatus} from "../service/statusService.jsx";
+import {addStatus, changePrivacy, deleteStatus, searchStatus, showStatus} from "../service/statusService.jsx";
 
 const initialState = {
     list: [],
@@ -17,6 +17,7 @@ const statusReducer = createSlice({
             state.filterList = state.list;
         })
         builder.addCase(deleteStatus.fulfilled, (state, {payload}) => {
+            console.log(payload);
             const removedStatusIndex = state.list.findIndex(status => status.id === payload);
             console.log(removedStatusIndex);
             if (removedStatusIndex !== -1) {
@@ -25,6 +26,15 @@ const statusReducer = createSlice({
         })
         builder.addCase(searchStatus.fulfilled, (state, {payload}) => {
             state.filterList = payload;
+        })
+        builder.addCase(changePrivacy.fulfilled, (state, {payload}) => {
+            console.log(payload)
+            state.list = state.list.map(status => {
+                if (status.id === payload.id) {
+                    status.privacyLevel = payload.privacyLevel
+                }
+                return status
+            })
         })
     }
 })
