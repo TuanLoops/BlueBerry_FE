@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { getCurrentUser, login, logOut } from "../service/userService.jsx";
+import {getCurrentUser, getInfoCurrentUser, login, logOut, updateProfile} from "../service/userService.jsx";
 
 let token;
 
@@ -12,6 +12,7 @@ try {
 const initialState = {
   accessToken: token,
   currentUser: null,
+  infoCurrentUser: null,
 };
 
 const userReducer = createSlice({
@@ -39,6 +40,12 @@ const userReducer = createSlice({
       localStorage.removeItem("AccessToken");
       state.currentUser = null;
     });
+    builder.addCase(getInfoCurrentUser.fulfilled,(state,action)=>{
+      state.infoCurrentUser = action.payload;
+    })
+    builder.addCase(updateProfile.fulfilled,(state,{payload})=>{
+      state.infoCurrentUser = payload;
+    })
   },
 });
 

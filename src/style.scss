@@ -15,6 +15,8 @@ $themes: (
     modalBg: rgba(228, 228, 228, 0.7),
     modalIconBg: rgb(231, 231, 231),
     modalIconBgHover: darken(rgb(231, 231, 231), 5),
+    btn: #f8f8f8,
+    hoverBtn: #8e8e8e,
   ),
   dark: (
     textColor: whitesmoke,
@@ -32,6 +34,8 @@ $themes: (
     modalBg: rgba(0, 0, 0, 0.7),
     modalIconBg: rgb(68, 68, 68),
     modalIconBgHover: lighten(rgb(68, 68, 68), 5),
+    btn: #464646,
+    hoverBtn: dimgrey,
   ),
 );
 
