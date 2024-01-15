@@ -19,7 +19,7 @@ function DeletePost({ postId, onClose }) {
       onClose();
     }catch (e) {
       if(e.response){}
-      alert("Success")
+      alert(e.response.data.message);
     }
   };
 

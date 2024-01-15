@@ -20,6 +20,7 @@ const Comment = ({ comment }) => {
     // call api to like comment
   };
 
+
   return (
     <div className="comment-container">
       <div className="comment-left">
@@ -33,15 +34,15 @@ const Comment = ({ comment }) => {
           <div className="comment-body">
             <div>{comment.body}</div>
           </div>
-          {comment.imageLink && (
+          {comment.image && (
             <div className="image">
-              <img src={comment.imageLink} onClick={() => setIndex(0)} alt="" />
+              <img src={comment.image.imageLink} onClick={() => setIndex(0)} alt="" />
               <Lightbox
                 index={index}
                 open={index >= 0}
                 close={() => setIndex(-1)}
                 plugins={[Zoom]}
-                slides={[{ src: comment.imageLink }]}
+                slides={[{ src: comment.image.imageLink }]}
               />
             </div>
           )}
@@ -141,6 +142,7 @@ function DeleteComment({ commentId, onClose }) {
 
   const handleDelete = () => {
     //TODO: delete post
+
   };
 
   return (
