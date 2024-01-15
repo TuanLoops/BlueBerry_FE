@@ -18,6 +18,7 @@ import BookmarksIcon from '@mui/icons-material/Bookmarks';
 import LoadingButton from '@mui/lab/LoadingButton';
 import Box from "@mui/material/Box";
 import {EditProfile} from "./editprofile/EditProfile.jsx";
+import { getInfoCurrentUser } from "../../redux/service/userService.jsx";
 
 const Profile = () => {
     const {id} = useParams();
@@ -38,7 +39,9 @@ const Profile = () => {
     const infoCurrentUser = useSelector(({user: user2})=>user2.infoCurrentUser);
 
     useEffect(() => {
-        dispatch(getStatusByUser(id));
+        // dispatch(getStatusByUser(id));
+        // dispatch(showStatus());
+        dispatch(getInfoCurrentUser(user.id))
     }, []);
 
     const handleSearchChange = async (value) => {
