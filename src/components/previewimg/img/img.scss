@@ -29,8 +29,9 @@
         border-radius: 50%;
         opacity: 0;
         transition: opacity 0.1s ease-in-out;
-
+        
         svg {
+          color: rgb(100, 100, 100);
           scale: 0.8;
         }
       }
