@@ -31,12 +31,21 @@ export const deleteStatus = createAsyncThunk(
 
 export const searchStatus = createAsyncThunk(
     "SEARCH",
-    async (keyword) => {
+    async (keyword,{rejectWithValue}) => {
         try {
             const res = await UrlStatus().get(`/search?query=${keyword}`);
             return res.data;
         }catch (e){
-            console.log(e)
+            return rejectWithValue(e);
         }
+    }
+)
+
+export const changePrivacy= createAsyncThunk(
+    "CHANGE_PRIVACY",
+    async (status)=>{
+        console.log(status)
+        let res = await UrlStatus().put(status.id+`change-privacy`, status);
+        return status;
     }
 )
