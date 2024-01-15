@@ -54,6 +54,7 @@
                 width: 40px;
                 height: 40px;
                 border-radius: 50%;
+                object-fit: cover;
               }
             }
 
@@ -91,11 +92,11 @@
             justify-content: center;
             align-items: center;
             flex-direction: column;
-            
+
             [type="file"] {
               display: none;
             }
-            
+
             textarea {
               color: themed("textColor");
               width: 100%;
