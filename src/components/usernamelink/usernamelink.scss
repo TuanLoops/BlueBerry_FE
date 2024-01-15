@@ -4,5 +4,10 @@
   @include themify($themes) {
     font-weight: 600;
     color: themed("textColor");
+    text-decoration: none;
+  }
+
+  &:hover {
+    text-decoration: underline;
   }
 }

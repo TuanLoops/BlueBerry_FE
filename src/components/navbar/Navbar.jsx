@@ -7,11 +7,11 @@ import NotificationsOutlinedIcon from "@mui/icons-material/NotificationsOutlined
 import EmailOutlinedIcon from "@mui/icons-material/EmailOutlined";
 import PersonOutlinedIcon from "@mui/icons-material/PersonOutlined";
 import SearchOutlinedIcon from "@mui/icons-material/SearchOutlined";
-import { Link, useNavigate } from "react-router-dom";
-import { useContext, useState } from "react";
-import { DarkModeContext } from "../../context/darkModeContext";
-import { useDispatch, useSelector } from "react-redux";
-import { logOut } from "../../redux/service/userService.jsx";
+import {Link, Navigate, useNavigate} from "react-router-dom";
+import {useContext, useState} from "react";
+import {DarkModeContext} from "../../context/darkModeContext";
+import {useDispatch, useSelector} from "react-redux";
+import {logOut} from "../../redux/service/userService.jsx";
 
 const Navbar = () => {
     const currentUser = useSelector(({ user }) => user.currentUser);
@@ -61,9 +61,9 @@ const Navbar = () => {
         <>
             <div className="navbar">
                 <div className="left">
-                    <div to="/" style={{ textDecoration: "none" }}>
+                    <Link to="/" style={{textDecoration: "none"}}>
                         <span>Blueberry</span>
-                    </div>
+                    </Link>
                     <div className="nav-item">
                         <HomeOutlinedIcon />
                         <div className="label-acc">Home</div>
@@ -107,14 +107,14 @@ const Navbar = () => {
                             <>
                                 <div className="popup">
                                     <div className="info-user">
-                                        <Link to={{}} className="icon-user">
+                                        <Link to={`/profile/${currentUser.id}`} className="icon-user">
                                             <div className="icon">
                                                 <img
-                                                    src="https://timbaby.net/wp-content/uploads/2022/11/313029929_1526245037804341_7796672797032138353_n.jpg"
-                                                    alt="" />
+                                                    src={currentUser.avatarImage}
+                                                    alt=""/>
                                             </div>
                                             <div className="name-uer">
-                                                <span>{currentUser?.firstName + " " + currentUser?.lastName}</span>
+                                                <span>{currentUser.fullName}</span>
                                             </div>
                                         </Link>
                                         <Link to={`/profile/${currentUser?.id}`} className="href">
@@ -162,6 +162,7 @@ const Navbar = () => {
                                                 </div>
                                                 <div className="body-item">
                                                     <span>LogOut</span>
+                                                    <i className="icon-item-logout"></i>
                                                 </div>
                                             </Link>
                                         </div>

@@ -1,114 +1,204 @@
 import "./profile.scss";
-import FacebookTwoToneIcon from "@mui/icons-material/FacebookTwoTone";
-import LinkedInIcon from "@mui/icons-material/LinkedIn";
-import InstagramIcon from "@mui/icons-material/Instagram";
-import PinterestIcon from "@mui/icons-material/Pinterest";
-import TwitterIcon from "@mui/icons-material/Twitter";
-import PlaceIcon from "@mui/icons-material/Place";
-import LanguageIcon from "@mui/icons-material/Language";
-import EmailOutlinedIcon from "@mui/icons-material/EmailOutlined";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import Posts from "../../components/posts/Posts";
 import MoreOptions from "./moreoptions/MoreOptions";
-import { useState } from "react";
+import {useEffect, useRef, useState} from "react";
+import NewPost from "../../components/newpost/NewPost.jsx";
+import Thumbnails from "yet-another-react-lightbox/plugins/thumbnails";
+import Counter from "yet-another-react-lightbox/plugins/counter";
+import Zoom from "yet-another-react-lightbox/plugins/zoom";
+import Lightbox from "yet-another-react-lightbox";
+import {Link} from "react-router-dom";
+import {useDispatch, useSelector} from "react-redux";
+import {searchStatus, showStatus} from "../../redux/service/statusService.jsx";
+import img from '../../Pic-banner.jpg'
 
 const Profile = () => {
-  const [showMoreOptions, setShowMoreOptions] = useState(false);
-  const posts = [
-    {
-      id: 1,
-      name: "John Doe",
-      userId: 1,
-      profilePic:
-        "https://images.pexels.com/photos/1036623/pexels-photo-1036623.jpeg?auto=compress&cs=tinysrgb&w=1600",
-      desc: "Lorem ipsum dolor sit amet consectetur adipisicing elit",
-      img: [
-        "https://cdn.eva.vn/upload/3-2021/images/2021-09-29/hotgirl-mac-ho-khoe-cap-tam-hon-trang-non-dan-mang-nhin-ma-thay-thuong-chiec-ao-190695967_174131951191962_8746197699423010605_n-1632927222-780-width600height750.jpg",
-        "https://images.pexels.com/photos/4881619/pexels-photo-4881619.jpeg?auto=compress&cs=tinysrgb&w=1600",
-        "https://firebasestorage.googleapis.com/v0/b/blueberry-3a0b0.appspot.com/o/images%2F4fcc241a-e978-432b-9d73-2c28ee0ac59b?alt=media&token=43af5142-1703-46ae-b653-e0e8b91deffb",
-      ],
-    },
-    {
-      id: 2,
-      name: "Jane Doe",
-      userId: 2,
-      profilePic:
-        "https://images.pexels.com/photos/1036623/pexels-photo-1036623.jpeg?auto=compress&cs=tinysrgb&w=1600",
-      desc: "Tenetur iste voluptates dolorem rem commodi voluptate pariatur, voluptatum, laboriosam consequatur enim nostrum cumque! Maiores a nam non adipisci minima modi tempore.",
-      img: [
-        "https://firebasestorage.googleapis.com/v0/b/blueberry-3a0b0.appspot.com/o/images%2F6ac1655e-fdd3-435b-9e64-8c8d4396111e?alt=media&token=c878256a-10c8-4c44-a452-ee3dca7365fb",
-        "https://hinhnen4k.com/wp-content/uploads/2023/02/anh-gai-xinh-vn-3.jpg",
-        "https://hinhnen4k.com/wp-content/uploads/2023/02/anh-gai-xinh-vn-3.jpg",
-        "https://hinhnen4k.com/wp-content/uploads/2023/02/anh-gai-xinh-vn-3.jpg",
-        "https://cdn.eva.vn/upload/3-2021/images/2021-09-29/hotgirl-mac-ho-khoe-cap-tam-hon-trang-non-dan-mang-nhin-ma-thay-thuong-chiec-ao-190695967_174131951191962_8746197699423010605_n-1632927222-780-width600height750.jpg",
-      ],
-    },
-  ];
+    const [showMoreOptions, setShowMoreOptions] = useState(false);
+    const [open, setOpen] = useState(false);
+    const [openBox, setOpenBox] = useState(false);
+    const [index, setIndex] = useState(-1);
+    const [filteredPosts, setFilteredPosts] = useState(null);
+    const showMoreButtonRef = useRef(null);
+    const imagesContainerRef = useRef(null);
+    const dispatch = useDispatch()
+    const posts = useSelector((state) => state.status.list);
+    const user = useSelector(({user}) => user.currentUser)
+    useEffect(() => {
+        dispatch(showStatus());
+    }, []);
+    const handleSearchChange = async (value) => {
+        const result = await dispatch(searchStatus(value));
+        if (result.payload !== null) {
+            setFilteredPosts(result.payload);
+        } else {
+            const results = await dispatch(showStatus())
+            setFilteredPosts(results.payload);
+        }
+    };
 
-  return (
-    <div className="profile">
-      <div className="images">
-        <img
-          src="https://images.pexels.com/photos/13440765/pexels-photo-13440765.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"
-          alt=""
-          className="cover"
-        />
-        <img
-          src="https://images.pexels.com/photos/14028501/pexels-photo-14028501.jpeg?auto=compress&cs=tinysrgb&w=1600&lazy=load"
-          alt=""
-          className="profilePic"
-        />
-      </div>
-      <div className="profileContainer">
-        <div className="uInfo">
-          <div className="left">
-            <a href="http://facebook.com">
-              <FacebookTwoToneIcon fontSize="large" />
-            </a>
-            <a href="http://facebook.com">
-              <InstagramIcon fontSize="large" />
-            </a>
-            <a href="http://facebook.com">
-              <TwitterIcon fontSize="large" />
-            </a>
-            <a href="http://facebook.com">
-              <LinkedInIcon fontSize="large" />
-            </a>
-            <a href="http://facebook.com">
-              <PinterestIcon fontSize="large" />
-            </a>
-          </div>
-          <div className="center">
-            <span>Jane Doe</span>
-            <div className="info">
-              <div className="item">
-                <PlaceIcon />
-                <span>USA</span>
-              </div>
-              <div className="item">
-                <LanguageIcon />
-                <span>lama.dev</span>
-              </div>
+    const handleOuterClick = (event) => {
+        if (!imagesContainerRef.current.contains(event.target)) {
+            setOpen(false);
+            setOpenBox(false);
+        }
+    };
+    return (
+        <div className="profile" onClick={handleOuterClick}>
+            <div className="x54ghk">
+                <div className="profile-images">
+                    <div className="images" ref={imagesContainerRef}>
+                        <Lightbox
+                            open={open}
+                            close={() => setOpen(false)}
+                            slides={[{src: user.banner ? user.banner : img, alt: 'Banner Image'}]}
+                        />
+                        <Lightbox
+                            open={openBox}
+                            close={() => setOpenBox(false)}
+                            slides={[{src: user.avatarImage, alt: 'Avatar Image'},]}
+                        />
+                        <img
+                            src={user.banner ? user.banner : img}
+                            alt=""
+                            className="cover"
+                            onClick={() => setOpen(true)}
+                        />
+                        <img
+                            src={user.avatarImage}
+                            alt=""
+                            className="profilePic"
+                            onClick={() => setOpenBox(true)}
+                        />
+                        <div className="wrappers">
+                            <div
+                                className="dots"
+                                ref={showMoreButtonRef}
+                                onClick={() => setShowMoreOptions(!showMoreOptions)}
+                            >
+                                <MoreVertIcon/>
+                            </div>
+                        </div>
+                        {showMoreOptions && <MoreOptions buttonRef={showMoreButtonRef}
+                                                         onClose={() => setShowMoreOptions(false)}
+                                                         onSearchChange={handleSearchChange}/>}
+                    </div>
+                    <div className="profileContainer">
+                        <div className="uInfo">
+                            <div className="center">
+                                <span>Jane Doe</span>
+                            </div>
+
+                        </div>
+                        <div className="uInfo">
+                            <div className="right">
+                                <button>Add Friends</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div className="profile-container">
+                    <div className="content-profile-container">
+                        <div className="profile-left-sidebar">
+                            <div className="left-profile-sidebar-top">
+                                <div className="intro-bio">
+                                    <h4>Intro</h4>
+                                </div>
+                                <div className="background-details">
+
+                                </div>
+                            </div>
+
+                            <div className="gallery">
+                                <div className="heading-link profile-heading-link">
+                                    <h4>Photos</h4>
+                                    <a href="">All Photos</a>
+                                </div>
+
+                                <div className="gallery-photos">
+                                    <div className="gallery-photos-rowFirst">
+                                        {posts.slice(0, 10).filter(post => post.imageList.length > 0 && post.imageList[0].imageLink !== '')
+                                            .map((post, idx) => (
+                                                <div className="first-friend" key={post.id}>
+                                                    <img
+                                                        src={post.imageList[0].imageLink}
+                                                        alt=""
+                                                        onClick={() => setIndex(idx)}
+                                                    />
+                                                </div>
+                                            ))
+                                        }
+                                    </div>
+                                    <Lightbox
+                                        index={index}
+                                        open={index >= 0}
+                                        close={() => setIndex(-1)}
+                                        plugins={[Thumbnails, Counter, Zoom]}
+                                        carousel={3}
+                                        thumbnails={{
+                                            position: "bottom",
+                                            width: 50,
+                                            height: 80,
+                                            border: 0,
+                                            borderRadius: 0,
+                                            padding: 0,
+                                            gap: 16,
+                                            showToggle: false,
+                                        }}
+                                        slides={posts.map(post => ({
+                                            src: post.imageList.length > 0 ? post.imageList[0].imageLink : '',
+                                            caption: post.body,
+                                        }))}
+                                    />
+                                </div>
+                            </div>
+
+                            <div className="gallery">
+                                <div className="heading-link profile-heading-link">
+                                    <h4>Friends</h4>
+                                    <a href="">All Friends</a>
+                                </div>
+
+                                <div className="gallery-photos">
+                                    <div className="gallery-photos-rowFirst">
+                                        {posts.slice(0, 9).map((post) => (
+                                            <Link to="" className="first-friend" key={post.id}>
+                                                <img
+                                                    src={post.imageList.length > 0 ? post.imageList[0].imageLink : 'https://cdn.diemnhangroup.com/seoulcenter/2022/11/gai-xinh-10.jpg'}
+                                                    alt=""
+                                                />
+                                                <span>{post.author.fullName}</span>
+                                            </Link>
+                                        ))}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div className="content-area">
+                            <NewPost></NewPost>
+                            {filteredPosts ? (
+                                <>
+                                    <div className="info-search">
+                                        Search: {filteredPosts.length} result
+                                        <button className="goBack" onClick={() => setFilteredPosts(null)}>GoBack</button>
+                                    </div>
+                                    <Posts posts={filteredPosts}/>
+                                </>
+                            ) : (
+                                <>
+                                    <Posts posts={posts}/>
+                                    <Posts posts={posts}/>
+                                    <Posts posts={posts}/>
+                                </>
+                            )}
+                        </div>
+                    </div>
+                </div>
             </div>
-            <button>follow</button>
-          </div>
-          <div className="right">
-            <EmailOutlinedIcon />
-            <div className="wrapper">
-              <div
-                className="dots"
-                onClick={() => setShowMoreOptions(!showMoreOptions)}
-              >
-                <MoreVertIcon />
-              </div>
-                {showMoreOptions && <MoreOptions />}
-            </div>
-          </div>
         </div>
-        <Posts posts={posts} />
-      </div>
-    </div>
-  );
+    )
 };
 
 export default Profile;

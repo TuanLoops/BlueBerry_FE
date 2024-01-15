@@ -1,32 +1,25 @@
-import "./changeAvatar.scss";
-import ClearIcon from "@mui/icons-material/Clear";
-import {Button} from "@mui/material";
-import CloudUploadIcon from '@mui/icons-material/CloudUpload';
-import {useEffect, useRef, useState} from "react";
+import {useRef, useState} from "react";
+import {useDispatch} from "react-redux";
 import {v4 as uuidv4} from "uuid";
 import {getImageURL, uploadImage} from "../../../../firebase/index.js";
-import Box from "@mui/material/Box";
-import LoadingButton from '@mui/lab/LoadingButton';
-import SendIcon from '@mui/icons-material/Send';
+import {Button} from "@mui/material";
 import PreviewOneImg from "../../../../components/previewoneimg/PreviewOneImg.jsx";
-import {useDispatch} from "react-redux";
-import {changeAvatar, getCurrentUser} from "../../../../redux/service/userService.jsx";
+import Box from "@mui/material/Box";
+import LoadingButton from "@mui/lab/LoadingButton";
+import ClearIcon from "@mui/icons-material/Clear";
+import CloudUploadIcon from "@mui/icons-material/CloudUpload";
+import SendIcon from "@mui/icons-material/Send";
+import {changeAvatar, changePhoto, getCurrentUser} from "../../../../redux/service/userService.jsx";
 import {addStatus} from "../../../../redux/service/statusService.jsx";
 
-function ChangeAvatar({onClose}) {
-    const modalAvatarRef = useRef(null);
+
+export const ChangePhoto = ({ onClose }) => {
     const dispatch = useDispatch();
     const [isUploading, setIsUploading] = useState(false);
     const [image, setImage] = useState([]);
     const [body] = useState("");
+    const modalPhotoRef = useRef(null);
 
-
-
-    const handleClose = (e) => {
-        if (e.target.classList.contains("overlay")) {
-            onClose();
-        }
-    };
     const handleFileChange = async (e) => {
         const images = [];
         for (const file of e.target.files) {
@@ -35,22 +28,29 @@ function ChangeAvatar({onClose}) {
                 setIsUploading(true);
                 await uploadImage(randomName, file);
                 const imageURL = await getImageURL(randomName);
-                images.push({imageLink: imageURL});
+                images.push({ imageLink: imageURL });
                 setIsUploading(false);
             }
         }
         setImage([...image, ...images]);
     };
+
+    const handleClose = (e) => {
+        if (e.target.classList.contains("overlay")) {
+            onClose();
+        }
+    };
+
     const handleSave = async () => {
         const imageLink = image.length > 0 ? image[0].imageLink : null;
-        await changeAvatar(imageLink);
+        await changePhoto(imageLink);
         setImage([]);
         await dispatch(getCurrentUser());
         if (imageLink) {
             await dispatch(addStatus({ body, imageList: [{ imageLink }] })).unwrap();
         }
         onClose();
-    }
+    };
 
     const handleFileRemove = (index) => {
         setImage(([...imageList]) => {
@@ -58,8 +58,9 @@ function ChangeAvatar({onClose}) {
             return imageList;
         });
     };
+
     return (
-        <div className="change-avatar" ref={modalAvatarRef}>
+        <div className="change-avatar" ref={modalPhotoRef}>
             <div className="overlay" onMouseDown={handleClose}></div>
             <div className="ca-container">
                 <div className="div">
@@ -108,6 +109,4 @@ function ChangeAvatar({onClose}) {
             </div>
         </div>
     );
-}
-
-export default ChangeAvatar;
+};

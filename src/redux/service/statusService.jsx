@@ -16,3 +16,27 @@ export const addStatus = createAsyncThunk(
         return res.data;
     }
 )
+
+export const deleteStatus = createAsyncThunk(
+    "DELETE_STATUS",
+    async (id) => {
+       try {
+           const res = await UrlStatus().delete(`${id}`);
+           return res.data;
+       }catch (e){
+           console.log(e.response.data.message)
+       }
+    }
+)
+
+export const searchStatus = createAsyncThunk(
+    "SEARCH",
+    async (keyword) => {
+        try {
+            const res = await UrlStatus().get(`/search?query=${keyword}`);
+            return res.data;
+        }catch (e){
+            console.log(e)
+        }
+    }
+)

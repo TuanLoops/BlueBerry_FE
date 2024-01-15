@@ -12,6 +12,9 @@ $themes: (
     bgSecondaryHover: darken(white, 5%),
     infoPopup: rgba(34, 34, 34, 0.623),
     infoPopupText: white,
+    modalBg: rgba(228, 228, 228, 0.7),
+    modalIconBg: rgb(231, 231, 231),
+    modalIconBgHover: darken(rgb(231, 231, 231), 5),
   ),
   dark: (
     textColor: whitesmoke,
@@ -24,9 +27,11 @@ $themes: (
     commentBgColor: rgb(65, 65, 65),
     bgSecondary: #1d1d1d,
     bgSecondaryHover: lighten(#1d1d1d, 10%),
-    // filter: invert(89%) sepia(6%) hue-rotate(185deg)
     infoPopup: rgba(255, 255, 255, 0.726),
     infoPopupText: black,
+    modalBg: rgba(0, 0, 0, 0.7),
+    modalIconBg: rgb(68, 68, 68),
+    modalIconBgHover: lighten(rgb(68, 68, 68), 5),
   ),
 );
 
