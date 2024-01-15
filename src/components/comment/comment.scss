@@ -1,39 +1,235 @@
 @import "../../style.scss";
 
-.comment {
+.comment-container {
   @include themify($themes) {
     margin-bottom: 16px;
     display: flex;
-    justify-content: space-between;
-    gap: 16px;
+    justify-content: start;
+    gap: 8px;
     word-break: break-word;
     word-wrap: break-word;
 
-    .info {
-      padding: 8px 12px 12px 12px;
-      background-color: themed("commentBgColor");
-      border-radius: 8px;
-      flex: 5;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-
-      .author-name {
-        width: 100%;
-        font-weight: 500;
-      }
-
-      .comment-body {
-        color: themed("textColorSoft");
+    &:hover {
+      .dot {
+        visibility: inherit !important;
       }
     }
 
-    .time {
-      flex: 1;
-      align-self: center;
-      color: gray;
-      font-size: 12px;
+    .comment-left {
+      display: flex;
+
+      img {
+        width: 44px;
+        height: 44px;
+        border-radius: 50%;
+        object-fit: cover;
+      }
+    }
+
+    .comment-middle {
+      display: flex;
+      flex-direction: column;
+
+      .comment-wrapper {
+        padding: 8px 12px 12px 12px;
+        background-color: themed("commentBgColor");
+        border-radius: 8px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: start;
+
+        .author-name {
+          font-weight: 500;
+        }
+
+        .comment-body {
+          color: themed("textColor");
+          word-break: break-word;
+          word-wrap: break-word;
+          white-space: pre-wrap;
+        }
+        .image {
+          width: 100%;
+          margin-top: 16px;
+          cursor: pointer;
+          display: flex;
+
+          img {
+            border-radius: 8px;
+            max-width: 100%;
+            aspect-ratio: auto;
+          }
+        }
+      }
+
+      .comment-footer {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 4px;
+
+        .like {
+          cursor: pointer;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          font-size: 14px;
+          font-weight: 600;
+          user-select: none;
+          gap: 4px;
+
+          svg {
+            width: 18px;
+            height: 18px;
+
+            &.liked {
+              color: rgb(238, 67, 45);
+            }
+          }
+        }
+      }
+    }
+
+    .comment-right {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+      .actions {
+        position: relative;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        color: themed("textColorSoft");
+
+        .dot {
+          padding: 6px;
+          border-radius: 50%;
+          cursor: pointer;
+          visibility: hidden;
+
+          &:hover {
+            background-color: themed("overlayColor");
+          }
+        }
+
+        .popup {
+          display: flex;
+          background-color: themed("bg");
+          border-radius: 16px;
+          position: absolute;
+          top: 48px;
+          left: 50%;
+          transform: translate(-50%, 0);
+          color: themed("textColor");
+          -webkit-box-shadow: 0px 0px 25px -10px rgba(0, 0, 0, 0.5);
+          -moz-box-shadow: 0px 0px 25px -10px rgba(0, 0, 0, 0.5);
+          box-shadow: 0px 0px 25px -10px rgba(0, 0, 0, 0.5);
+          min-width: 260px;
+          z-index: 10;
+
+          .popup-wrapper {
+            display: flex;
+            flex-direction: column;
+            padding: 8px;
+            width: 100%;
+
+            .item {
+              display: flex;
+              align-items: center;
+              user-select: none;
+              cursor: pointer;
+              padding: 8px;
+              border-radius: 8px;
+              &:hover {
+                background-color: themed("bgSecondaryHover");
+              }
+            }
+          }
+        }
+        .delete-comment-modal {
+          position: fixed;
+          background-color: themed("modalBg");
+          inset: 0;
+          z-index: 99;
+          backdrop-filter: blur(5px);
+          display: flex;
+          align-items: center;
+          justify-content: center;
+
+          .delete-container {
+            border-radius: 16px;
+            background-color: themed("bg");
+            -webkit-box-shadow: 0px 0px 25px -10px rgba(0, 0, 0, 0.25);
+            -moz-box-shadow: 0px 0px 25px -10px rgba(0, 0, 0, 0.25);
+            box-shadow: 0px 0px 25px -10px rgba(0, 0, 0, 0.25);
+
+            .delete-wrapper {
+              min-width: 480px;
+              display: flex;
+              flex-direction: column;
+
+              .delete-header {
+                font-size: 24px;
+                border-bottom: 1px solid themed("border");
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                padding: 16px;
+                font-weight: bold;
+              }
+
+              .delete-body {
+                padding: 16px;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                font-size: 20px;
+              }
+
+              .delete-footer {
+                text-align: right;
+                padding: 12px;
+                //   border-top: 1px solid themed("border");
+
+                button {
+                  padding: 5px 32px;
+                  margin-left: 16px;
+                  font-size: 16px;
+                  font-weight: 600;
+                  color: white;
+                  border-radius: 8px;
+                  border: none;
+                  outline: none;
+                  cursor: pointer;
+
+                  &.cancel {
+                    background-color: transparent;
+                    color: #2e70ff;
+
+                    &:hover {
+                      outline: 1px solid #2e70ff;
+                    }
+                  }
+
+                  &.delete {
+                    background-color: #2e70ff;
+
+                    &:hover {
+                      background-color: lighten(#2e70ff, 10);
+                    }
+                  }
+
+                  div {
+                    margin-bottom: 2px;
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
     }
   }
 }

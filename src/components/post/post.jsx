@@ -16,11 +16,15 @@ import Counter from "yet-another-react-lightbox/plugins/counter";
 import "yet-another-react-lightbox/plugins/counter.css";
 import Zoom from "yet-another-react-lightbox/plugins/zoom";
 import "yet-another-react-lightbox/styles.css";
-import { format, formatDistanceToNow } from "date-fns";
 import MoreOptions from "./moreoptions/MoreOptions";
-import {useDispatch} from "react-redux";
-import {deleteStatus, showStatus} from "../../redux/service/statusService.jsx";
-import {Link} from "react-router-dom";
+import { useDispatch } from "react-redux";
+import {
+  deleteStatus,
+  showStatus,
+} from "../../redux/service/statusService.jsx";
+import { Link } from "react-router-dom";
+import PrivacyIcon from "../privacyicon/PrivacyIcon.jsx";
+import Time from "../time/Time.jsx";
 
 const Post = ({ post }) => {
   const [commentOpen, setCommentOpen] = useState(false);
@@ -40,41 +44,37 @@ const Post = ({ post }) => {
   };
 
   const handleEditPost = () => {
-    console.log(post.id)
+    console.log(post.id);
   };
 
   const handleDeletePost = async () => {
-     await dispatch(deleteStatus(post.id))
+    await dispatch(deleteStatus(post.id));
 
-      dispatch(showStatus());
+    dispatch(showStatus());
   };
 
   return (
-    <div className="post" >
+    <div className="post">
       <div className="container">
         <div className="user">
           <div className="userInfo">
             <Link to={`profile/${post.id}`}>
-              <img src={post.author.avatarImage} alt=""/>
+              <img src={post.author.avatarImage} alt="" />
             </Link>
             <div className="details">
-            <div>
+              <div>
                 <UsernameLink
                   userId={post.author.id}
                   username={post.author.fullName}
-                  style={{ textDecoration: "none", color: "inherit" }}
                 />
               </div>
-              <span className="time">
-                <div className="time-container">
-                  {formatDistanceToNow(post.createdAt) + " ago"}
-                </div>
-                <div className="time-popup">
-                  <div className="popup-wrapper">
-                    {format(post.createdAt, "dd/MM/yyyy hh:mm:ss")}
-                  </div>
-                </div>
-              </span>
+              <div className="info">
+                <PrivacyIcon
+                  className="icon"
+                  privacyLevel={post.privacyLevel}
+                />
+                <Time time={post.createdAt} />
+              </div>
             </div>
           </div>
           <div className="more-container">
@@ -165,7 +165,7 @@ const Post = ({ post }) => {
             Share
           </div>
         </div>
-        {commentOpen && <Comments />}
+        {commentOpen && <Comments postId={post.id} />}
       </div>
     </div>
   );

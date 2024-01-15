@@ -1,0 +1,43 @@
+@import "../../style.scss";
+
+.time {
+  @include themify($themes) {
+    font-size: 12px;
+    position: relative;
+    width: fit-content;
+    user-select: none;
+
+    .time-container {
+      cursor: default;
+      width: fit-content;
+      color: themed("textColorSoft");
+    }
+
+    &:hover {
+      .time-popup {
+        display: flex !important;
+      }
+    }
+
+    .time-popup {
+      position: absolute;
+      top: 16px;
+      left: 50%;
+      display: none;
+      transform: translate(-50%, 0);
+      background-color: themed("infoPopup");
+      border-radius: 4px;
+
+      .popup-wrapper {
+        padding: 8px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        color: themed("infoPopupText");
+        text-align: center;
+        text-wrap: nowrap;
+        width: max-content;
+      }
+    }
+  }
+}
