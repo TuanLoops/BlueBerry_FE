@@ -12,7 +12,6 @@ export const getAllComments=async (id)=>{
 export const createComment = async(id,comment) => {
     try {
         let res= await UrlStatus().post(`${id}/comments`, comment)
-        console.log(res.data);
         return res.data;
     }catch (e) {
         console.log(e.response.data.message)

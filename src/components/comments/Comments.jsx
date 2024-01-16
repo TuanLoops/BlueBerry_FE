@@ -8,8 +8,10 @@ import { v4 as uuidv4 } from "uuid";
 import { getImageURL, uploadImage } from "../../firebase";
 import PreviewImg from "../previewimg/PreviewImg";
 import CircularProgress from "@mui/material/CircularProgress";
-import { createComment, getAllComments } from "../../redux/service/commentService.jsx";
-
+import {
+  createComment,
+  getAllComments,
+} from "../../redux/service/commentService.jsx";
 
 const Comments = ({ postId }) => {
   const currentUser = useSelector(({ user }) => user.currentUser);
@@ -18,33 +20,32 @@ const Comments = ({ postId }) => {
   const [imageList, setImageList] = useState([]);
   const [isUploading, setIsUploading] = useState(false);
   const fileInputId = uuidv4();
-  const fileInputRef = useRef(null)
+  const fileInputRef = useRef(null);
 
   useEffect(() => {
     // Get comments from API
     // setComments(commentsFromAPI)
     const fetch = async () => {
-      let data = await getAllComments(postId)
-      setComments(data)
-    }
-    fetch()
+      let data = await getAllComments(postId);
+      setComments(data);
+    };
+    fetch();
   }, []);
 
   const handleComment = async () => {
     if (body) {
       const comment = {
         body: body,
-        image: imageList[0]
-      }
+        image: imageList[0],
+      };
       try {
-        const comment1 = await createComment(postId, comment)
-        setBody("")
-        setImageList([])
-        setComments([comment1, ...comments])
+        const comment1 = await createComment(postId, comment);
+        setBody("");
+        setImageList([]);
+        setComments([comment1, ...comments]);
       } catch (e) {
-        console.log(e)
+        console.log(e);
       }
-
     }
   };
 
@@ -84,7 +85,13 @@ const Comments = ({ postId }) => {
             />
             <label htmlFor={fileInputId} className="attach-image">
               <ImageIcon />
-              <input accept="image/*" ref={fileInputRef} id={fileInputId} type="file" onChange={handleFileChange} />
+              <input
+                accept="image/*"
+                ref={fileInputRef}
+                id={fileInputId}
+                type="file"
+                onChange={handleFileChange}
+              />
             </label>
           </div>
           <PreviewImg imageList={imageList} remove={handleFileRemove} />

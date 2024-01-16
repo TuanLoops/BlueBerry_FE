@@ -43,7 +43,7 @@ function Router() {
     return (
       <div
         className={`theme-${darkMode ? "dark" : "light"}`}
-        style={{ backgroundColor: darkMode ? "#333" : "#f6f3f3" }}
+        style={{ backgroundColor: darkMode ? "#1f1f1f" : "#f6f3f3" }}
       >
         <Navbar />
         <Outlet />

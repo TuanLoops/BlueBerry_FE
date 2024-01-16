@@ -78,14 +78,15 @@
           font-weight: 600;
           user-select: none;
           gap: 4px;
+          margin-right: 8px;
 
           svg {
             width: 18px;
             height: 18px;
+          }
 
-            &.liked {
-              color: rgb(238, 67, 45);
-            }
+          .liked {
+            color: rgb(238, 67, 45);
           }
         }
       }
