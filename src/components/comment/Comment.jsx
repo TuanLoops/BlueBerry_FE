@@ -24,67 +24,68 @@ const Comment = ({ comment }) => {
     // call api to like comment
   };
 
-
-  return <div className="comment-container">
-    <div className="comment-left">
-      <img src={comment.author.avatarImage} alt="" />
-    </div>
-    <div className="comment-middle">
-      <div className="comment-wrapper">
-        <div className="author-name">
-          <UsernameLink username={comment.author.fullName} />
-        </div>
-        <div className="comment-body">
-          <div>{comment.body}</div>
-        </div>
-        {comment.image && (
-          <div className="image">
-            <img
-              src={comment.image.imageLink}
-              onClick={() => setIndex(0)}
-              alt=""
-            />
-            <Lightbox
-              index={index}
-              open={index >= 0}
-              close={() => setIndex(-1)}
-              plugins={[Zoom]}
-              slides={[{ src: comment.image.imageLink }]}
-            />
+  return (
+    <div className="comment-container">
+      <div className="comment-left">
+        <img src={comment.author.avatarImage} alt="" />
+      </div>
+      <div className="comment-middle">
+        <div className="comment-wrapper">
+          <div className="author-name">
+            <UsernameLink username={comment.author.fullName} />
           </div>
-        )}
-      </div>
-      <div className="comment-footer">
-        <div className="like" onClick={handleLike}>
-          {liked ? (
-            <FavoriteOutlinedIcon className="liked" />
-          ) : (
-            <FavoriteBorderOutlinedIcon />
+          <div className="comment-body">
+            <div>{comment.body}</div>
+          </div>
+          {comment.image && (
+            <div className="image">
+              <img
+                src={comment.image.imageLink}
+                onClick={() => setIndex(0)}
+                alt=""
+              />
+              <Lightbox
+                index={index}
+                open={index >= 0}
+                close={() => setIndex(-1)}
+                plugins={[Zoom]}
+                slides={[{ src: comment.image.imageLink }]}
+              />
+            </div>
           )}
-          <span>10 Likes</span>
         </div>
-        <Time time={comment.createdAt} />
+        <div className="comment-footer">
+          <div className="like" onClick={handleLike}>
+            {liked ? (
+              <FavoriteOutlinedIcon className="liked" />
+            ) : (
+              <FavoriteBorderOutlinedIcon />
+            )}
+            <span className={liked ? "liked" : ""}>10 Likes</span>
+          </div>
+          <Time time={comment.createdAt} />
+        </div>
+      </div>
+      <div className="comment-right">
+        <div className="actions">
+          <div
+            className="dot"
+            ref={actionButtonRef}
+            onClick={() => setShowActions(!showActions)}
+          >
+            <MoreHorizIcon />
+          </div>
+          {showActions && (
+            <Popup
+              comment={comment}
+              buttonRef={actionButtonRef}
+              onClose={() => setShowActions(false)}
+            />
+          )}
+        </div>
       </div>
     </div>
-    <div className="comment-right">
-      <div className="actions">
-        <div
-          className="dot"
-          ref={actionButtonRef}
-          onClick={() => setShowActions(!showActions)}
-        >
-          <MoreHorizIcon />
-        </div>
-        {showActions && (
-          <Popup
-            comment={comment}
-            buttonRef={actionButtonRef}
-            onClose={() => setShowActions(false)}
-          />
-        )}
-      </div>
-    </div>
-  </div>
+  );
 };
 
 export default Comment;
@@ -148,7 +149,6 @@ function DeleteComment({ commentId, onClose }) {
 
   const handleDelete = () => {
     //TODO: delete post
-
   };
 
   return (
