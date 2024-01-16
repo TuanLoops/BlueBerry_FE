@@ -20,12 +20,15 @@ import MoreOptions from "./moreoptions/MoreOptions";
 import { Link } from "react-router-dom";
 import PrivacyIcon from "../privacyicon/PrivacyIcon.jsx";
 import Time from "../time/Time.jsx";
+import {useDispatch} from "react-redux";
+import {likeStatus} from "../../redux/service/statusService.jsx";
 
 const Post = ({ post }) => {
   const [commentOpen, setCommentOpen] = useState(false);
   const [index, setIndex] = useState(-1);
   const [showMore, setShowMore] = useState(false);
   const showMoreButtonRef = useRef(null);
+  const dispatch= useDispatch()
 
   const liked = false;
   const length = post.imageList.length;
@@ -36,7 +39,9 @@ const Post = ({ post }) => {
       return 2;
     }
   };
-
+  const handleLike=()=>{
+    dispatch(likeStatus(post.id))
+  }
   return (
     <div className="post">
       <div className="container">
@@ -136,13 +141,13 @@ const Post = ({ post }) => {
         </div>
         <hr />
         <div className="info">
-          <div className="item">
-            {liked ? <FavoriteOutlinedIcon /> : <FavoriteBorderOutlinedIcon />}
-            12 Likes
+          <div className={`item ${post.liked? 'liked': ''}`}  onClick={()=>handleLike()}>
+            {post.liked ? <FavoriteOutlinedIcon /> : <FavoriteBorderOutlinedIcon />}
+            {post.countLikes ? post.countLikes : ""} Likes
           </div>
           <div className="item" onClick={() => setCommentOpen(!commentOpen)}>
             <TextsmsOutlinedIcon />
-            {post.comment} Comments
+            {post.countComments ? post.countComments : ""} Comments
           </div>
           <div className="item">
             <ShareOutlinedIcon />

@@ -4,7 +4,7 @@ import {
     changePrivacy,
     deleteStatus,
     editStatus,
-    getStatusByUser,
+    getStatusByUser, likeStatus,
     searchStatus,
     showStatus,
 } from "../service/statusService.jsx";
@@ -45,7 +45,6 @@ const statusReducer = createSlice({
             state.filterList = payload;
         })
         builder.addCase(changePrivacy.fulfilled, (state, { payload }) => {
-            console.log(payload)
             state.list = state.list.map(status => {
                 if (status.id === payload.id) {
                     status.privacyLevel = payload.privacyLevel
@@ -55,6 +54,20 @@ const statusReducer = createSlice({
         })
         builder.addCase(getStatusByUser.fulfilled, (state, { payload }) => {
             state.list = payload;
+        })
+        builder.addCase(likeStatus.fulfilled, (state, { payload }) => {
+            state.list = state.list.map(status => {
+                if (status.id === payload.id) {
+                    if (payload.like === 1) {
+                        status.countLikes += 1;
+                        status.liked = true;
+                    } else {
+                        status.countLikes -= 1;
+                        status.liked = false;
+                    }
+                }
+                return status
+            })
         })
     },
 });
