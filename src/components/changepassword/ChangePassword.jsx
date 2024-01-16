@@ -12,9 +12,8 @@ const ChangePassword = () => {
     };
 
     return (
-        <div className='main-container'>
+        <div className='main-changepassword-container'>
             <form onSubmit={handleChangepassword} className='form'>
-            <h3>Tran Tuan - Blue Berry</h3>
             <h1>Change Password</h1>
             <p className='note'>Your password must have at least 6 characters, including numbers, letters and special characters (!$@%).</p>
                 <div className="form-container">
@@ -48,9 +47,6 @@ const ChangePassword = () => {
                     />
                 </div>
                 <div className='button-container'>
-                    <button type="submit" className="button-cancel">
-                        Cancel
-                    </button>
                     <button type="submit" className="button-change">
                         Change password
                     </button>

@@ -6,7 +6,6 @@ import "./home.scss";
 import { useDispatch, useSelector } from "react-redux";
 import { createContext, useContext, useEffect, useState } from "react";
 import { showStatus } from "../../redux/service/statusService.jsx";
-import ChangePassword from '../../../src/components/changepassword/ChangePassword.jsx'
 
 const Home = () => {
   const dispatch = useDispatch();
@@ -23,7 +22,6 @@ const Home = () => {
       <div className="middle">
         <div className="news-feed">
           <NewPost />
-          {/* <ChangePassword /> */}
           <Posts posts={posts} />
         </div>
       </div>

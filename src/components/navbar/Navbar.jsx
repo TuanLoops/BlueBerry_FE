@@ -12,6 +12,7 @@ import { useContext, useState } from "react";
 import { DarkModeContext } from "../../context/darkModeContext";
 import { useDispatch, useSelector } from "react-redux";
 import { logOut } from "../../redux/service/userService.jsx";
+import ChangePassword from "../changepassword/ChangePassword.jsx";
 
 const Navbar = () => {
     const currentUser = useSelector(({ user }) => user.currentUser);
@@ -124,7 +125,7 @@ const Navbar = () => {
                                     </div>
                                     <div className="function">
                                         <div className="item-function">
-                                            <Link to={{}} className="on-function">
+                                            <Link to={'/accountsettings'} className="on-function">
                                                 <div className="background-item">
                                                     <i className="setting-privacy"></i>
                                                 </div>
