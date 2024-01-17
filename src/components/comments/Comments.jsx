@@ -28,6 +28,7 @@ const Comments = ({ postId }) => {
     const fetch = async () => {
       let data = await getAllComments(postId);
       setComments(data);
+      console.log(data)
     };
     fetch();
   }, []);
@@ -66,6 +67,22 @@ const Comments = ({ postId }) => {
   const handleFileRemove = () => {
     setImageList([]);
   };
+
+  const changeCountLikes = (id,like) =>{
+    let newList = comments.map(item=>{
+      if (item.id===id){
+        if(like===1){
+          item.countLikes+=1;
+          item.liked=true;
+        }else {
+          item.countLikes-=1;
+          item.liked=false;
+        }
+      }
+      return item;
+    })
+    setComments(newList)
+  }
 
   return (
     <div className="comments">
@@ -110,7 +127,7 @@ const Comments = ({ postId }) => {
         </div>
       </div>
       {comments.map((comment) => (
-        <Comment key={comment.id} comment={comment} />
+        <Comment key={comment.id} comment={comment} changeCountLikes={changeCountLikes}/>
       ))}
     </div>
   );

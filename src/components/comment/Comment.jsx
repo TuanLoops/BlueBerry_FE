@@ -13,15 +13,20 @@ import { CircularProgress, TextareaAutosize } from "@mui/material";
 import { formatDistanceToNow } from "date-fns";
 import PreviewImg from "../previewimg/PreviewImg";
 import { getImageURL, uploadImage } from "../../firebase";
+import {useDispatch} from "react-redux";
+import {likeComment} from "../../redux/service/commentService.jsx";
 
-const Comment = ({ comment }) => {
+const Comment = ({ comment,changeCountLikes }) => {
   const actionButtonRef = useRef(null);
   const [index, setIndex] = useState(-1);
-  const [liked, setLiked] = useState(false);
   const [showActions, setShowActions] = useState(false);
+  const dispatch = useDispatch()
   const handleLike = () => {
-    setLiked(!liked);
+    // setLiked(!liked);
     // call api to like comment
+    likeComment(comment.id).then(res=>{
+      changeCountLikes(comment.id,res.data)
+    })
   };
 
   return (
@@ -56,12 +61,12 @@ const Comment = ({ comment }) => {
         </div>
         <div className="comment-footer">
           <div className="like" onClick={handleLike}>
-            {liked ? (
+            {comment.liked ? (
               <FavoriteOutlinedIcon className="liked" />
             ) : (
               <FavoriteBorderOutlinedIcon />
             )}
-            <span className={liked ? "liked" : ""}>10 Likes</span>
+            <span className={comment.liked ? "liked" : ""}>{comment.countLikes ? comment.countLikes : ""} Likes</span>
           </div>
           <Time time={comment.createdAt} />
         </div>

@@ -17,3 +17,7 @@ export const createComment = async(id,comment) => {
         console.log(e.response.data.message)
     }
 }
+
+export const likeComment = async(id)=>{
+   return  await UrlStatus().post(`/comments/${id}/like`)
+}
