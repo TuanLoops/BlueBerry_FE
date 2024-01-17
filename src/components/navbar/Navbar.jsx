@@ -20,6 +20,7 @@ const Navbar = () => {
     const [searchValue, setSearchValue] = useState("");
     const dispatch = useDispatch();
     const navigate = useNavigate();
+
     const handleLogOut = async () => {
         try {
             await dispatch(logOut()).unwrap();
@@ -28,6 +29,7 @@ const Navbar = () => {
             console.log(e)
         }
     }
+    
     const handleSearchChange = (event) => {
         setSearchValue(event.target.value);
     };
@@ -47,9 +49,15 @@ const Navbar = () => {
     const handleSearch = () => {
         navigate(`/search/all/${searchValue}`)
     }
+    
+
     const togglePopup = () => {
         setPopupVisible(!isPopupVisible);
     };
+
+
+
+
     return (
         <>
             <div className="navbar">
@@ -110,19 +118,18 @@ const Navbar = () => {
                                                 <span>{currentUser.fullName}</span>
                                             </div>
                                         </Link>
-                                        <Link to={{}} className="href">
-                                            <span>Xem tất cả trang cá nhân</span>
+                                        <Link to={`/profile/${currentUser?.id}`} className="href">
+                                            <span>Trang cá nhân</span>
                                         </Link>
                                     </div>
                                     <div className="function">
                                         <div className="item-function">
-                                            <Link to={{}} className="on-function">
+                                            <Link to={'/accountsettings'} className="on-function">
                                                 <div className="background-item">
                                                     <i className="setting-privacy"></i>
                                                 </div>
                                                 <div className="body-item">
                                                     <span>Settings & Privacy</span>
-                                                    <i className="icon-item"></i>
                                                 </div>
                                             </Link>
                                         </div>
@@ -132,8 +139,7 @@ const Navbar = () => {
                                                     <i className="help-support"></i>
                                                 </div>
                                                 <div className="body-item">
-                                                    <span>Help & Support</span>
-                                                    <i className="icon-item"></i>
+                                                    <span>Change Password</span>
                                                 </div>
                                             </Link>
                                         </div>
@@ -144,7 +150,6 @@ const Navbar = () => {
                                                 </div>
                                                 <div className="body-item">
                                                     <span>Screen & accessibility</span>
-                                                    <i className="icon-item"></i>
                                                 </div>
                                             </Link>
                                         </div>
