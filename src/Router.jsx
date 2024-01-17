@@ -16,6 +16,7 @@ import Register from "./pages/register/Register";
 import Login from "./pages/login/Login";
 import { getCurrentUser } from "./redux/service/userService";
 import AccountSettings from "./pages/settings/AccountSettings";
+import Search from "./pages/search/Search";
 
 function Router() {
   const accessToken = useSelector(({ user }) => user.accessToken);
@@ -65,7 +66,7 @@ function Router() {
                 <>
                   <Route path="/" exact element={<Home />} />
                   <Route path="/profile/:id" element={<Profile />} />
-                  <Route path="/search/all/:keyword" />
+                  <Route path="/search/all/:keyword" element={<Search />}/>
                   <Route path="/accountsettings" element={<AccountSettings />} />
                   <Route path="*" element={<Navigate to={"/"} />} />
                 </>
