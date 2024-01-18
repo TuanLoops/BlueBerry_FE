@@ -1,51 +1,15 @@
 import { Badge } from "@mui/material";
 import "./rightBar.scss";
 import Avatar from "@mui/material/Avatar";
-import { styled } from "@mui/material/styles";
+import { useDispatch, useSelector } from "react-redux";
+import { differenceInSeconds } from "date-fns";
+import { acceptFriendRequest, declineFriendRequest } from "../../redux/service/friendService";
 
 const RightBar = () => {
-  const friendList = [
-    {
-      name: "John Doe",
-      avatarImage:
-        "https://images.pexels.com/photos/4881619/pexels-photo-4881619.jpeg?auto=compress&cs=tinysrgb&w=1600",
-    },
-    {
-      name: "John Doe",
-      avatarImage:
-        "https://images.pexels.com/photos/4881619/pexels-photo-4881619.jpeg?auto=compress&cs=tinysrgb&w=1600",
-    },
-    {
-      name: "John Doe",
-      avatarImage:
-        "https://images.pexels.com/photos/4881619/pexels-photo-4881619.jpeg?auto=compress&cs=tinysrgb&w=1600",
-    },
-    {
-      name: "John Doe",
-      avatarImage:
-        "https://images.pexels.com/photos/4881619/pexels-photo-4881619.jpeg?auto=compress&cs=tinysrgb&w=1600",
-    },
-    {
-      name: "John Doe",
-      avatarImage:
-        "https://images.pexels.com/photos/4881619/pexels-photo-4881619.jpeg?auto=compress&cs=tinysrgb&w=1600",
-    },
-  ];
-
-  const friendRequests = [
-    {
-      id: 1,
-      name: "Jane Doe Doe",
-      avatarImage:
-        "https://images.pexels.com/photos/4881619/pexels-photo-4881619.jpeg?auto=compress&cs=tinysrgb&w=1600",
-    },
-    {
-      id: 2,
-      name: "John Doe",
-      avatarImage:
-        "https://images.pexels.com/photos/4881619/pexels-photo-4881619.jpeg?auto=compress&cs=tinysrgb&w=1600",
-    },
-  ];
+  const friendList = useSelector(({ friend }) => friend.friendList);
+  const friendRequests = useSelector(
+    ({ friend }) => friend.incomingFriendRequests
+  );
 
   return (
     <div className="rightBar">
@@ -60,6 +24,16 @@ const RightBar = () => {
 export default RightBar;
 
 const FriendRequestQuickView = ({ requests }) => {
+  const dispatch = useDispatch();
+
+  const handleAcceptRequest = (requestId) => {
+    dispatch(acceptFriendRequest(requestId));
+  };
+
+  const handleDeclineRequest = (requestId) => {
+    dispatch(declineFriendRequest(requestId));
+  };
+
   return (
     <div className="request-container">
       <div className="request-title">{requests.length} Friend requests</div>
@@ -67,14 +41,24 @@ const FriendRequestQuickView = ({ requests }) => {
         <div key={request.id} className="request">
           <Avatar
             sx={{ width: 36, height: 36 }}
-            src={request.avatarImage}
-            alt={request.name}
+            src={request.sender.avatarImage}
+            alt={request.sender.fullName}
           />
           <div className="request-details">
-            <span className="request-name">{request.name}</span>
+            <span className="request-name">{request.sender.fullName}</span>
             <div className="button-group">
-              <button className="btn accept">Accept</button>
-              <button className="btn decline">Decline</button>
+              <button
+                className="btn accept"
+                onClick={() => handleAcceptRequest(request.id)}
+              >
+                Accept
+              </button>
+              <button
+                className="btn decline"
+                onClick={() => handleDeclineRequest(request.id)}
+              >
+                Decline
+              </button>
             </div>
           </div>
         </div>
@@ -84,24 +68,37 @@ const FriendRequestQuickView = ({ requests }) => {
 };
 
 const FriendList = ({ friendList }) => {
-
   return (
     <div className="friend-list">
       <div className="title">Friend list</div>
-      {friendList.map((friend, index) => (
-        <div key={index} className="friend">
-          <Badge
-            overlap="circular"
-            anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
-            variant="dot"
-          >
-            <Avatar
-              sx={{ width: 36, height: 36 }}
-              src={friend.avatarImage}
-              alt={friend.name}
-            />
-          </Badge>
-          <span className="friend-name">{friend.name}</span>
+      {friendList.map((friend) => (
+        <div key={friend.id} className="friend">
+          {differenceInSeconds(Date.now(), new Date(friend.lastOnline)) <=
+          60 ? (
+            <>
+              <Badge
+                overlap="circular"
+                anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
+                variant="dot"
+              >
+                <Avatar
+                  sx={{ width: 36, height: 36 }}
+                  src={friend.avatarImage}
+                  alt={friend.fullName}
+                />
+              </Badge>
+              <span className="friend-name">{friend.fullName}</span>
+            </>
+          ) : (
+            <>
+              <Avatar
+                sx={{ width: 36, height: 36 }}
+                src={friend.avatarImage}
+                alt={friend.fullName}
+              />
+              <span className="friend-name offline">{friend.fullName}</span>
+            </>
+          )}
         </div>
       ))}
     </div>
