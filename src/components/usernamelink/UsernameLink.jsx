@@ -2,14 +2,18 @@ import { Link } from "react-router-dom";
 import "./usernameLink.scss";
 import { useState } from "react";
 import { Avatar } from "@mui/material";
+import FriendButton from "../friendbutton/FriendButton";
+import { AiFillMessage } from "react-icons/ai";
+import { useSelector } from "react-redux";
+import { FaUserGear } from "react-icons/fa6";
 
 const UsernameLink = ({ user, style }) => {
-  const [showQuickView, setShowQuickView] = useState(true);
+  const [showQuickView, setShowQuickView] = useState(false);
   return (
     <div
       className="username-link"
       onMouseEnter={() => setShowQuickView(true)}
-      // onMouseLeave={() => setShowQuickView(false)}
+      onMouseLeave={() => setShowQuickView(false)}
     >
       <Link to={`/profile/${user.id}`} style={style} className="username">
         <span>{user.fullName}</span>
@@ -24,6 +28,8 @@ const UsernameLink = ({ user, style }) => {
 export default UsernameLink;
 
 const UserQuickView = ({ user }) => {
+  const currentUser = useSelector(({ user }) => user.currentUser);
+
   return (
     <div className="quick-view">
       <div className="quick-view-container">
@@ -38,15 +44,33 @@ const UserQuickView = ({ user }) => {
           />
         </div>
         <div className="second-row">
-          <div className="quick-view-name">{user.fullName}</div>
+          <Link to={`/profile/${user.id}`} className="quick-view-name">
+            {user.fullName}
+          </Link>
         </div>
         <div className="avatar">
           <Avatar sx={{ width: 130, height: 130 }} src={user.avatarImage} />
         </div>
       </div>
       <div className="button-group">
-        <button className="">Add friend</button>
-        <button className="">Message</button>
+        {currentUser.id === user.id ? (
+          <div>
+            <button>
+              <FaUserGear />
+              Account settings
+            </button>
+          </div>
+        ) : (
+          <>
+            <FriendButton userId={user.id} />
+            <div>
+              <button className="message">
+                <AiFillMessage />
+                Message
+              </button>
+            </div>
+          </>
+        )}
       </div>
     </div>
   );

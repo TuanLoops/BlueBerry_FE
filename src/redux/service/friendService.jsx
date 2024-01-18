@@ -55,12 +55,14 @@ export const getFriendList = createAsyncThunk(
 
 export const sendFriendRequest = createAsyncThunk(
   "SEND_FRIEND_REQUEST",
-  async (receiverId) => {
+  async (receiverId, { rejectWithValue }) => {
     try {
-      let res = await UrlFriend().post(`/friend-request/send`, receiverId);
+      let res = await UrlFriend().post(
+        `/friend-request/send?receiverId=${receiverId}`
+      );
       return res.data;
     } catch (e) {
-      console.log(e.response.data.message);
+      rejectWithValue(e.response.data.message);
     }
   }
 );
@@ -109,3 +111,12 @@ export const cancelFriendRequest = createAsyncThunk(
     }
   }
 );
+
+export const unfriend = createAsyncThunk("UNFRIEND", async (friendId) => {
+  try {
+    let res = await UrlFriend().delete(`/unfriend/${friendId}`);
+    return res.data;
+  } catch (e) {
+    console.log(e.response.data.message);
+  }
+});
