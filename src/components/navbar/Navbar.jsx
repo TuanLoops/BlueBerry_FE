@@ -13,6 +13,7 @@ import { DarkModeContext } from "../../context/darkModeContext";
 import { useDispatch, useSelector } from "react-redux";
 import { logOut } from "../../redux/service/userService.jsx";
 
+
 const Navbar = () => {
     const currentUser = useSelector(({ user }) => user.currentUser);
     const { toggle, darkMode } = useContext(DarkModeContext);
@@ -20,6 +21,8 @@ const Navbar = () => {
     const [searchValue, setSearchValue] = useState("");
     const dispatch = useDispatch();
     const navigate = useNavigate();
+
+    
 
     const handleLogOut = async () => {
         try {
@@ -29,7 +32,7 @@ const Navbar = () => {
             console.log(e)
         }
     }
-    
+
     const handleSearchChange = (event) => {
         setSearchValue(event.target.value);
     };
@@ -49,12 +52,15 @@ const Navbar = () => {
     const handleSearch = () => {
         navigate(`/search/all/${searchValue}`)
     }
-    
+
 
     const togglePopup = () => {
         setPopupVisible(!isPopupVisible);
     };
 
+    const handleClickSettingPrivacy = () => {
+        navigate('/accountsettings', { state: { currentUser } });
+    }
 
 
 
@@ -123,15 +129,15 @@ const Navbar = () => {
                                         </Link>
                                     </div>
                                     <div className="function">
-                                        <div className="item-function">
-                                            <Link to={'/accountsettings'} className="on-function">
+                                        <div className="item-function" onClick={handleClickSettingPrivacy}>
+                                            <div className="on-function">
                                                 <div className="background-item">
                                                     <i className="setting-privacy"></i>
                                                 </div>
                                                 <div className="body-item">
                                                     <span>Settings & Privacy</span>
                                                 </div>
-                                            </Link>
+                                            </div>
                                         </div>
                                         <div className="item-function">
                                             <Link to={{}} className="on-function">

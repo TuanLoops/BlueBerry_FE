@@ -2,9 +2,12 @@ import { useState } from 'react';
 import './accountsettings.scss';
 import ChangePassword from '../../components/changepassword/ChangePassword';
 import PersonalInformation from '../../components/personalinformation/PersonalInformation';
+import { useLocation } from 'react-router-dom';
 
 const AccountSettings = () => {
   const [selectedSettings, setSelectedSettings] = useState(1);
+  const location = useLocation();
+  
 
   return (
     <>
@@ -36,7 +39,7 @@ const AccountSettings = () => {
         <div className='right-container'>
           <div className='right-content'>
             {
-                selectedSettings === 1 ? <PersonalInformation /> :
+              selectedSettings === 1 ? <PersonalInformation /> :
                 selectedSettings === 2 ? <ChangePassword /> : ""
             }
           </div>

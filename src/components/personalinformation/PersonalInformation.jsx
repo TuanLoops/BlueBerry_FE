@@ -1,5 +1,7 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import './personalinformation.scss';
+import { useDispatch, useSelector } from 'react-redux';
+import { getInfoCurrentUser, updateProfile } from '../../redux/service/userService';
 
 const PersonalInformation = () => {
   const [firstName, setFirstName] = useState('');
@@ -9,10 +11,41 @@ const PersonalInformation = () => {
   const [hobbies, setHobbies] = useState('');
   const [address, setAddress] = useState('');
 
+  // const [firstName, setFirstName] = useState(infoCurrentUser?.firstName || '');
+  // const [lastName, setLastName] = useState(infoCurrentUser?.lastName || '');
+  // const [dob, setDob] = useState(infoCurrentUser?.dob || '');
+  // const [phoneNumber, setPhoneNumber] = useState(infoCurrentUser?.phoneNumber || '');
+  // const [hobbies, setHobbies] = useState(infoCurrentUser?.hobbies || '');
+  // const [address, setAddress] = useState(infoCurrentUser?.address || '');
+
+  const dispatch = useDispatch();
+  const currentUser = useSelector((state) => state.user.currentUser);
+  const infoCurrentUser = useSelector((state) => state.user.infoCurrentUser);
+
+  useEffect(() => {
+    dispatch(getInfoCurrentUser(currentUser.id))
+  },[])
+
   const handleUpdate = () => {
-
-
+    dispatch(updateProfile({
+      id: currentUser?.id,
+      firstName,
+      lastName,
+      dob,
+      phoneNumber,
+      hobbies,
+      address,
+    }))
   };
+
+  useEffect(() => {
+    setFirstName(infoCurrentUser?.firstName || '');
+    setLastName(infoCurrentUser?.lastName || '');
+    setDob(infoCurrentUser?.dob || '');
+    setPhoneNumber(infoCurrentUser?.phoneNumber || '');
+    setHobbies(infoCurrentUser?.hobbies || '');
+    setAddress(infoCurrentUser?.address || '');
+  }, [currentUser, infoCurrentUser]);
 
   return (
     <div className="update-personal-info-container">
