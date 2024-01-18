@@ -1,32 +1,69 @@
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import "./friendButton.scss";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { FaUserCheck } from "react-icons/fa6";
+import { FaUserPlus } from "react-icons/fa6";
+import { FaUserXmark } from "react-icons/fa6";
+import {
+  acceptFriendRequest,
+  cancelFriendRequest,
+  sendFriendRequest,
+  unfriend,
+} from "../../redux/service/friendService";
 
-function FriendButton({ friendId }) {
-  const friendList = useSelector(({ friends }) => friends.list);
-  const incomingFriendRequests = useSelector(({ friends }) => friends.requests);
-  const sentFriendRequests = useSelector(({ friends }) => friends.sentRequests);
+function FriendButton({ userId }) {
+  const dispatch = useDispatch();
+
+  const friendList = useSelector(({ friend }) => friend.friendList);
+
+  const incomingFriendRequests = useSelector(
+    ({ friend }) => friend.incomingFriendRequests
+  );
+  const sentFriendRequests = useSelector(
+    ({ friend }) => friend.sentFriendRequests
+  );
+
+  const handleAddFriend = () => {
+    dispatch(sendFriendRequest(userId));
+  };
+
+  const handleUnfriend = () => {
+    dispatch(unfriend(userId));
+  };
+
+  const handleCancelRequest = () => {
+    dispatch(cancelFriendRequest(userId));
+  };
+
+  const handleAcceptRequest = () => {
+    dispatch(acceptFriendRequest(userId));
+  };
+
+  const isFriend = friendList.find((friend) => friend.id === userId);
+  const isIncomingRequest = incomingFriendRequests.find(
+    (request) => request.sender.id === userId
+  );
+  const isSentRequest = sentFriendRequests.find(
+    (request) => request.receiver.id === userId
+  );
 
   return (
     <div className="friend-button">
-      {friendList.find((friend) => friend.id === friendId) ? (
-        <button className="unfriend">
-          <FontAwesomeIcon icon="fa-regular fa-user-xmark" /> Unfriend
+      {isFriend ? (
+        <button className="unfriend" onClick={handleUnfriend}>
+          <FaUserXmark /> Unfriend
         </button>
-      ) : incomingFriendRequests.find(
-          (request) => request.sender.id === friendId
-        ) ? (
-        <button className="accept">
-          <FontAwesomeIcon icon="fa-regular fa-user-check" /> Accept request
+      ) : isIncomingRequest ? (
+        <button className="accept" onClick={handleAcceptRequest}>
+          <FaUserCheck /> Accept request
         </button>
-      ) : sentFriendRequests.find(
-          (request) => request.receiver.id === friendId
-        ) ? (
-        <button className="cancel">
-          <FontAwesomeIcon icon="fa-regular fa-user-xmark" /> Cancel request
+      ) : isSentRequest ? (
+        <button className="cancel" onClick={handleCancelRequest}>
+          <FaUserXmark /> Cancel request
         </button>
       ) : (
-        <button></button>
+        <button className="add" onClick={handleAddFriend}>
+          <FaUserPlus /> Add friend
+        </button>
       )}
     </div>
   );
