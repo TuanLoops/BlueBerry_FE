@@ -74,79 +74,79 @@ function EditPost({ post, onClose }) {
   const handleSave = async () => {
     if (!body) return;
     await dispatch(
-      editStatus({ id: post.id, status: { body, imageList } })
+        editStatus({ id: post.id, status: { body, imageList } })
     ).unwrap();
     onClose();
   };
 
   return (
-    <div className="edit-post-modal" ref={modalRef} onClick={handleClose}>
-      <div className="edit-container">
-        <div className="edit-wrapper">
-          <div className="edit-header">
-            <span>Edit post</span>
-          </div>
-          <div className="edit-body">
-            <div className="author-info">
-              <div className="avatar">
-                <img src={post.author.avatarImage} alt="" />
-              </div>
-              <div className="author-container">
-                <div className="author-name">{post.author.fullName}</div>
-                <div className="time">
-                  <PrivacyIcon
-                    className="privacy-icon"
-                    privacyLevel={post.privacyLevel}
-                  />
-                  {`${formatDistanceToNow(post.createdAt)} ago`}
+      <div className="edit-post-modal" ref={modalRef} onClick={handleClose}>
+        <div className="edit-container">
+          <div className="edit-wrapper">
+            <div className="edit-header">
+              <span>Edit post</span>
+            </div>
+            <div className="edit-body">
+              <div className="author-info">
+                <div className="avatar">
+                  <img src={post.author.avatarImage} alt="" />
+                </div>
+                <div className="author-container">
+                  <div className="author-name">{post.author.fullName}</div>
+                  <div className="time">
+                    <PrivacyIcon
+                        className="privacy-icon"
+                        privacyLevel={post.privacyLevel}
+                    />
+                    {`${formatDistanceToNow(post.createdAt)} ago`}
+                  </div>
                 </div>
               </div>
-            </div>
-            <div className="post-content">
+              <div className="post-content">
 
-              <TextareaAutosize
-                ref={inputRef}
-                minRows={imageList.length > 0 ? 4 : 8}
-                maxRows={12}
-                placeholder={`What's on your mind`}
-                value={body}
-                spellCheck="false"
-                onChange={(e) => {
-                  setBody(e.target.value);
-                }}
-                onPaste={handlePaste}
-              />
-              <label htmlFor={fileInputId} className="attach-image">
-                <input
-                    accept="image/*"
-                    id={fileInputId}
-                    type="file"
-                    multiple
-                    onChange={handleFileChange}
+                <TextareaAutosize
+                    ref={inputRef}
+                    minRows={imageList.length > 0 ? 4 : 8}
+                    maxRows={12}
+                    placeholder={`What's on your mind`}
+                    value={body}
+                    spellCheck="false"
+                    onChange={(e) => {
+                      setBody(e.target.value);
+                    }}
+                    onPaste={handlePaste}
                 />
-                <ImageIcon/>
-              </label>
+                <label htmlFor={fileInputId} className="attach-image">
+                  <input
+                      accept="image/*"
+                      id={fileInputId}
+                      type="file"
+                      multiple
+                      onChange={handleFileChange}
+                  />
+                  <ImageIcon/>
+                </label>
 
-              <PreviewImg imageList={imageList} remove={handleFileRemove}/>
-            </div>
-          </div>
-          <div className="edit-footer">
-          <button className="cancel" onClick={() => onClose()}>
-              <div>Cancel</div>
-            </button>
-            <button className="save" onClick={handleSave}>
-              <div className="btn-content">
-                {isUploading ? (
-                  <CircularProgress color="inherit" size={20} />
-                ) : (
-                  <div>Save</div>
-                )}
+                <PreviewImg imageList={imageList} remove={handleFileRemove}/>
               </div>
-            </button>
+            </div>
+            <div className="edit-footer">
+              <button className="cancel" onClick={() => onClose()}>
+                <div>Cancel</div>
+              </button>
+              <button className="save" onClick={handleSave}>
+                <div className="btn-content">
+                  {isUploading ? (
+                      <CircularProgress color="inherit" size={20} />
+                  ) : (
+                      <div>Save</div>
+                  )}
+                </div>
+              </button>
+            </div>
           </div>
         </div>
       </div>
-    </div>
   );
 }
 export default EditPost;
