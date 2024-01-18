@@ -20,6 +20,7 @@ import MoreOptions from "./moreoptions/MoreOptions";
 import { Link } from "react-router-dom";
 import PrivacyIcon from "../privacyicon/PrivacyIcon.jsx";
 import Time from "../time/Time.jsx";
+import { Avatar } from "@mui/material";
 
 const Post = ({ post }) => {
   const [commentOpen, setCommentOpen] = useState(false);
@@ -43,15 +44,14 @@ const Post = ({ post }) => {
         <div className="user">
           <div className="userInfo">
             <Link to={`profile/${post.id}`}>
-              <img src={post.author.avatarImage} alt="" />
+              <Avatar
+                sx={{ width: 40, height: 40 }}
+                src={post.author.avatarImage}
+                alt=""
+              />
             </Link>
             <div className="details">
-              <div>
-                <UsernameLink
-                  userId={post.author.id}
-                  username={post.author.fullName}
-                />
-              </div>
+              <UsernameLink user={post.author} />
               <div className="info">
                 <PrivacyIcon
                   className="icon"
@@ -96,6 +96,7 @@ const Post = ({ post }) => {
             >
               <PhotoAlbum
                 layout="columns"
+                spacing={5}
                 columns={count}
                 onClick={({ index }) => {
                   setIndex(index);

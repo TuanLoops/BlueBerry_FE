@@ -20,6 +20,7 @@ const Navbar = () => {
     const [searchValue, setSearchValue] = useState("");
     const dispatch = useDispatch();
     const navigate = useNavigate();
+
     const handleLogOut = async () => {
         try {
             await dispatch(logOut()).unwrap();

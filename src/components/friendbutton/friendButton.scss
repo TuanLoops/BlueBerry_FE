@@ -1,0 +1,18 @@
+@import "../../style.scss";
+
+.friend-button {
+  @include themify($themes) {
+    display: flex;
+
+    .unfriend {
+
+    }
+
+    .accept {
+
+    }
+
+    .cancel {
+        
+    }
+  }}
