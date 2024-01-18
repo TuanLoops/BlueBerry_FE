@@ -92,3 +92,6 @@ export const logOut = createAsyncThunk(
         }
     }
 )
+export const changePassword = async (passwordRequest) => {
+    return await UrlUser().put("change-password", passwordRequest);
+}
