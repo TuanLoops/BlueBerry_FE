@@ -15,10 +15,9 @@ import img from '../../Pic-banner.jpg'
 import PermPhoneMsgIcon from '@mui/icons-material/PermPhoneMsg';
 import HomeIcon from '@mui/icons-material/Home';
 import BookmarksIcon from '@mui/icons-material/Bookmarks';
-import LoadingButton from '@mui/lab/LoadingButton';
-import Box from "@mui/material/Box";
-import {EditProfile} from "./editprofile/EditProfile.jsx";
-import { getInfoCurrentUser } from "../../redux/service/userService.jsx";
+import SearchIcon from "@mui/icons-material/Search";
+import {SearchModal} from "./moreoptions/search/SearchModal.jsx";
+import { getInfoUser} from "../../redux/service/userService.jsx";
 
 const Profile = () => {
     const {id} = useParams();
@@ -27,21 +26,18 @@ const Profile = () => {
     const [openBox, setOpenBox] = useState(false);
     const [index, setIndex] = useState(-1);
     const [filteredPosts, setFilteredPosts] = useState(null);
-    const [showInputHobbies, setShowInputHobbies] = useState(false);
-    const [loadInputHobbies, setLoadInputHobbies] = useState(false);
-    const [showEditHobbies, setShowEditHobbies] = useState(false);
+    const [showSearch, setShowSearch] = useState(false);
     const showMoreButtonRef = useRef(null);
-    const showEditButtonRef = useRef(null);
     const imagesContainerRef = useRef(null);
+    const inputRef = useRef(null);
     const dispatch = useDispatch()
     const posts = useSelector((state) => state.status.list);
-    const user = useSelector(({user}) => user.currentUser)
-    const infoCurrentUser = useSelector(({user: user2})=>user2.infoCurrentUser);
-
+    const currentUser = useSelector(({user})=> user.currentUser)
+    const infoUser = useSelector(({user: user2})=>user2.infoUser);
+    console.log(currentUser)
     useEffect(() => {
-        // dispatch(getStatusByUser(id));
-        // dispatch(showStatus());
-        dispatch(getInfoCurrentUser(user.id))
+        dispatch(getStatusByUser(id));
+        dispatch(getInfoUser(id))
     }, []);
 
     const handleSearchChange = async (value) => {
@@ -60,65 +56,72 @@ const Profile = () => {
             setOpenBox(false);
         }
     };
-    const handleClick = () => {
-        setLoadInputHobbies(true);
-        setTimeout(()=>{
-            setLoadInputHobbies(false)
-            setShowInputHobbies(true);
-        },2000);
-    }
+
     return (
         <div className="profile" onClick={handleOuterClick}>
             <div className="x54ghk">
                 <div className="profile-images">
-                    <div className="images" ref={imagesContainerRef}>
-                        <Lightbox
-                            open={open}
-                            close={() => setOpen(false)}
-                            slides={[{src: user.banner ? user.banner : img, alt: 'Banner Image'}]}
-                        />
-                        <Lightbox
-                            open={openBox}
-                            close={() => setOpenBox(false)}
-                            slides={[{src: user.avatarImage, alt: 'Avatar Image'},]}
-                        />
-                        <img
-                            src={user.banner ? user.banner : img}
-                            alt=""
-                            className="cover"
-                            onClick={() => setOpen(true)}
-                        />
-                        <img
-                            src={user.avatarImage}
-                            alt=""
-                            className="profilePic"
-                            onClick={() => setOpenBox(true)}
-                        />
-                        <div className="wrappers">
-                            <div
-                                className="dots"
-                                ref={showMoreButtonRef}
-                                onClick={() => setShowMoreOptions(!showMoreOptions)}
-                            >
-                                <MoreVertIcon/>
+                    {infoUser !== null && (
+                        <div className="images" ref={imagesContainerRef}>
+                            <Lightbox
+                                open={open}
+                                close={() => setOpen(false)}
+                                slides={[{src: infoUser.bannerImage ? infoUser.bannerImage : img , alt: 'Banner Image'}]}
+                            />
+                            <Lightbox
+                                open={openBox}
+                                close={() => setOpenBox(false)}
+                                slides={[{src: infoUser.avatarImage, alt: 'Avatar Image'},]}
+                            />
+                            <img
+                                src={infoUser.banner ? infoUser.banner : img}
+                                alt=""
+                                className="cover"
+                                onClick={() => setOpen(true)}
+                            />
+                            <img
+                                src={infoUser.avatarImage}
+                                alt=""
+                                className="profilePic"
+                                onClick={() => setOpenBox(true)}
+                            />
+                            <div className="wrappers">
+                                <div
+                                    className="dots"
+                                    ref={showMoreButtonRef}
+                                    onClick={() => setShowMoreOptions(!showMoreOptions)}
+                                >
+                                    <MoreVertIcon/>
+                                </div>
                             </div>
+                            {showMoreOptions && <MoreOptions buttonRef={showMoreButtonRef}
+                                                             onClose={() => setShowMoreOptions(false)}
+                            />}
                         </div>
-                        {showMoreOptions && <MoreOptions buttonRef={showMoreButtonRef}
-                                                         onClose={() => setShowMoreOptions(false)}
-                                                         onSearchChange={handleSearchChange}/>}
-                    </div>
+                    )}
                     <div className="profileContainer">
-                        <div className="uInfo">
-                            <div className="center">
-                                <span>{user.fullName}</span>
-                            </div>
+                        {infoUser !== null && (
+                            <>
+                                <div className="uInfo">
+                                    <div className="center">
+                                        <span>{infoUser.fullName}</span>
+                                    </div>
 
-                        </div>
-                        <div className="uInfo">
-                            <div className="right">
-                                <button>Add Friends</button>
-                            </div>
-                        </div>
+                                </div>
+                                <div className="action">
+                                    <div className="left" ref={inputRef} onClick={() => {
+                                        setShowSearch(true)
+                                    }}>
+                                        <button><SearchIcon/></button>
+                                    </div>
+                                    <div className="right">
+                                        <button>Add Friends</button>
+                                    </div>
+                                </div>
+                            </>
+                        )}
+                        {showSearch && <SearchModal buttonRef={inputRef} onClose={() => setShowSearch(false)}
+                                                    onSearchChange={handleSearchChange}/>}
                     </div>
                 </div>
 
@@ -130,72 +133,34 @@ const Profile = () => {
                                     <div className="intro-bio">
                                         <h4>Intro</h4>
                                     </div>
-                                    <div className="Xj481">
-                                        <button className="btnE" onClick={() => setShowEditHobbies(true)}>
-                                          DETAILS
-                                        </button>
-                                    </div>
                                 </div>
-                                {loadInputHobbies ? (
-                                    <div className="overlay">
-                                        <Box className="div-overlay" sx={{'& > button': {m: 1}}}>
-                                            <LoadingButton
-                                                className="loading"
-                                                loading={showInputHobbies}
-                                            >
-                                            </LoadingButton>
-                                        </Box>
-                                    </div>
-                                ) : (
-                                    <>
-                                    </>
-                                )}
                                 <div className="intro-details">
-                                    {infoCurrentUser !== null && (
+                                    {infoUser !== null && (
                                         <>
-                                            {infoCurrentUser.hobbies ? (
+                                            {infoUser.hobbies ? (
                                                 <div className="hobbies" >
                                                     <label><BookmarksIcon/> Hobbies:</label>
-                                                    <span>{infoCurrentUser.hobbies}</span>
+                                                    <span>{infoUser.hobbies}</span>
                                                 </div>
                                             ) : (
                                                 <>
-                                                    {showInputHobbies ? (
-                                                        <>
-                                                            <input type="text" placeholder="Sở thích của bạn"/>
-                                                            <div className="action">
-                                                                <button onClick={()=> setShowInputHobbies(false)}>Cancel</button>
-                                                                <button>Save</button>
-                                                            </div>
-                                                        </>
-                                                    ): (
-                                                        <div className="btn-add" onClick={handleClick}>
-                                                            <button>Add Hobbies</button>
-                                                        </div>
-                                                    )}
+
                                                 </>
                                             )}
-                                            {infoCurrentUser.address && infoCurrentUser.phoneNumber ? (
+                                            {infoUser.address && infoUser.phoneNumber ? (
                                                 <>
                                                     <div className="address">
                                                         <label><HomeIcon/> Address:</label>
-                                                        <span>{infoCurrentUser.address}</span>
+                                                        <span>{infoUser.address}</span>
                                                     </div>
                                                     <div className="phone">
                                                         <label><PermPhoneMsgIcon/> Phone Number:</label>
-                                                        <span>{infoCurrentUser.phoneNumber}</span>
+                                                        <span>{infoUser.phoneNumber}</span>
                                                     </div>
                                                 </>
                                             ) : (
                                                 <>
-                                                    <div className="btn-add" ref={showEditButtonRef} onClick={()=> setShowEditHobbies(true)}>
-                                                        <button>Edit details</button>
-                                                    </div>
-                                                    {showEditHobbies && (
-                                                        <EditProfile infoCurrentUser = {infoCurrentUser}
-                                                                     buttonRef={showEditButtonRef}
-                                                                     onclose={()=>setShowEditHobbies(false)}/>
-                                                    )}
+                                                    <div className="request">Please update your personal information</div>
                                                 </>
                                             )}
                                         </>
@@ -270,7 +235,7 @@ const Profile = () => {
                         </div>
 
                         <div className="content-area">
-                            <NewPost></NewPost>
+                            {infoUser && (infoUser.id === currentUser.id && <NewPost />)}
                             {filteredPosts ? (
                                 <>
                                     <div className="info-search">
