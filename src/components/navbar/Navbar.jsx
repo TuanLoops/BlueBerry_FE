@@ -26,7 +26,9 @@ const Navbar = () => {
     const handleLogOut = async () => {
         try {
             await dispatch(logOut()).unwrap();
-            window.location.reload();
+           if (!localStorage.getItem("AccessTokken")){
+               navigate("/login");
+           }
         } catch (e) {
             console.log(e)
         }
