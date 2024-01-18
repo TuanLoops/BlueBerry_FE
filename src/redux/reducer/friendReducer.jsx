@@ -8,6 +8,7 @@ import {
   getIncomingFriendRequests,
   getSentFriendRequests,
   sendFriendRequest,
+  unfriend,
 } from "../service/friendService";
 
 const initialState = {
@@ -41,6 +42,9 @@ const friendReducer = createSlice({
     builder.addCase(sendFriendRequest.fulfilled, (state, { payload }) => {
       state.sentFriendRequests.push(payload);
     });
+    builder.addCase(sendFriendRequest.rejected, (state, { payload }) => {
+      console.log(payload);
+    });
     builder.addCase(acceptFriendRequest.fulfilled, (state, { payload }) => {
       const index = state.incomingFriendRequests.findIndex(
         (item) => item.id === payload.id
@@ -60,6 +64,11 @@ const friendReducer = createSlice({
         (item) => item.id === payload.id
       );
       state.incomingFriendRequests.splice(index, 1);
+    });
+    builder.addCase(unfriend.fulfilled, (state, { payload }) => {
+      state.friendList = state.friendList.filter(
+        (friend) => friend.id !== payload.id
+      );
     });
   },
 });

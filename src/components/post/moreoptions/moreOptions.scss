@@ -10,9 +10,9 @@
     left: 50%;
     transform: translate(-50%, 0);
     color: themed("textColor");
-    -webkit-box-shadow: 0px 0px 25px -10px rgba(0, 0, 0, 0.5);
-    -moz-box-shadow: 0px 0px 25px -10px rgba(0, 0, 0, 0.5);
-    box-shadow: 0px 0px 25px -10px rgba(0, 0, 0, 0.5);
+    -webkit-box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.25);
+    -moz-box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.25);
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.25);
     min-width: 260px;
     z-index: 10;
 
