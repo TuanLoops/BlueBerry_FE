@@ -8,7 +8,9 @@ import { v4 as uuidv4 } from "uuid";
 import { useDispatch } from "react-redux";
 import { addStatus } from "../../redux/service/statusService.jsx";
 import { useSelector } from "react-redux";
-import PrivacySelect from "./privacyselect/PrivacySelect.jsx";
+import PublicOutlinedIcon from "@mui/icons-material/PublicOutlined.js";
+import PeopleAltIcon from "@mui/icons-material/PeopleAlt";
+import LockIcon from "@mui/icons-material/Lock";
 
 function NewPost() {
   const dispatch = useDispatch();
@@ -17,7 +19,8 @@ function NewPost() {
   const [body, setBody] = useState("");
   const [imageList, setImageList] = useState([]);
   const [isUploading, setIsUploading] = useState(false);
-  const [privacyLevel, setPrivacyLevel] = useState("PUBLIC");
+  const [privacyLevel, setPrivacyLevel] = useState("Public");
+  const [isPopupPrivacy, setPopupPrivacy] = useState(false)
 
   const handleFileChange = async (e) => {
     const images = [];
@@ -71,10 +74,6 @@ function NewPost() {
       <div className="wrapper">
         <div className="title">
           <h4>Make a new post</h4>
-          <PrivacySelect
-            privacyLevel={privacyLevel}
-            setPrivacyLevel={setPrivacyLevel}
-          />
         </div>
         <div className="first-row">
           <div className={`avatar-container ${body ? "hide" : ""}`}>
@@ -100,26 +99,37 @@ function NewPost() {
         </div>
         <PreviewImg imageList={imageList} remove={handleFileRemove} />
         <div className="second-row">
-          <div className="item">
-            <span>Live video</span>
-            <img
-              draggable="false"
-              src="https://static.xx.fbcdn.net/rsrc.php/v3/yr/r/c0dWho49-X3.png"
-              alt=""
-            />
+          <div className="item" onClick={()=> setPopupPrivacy(!isPopupPrivacy) }>
+            <span>{privacyLevel}</span>
+            {privacyLevel === "Public" ? <PublicOutlinedIcon/> : (privacyLevel === "Friends" ? <PeopleAltIcon/> : <LockIcon/>)}
+            {isPopupPrivacy && (
+                <div>
+                  <div className="option" onClick={() => handleSelect("PUBLIC")}>
+                    Public
+                    <PublicOutlinedIcon/>
+                  </div>
+                  <div className="option" onClick={() => handleSelect("FRIENDS")}>
+                    Friends
+                    <PeopleAltIcon/>
+                  </div>
+                  <div className="option" onClick={() => handleSelect("PRIVATE")}>
+                    Private
+                    <LockIcon/>
+                  </div>
+                </div>
+            )}
           </div>
-
           <label htmlFor="file" className="item">
             <span>Pick photo</span>
             <img
-              draggable="false"
-              src="https://static.xx.fbcdn.net/rsrc.php/v3/y7/r/Ivw7nhRtXyo.png"
-              alt=""
+                draggable="false"
+                src="https://static.xx.fbcdn.net/rsrc.php/v3/y7/r/Ivw7nhRtXyo.png"
+                alt=""
             />
             <input
-              accept="image/*"
-              id="file"
-              type="file"
+                accept="image/*"
+                id="file"
+                type="file"
               multiple
               onChange={handleFileChange}
             />
