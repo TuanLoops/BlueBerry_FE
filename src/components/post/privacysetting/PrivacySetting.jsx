@@ -6,7 +6,7 @@ import { useRef, useState } from "react";
 import {useDispatch} from "react-redux";
 import {changePrivacy} from "../../../redux/service/statusService.jsx";
 
-function PrivacySetting({ onClose, defaultChecked, postId }) {
+function PrivacySetting({ onClose, defaultChecked,handleSave }) {
   const [checked, setChecked] = useState(defaultChecked);
   const modalRef = useRef(null);
   const dispatch = useDispatch();
@@ -16,20 +16,6 @@ function PrivacySetting({ onClose, defaultChecked, postId }) {
     }
   };
 
-  const handleSave = () => {
-    const status= {
-      id:postId,
-      privacyLevel: checked
-    }
-    console.log(status)
-    // TODO: save edit
-    try {
-      dispatch(changePrivacy(status))
-      onClose();
-    }catch (e){
-      console.log(e)
-    }
-  };
 
   return (
     <div className="privacy-modal" ref={modalRef} onClick={handleClose}>
@@ -90,7 +76,7 @@ function PrivacySetting({ onClose, defaultChecked, postId }) {
             <button className="cancel" onClick={() => onClose()}>
               <div>Cancel</div>
             </button>
-            <button className="save" onClick={handleSave}>
+            <button className="save" onClick={() => handleSave(checked)}>
               <div>Save</div>
             </button>
           </div>
