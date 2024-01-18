@@ -2,12 +2,9 @@ import { useState } from 'react';
 import './accountsettings.scss';
 import ChangePassword from '../../components/changepassword/ChangePassword';
 import PersonalInformation from '../../components/personalinformation/PersonalInformation';
-import { useLocation } from 'react-router-dom';
 
 const AccountSettings = () => {
   const [selectedSettings, setSelectedSettings] = useState(1);
-  const location = useLocation();
-  
 
   return (
     <>

@@ -22,7 +22,7 @@ const Navbar = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
-    
+
 
     const handleLogOut = async () => {
         try {
@@ -57,11 +57,6 @@ const Navbar = () => {
     const togglePopup = () => {
         setPopupVisible(!isPopupVisible);
     };
-
-    const handleClickSettingPrivacy = () => {
-        navigate('/accountsettings', { state: { currentUser } });
-    }
-
 
 
     return (
@@ -129,15 +124,15 @@ const Navbar = () => {
                                         </Link>
                                     </div>
                                     <div className="function">
-                                        <div className="item-function" onClick={handleClickSettingPrivacy}>
-                                            <div className="on-function">
+                                        <div className="item-function">
+                                            <Link to={`/accountsettings`} className="on-function">
                                                 <div className="background-item">
                                                     <i className="setting-privacy"></i>
                                                 </div>
                                                 <div className="body-item">
                                                     <span>Settings & Privacy</span>
                                                 </div>
-                                            </div>
+                                            </Link>
                                         </div>
                                         <div className="item-function">
                                             <Link to={{}} className="on-function">

@@ -2,15 +2,57 @@
   display: flex;
   height: calc(100vh - 56px);
   padding: 4rem;
-  justify-content: flex-end;
   width: 50%;
+  flex-direction: column;
   h1 {
     color: #fff;
     text-align: center;
   }
 
-  form {
-    width: 70%;
+  .update-button {
+    display: flex;
+    justify-content: flex-end;
+    .update-button-container{
+
+      display: flex;
+      padding: 1rem;
+      text-align: right;
+      justify-content: flex-end;
+      width: max-content;
+      &:hover {
+        transition: 0.2s;
+        color: #3538f1;
+        cursor: pointer;
+      }
+
+  
+      .title {
+        font-size: larger;
+      }
+  
+      .icon {
+        padding-top: 0.4rem;
+        padding-left: 0.5rem;
+      }
+    }
+  }
+
+  .current-information {
+    display: flex;
+    width: 100%;
+    color: #fff;
+    flex-direction: column;
+
+    table {
+      width: 100%;
+      text-align: left;
+      background-color: #68686815;
+      border-radius: 1rem;
+
+      th {
+        padding: 1rem;
+      }
+    }
 
     .button-container {
       display: flex;
@@ -52,7 +94,8 @@
       color: #fff;
     }
 
-    input, textarea {
+    input,
+    textarea {
       padding: 8px;
       margin-bottom: 20px;
       border: 1px solid #ccc;
