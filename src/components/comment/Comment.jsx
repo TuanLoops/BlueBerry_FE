@@ -37,7 +37,7 @@ const Comment = ({ comment,changeCountLikes }) => {
       <div className="comment-middle">
         <div className="comment-wrapper">
           <div className="author-name">
-            <UsernameLink username={comment.author.fullName} />
+            <UsernameLink user={comment.author} />
           </div>
           <div className="comment-body">
             <div>{comment.body}</div>

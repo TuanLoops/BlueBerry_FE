@@ -21,14 +21,16 @@
     }
 
     .container {
-      margin-top: 16px;
+      margin-top: 24px;
       padding-inline: 16px;
 
       .request-container {
         display: flex;
         width: 100%;
         flex-direction: column;
-        margin-bottom: 16px;
+        margin-bottom: 24px;
+        padding-bottom: 16px;
+        border-bottom: 1px solid themed("border");
 
         .request-title {
           font-size: 18px;
@@ -122,6 +124,10 @@
           border-radius: 8px;
           max-width: 100%;
           cursor: pointer;
+
+          .offline {
+            color: themed("textColorSoft");
+          }
 
           &:hover {
             background-color: themed("bgHover");

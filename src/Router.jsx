@@ -17,6 +17,11 @@ import Login from "./pages/login/Login";
 import { getCurrentUser } from "./redux/service/userService";
 import AccountSettings from "./pages/settings/AccountSettings";
 import Search from "./pages/search/Search";
+import {
+  getCurrentUserFriendList,
+  getIncomingFriendRequests,
+  getSentFriendRequests,
+} from "./redux/service/friendService";
 
 function Router() {
   const accessToken = useSelector(({ user }) => user.accessToken);
@@ -38,9 +43,18 @@ function Router() {
     fetchData().then();
   }, [accessToken]);
 
+  useEffect(() => {
+    dispatch(getIncomingFriendRequests());
+    dispatch(getSentFriendRequests());
+    dispatch(getCurrentUserFriendList());
+    const interval = setInterval(() => {
+      dispatch(getCurrentUserFriendList());
+    }, 1000 * 60);
+    return () => clearInterval(interval);
+  });
+
   const PrivateRoutes = () => {
     const { darkMode } = useContext(DarkModeContext);
-
     return (
       <div
         className={`theme-${darkMode ? "dark" : "light"}`}

@@ -3,6 +3,7 @@
 .profile {
   @include themify($themes) {
     background-color: themed("bgSoft");
+    overflow: hidden;
     .profile-images{
       height: 550px;
       background-color: themed("bg");
@@ -72,7 +73,8 @@
       }
 
       .uInfo {
-
+        display: flex;
+        position: relative;
         @include mobile {
           flex-direction: column;
           height: 30vh;
@@ -83,8 +85,8 @@
         .center {
           position: absolute;
           left: 0;
-          right: 3.5%;
-          top: 85%;
+          right: 60px;
+          top: 70px;
           span {
             font-size: 30px;
             font-weight: bold;
@@ -92,11 +94,12 @@
           }
         }
       }
-      .right {
-        position: absolute;
-        left: 0;
-        right: -50%;
-        top: 85%;
+      .action {
+        position: relative;
+        display: flex;
+        top: 60px;
+        float: right;
+        margin-right: 250px;
         button {
           border: none;
           margin-left: 10px;
@@ -109,6 +112,14 @@
           box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
           &:hover{
             filter: brightness(1.2);
+          }
+        }
+        .left{
+          button{
+            height: 38px;
+            padding: 0;
+            width: 50px;
+            margin-right: 0;
           }
         }
       }
@@ -259,6 +270,9 @@
                     background-color: themed("hoverBtn");
                   }
                 }
+              }
+              .request{
+                text-align: center;
               }
             }
             .overlay{

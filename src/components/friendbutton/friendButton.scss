@@ -1,0 +1,55 @@
+@import "../../style.scss";
+
+.friend-button {
+  @include themify($themes) {
+    display: flex;
+
+    button {
+      border: none;
+      outline: none;
+      border-radius: 4px;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .unfriend {
+      background-color: themed("commentBgColor");
+      color: themed("textColor");
+
+      &:hover {
+        background-color: themed("commentBgColorHover");
+      }
+    }
+
+    .accept {
+      background-color: themed("commentBgColor");
+      color: themed("textColor");
+
+      &:hover {
+        background-color: themed("commentBgColorHover");
+      }
+    }
+
+    .cancel {
+      background-color: themed("commentBgColor");
+      color: themed("textColor");
+
+      &:hover {
+        background-color: themed("commentBgColorHover");
+      }
+    }
+
+    .add {
+      background-color: themed("commentBgColor");
+      color: themed("textColor");
+
+      &:hover {
+        background-color: themed("commentBgColorHover");
+      }
+    }
+  }
+}

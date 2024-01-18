@@ -1,14 +1,123 @@
 @import "../../style.scss";
 
-.name {
+.username-link {
   @include themify($themes) {
-    font-weight: 600;
-    color: themed("textColor");
-    text-decoration: none;
+    display: flex;
     width: fit-content;
-  }
+    position: relative;
 
-  &:hover {
-    text-decoration: underline;
+    .username {
+      font-weight: 600;
+      color: themed("textColor");
+      text-decoration: none;
+      width: fit-content;
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+
+    .quick-view {
+      position: absolute;
+      display: flex;
+      background-color: themed("bg");
+      flex-direction: column;
+      box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.25);
+      border-radius: 16px;
+      z-index: 10;
+      bottom: 24px;
+      left: 50%;
+      transform: translate(-50%, 0);
+      width: 360px;
+      height: 200px;
+      overflow: hidden;
+
+      .quick-view-container {
+        display: flex;
+        flex-direction: column;
+        height: calc(100% - 50px);
+        position: relative;
+
+        .first-row {
+          display: flex;
+          flex: 3;
+          overflow: hidden;
+
+          .cover-photo {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+          }
+        }
+
+        .second-row {
+          display: flex;
+          flex: 2;
+          padding-left: 150px;
+          align-items: start;
+
+          .quick-view-name {
+            display: flex;
+            font-weight: bold;
+            font-size: 20px;
+            margin-top: 8px;
+            color: themed("textColor");
+            text-decoration: none;
+
+            &:hover {
+              text-decoration: underline;
+            }
+          }
+        }
+
+        .avatar {
+          position: absolute;
+          top: 50%;
+          left: 16px;
+          transform: translate(0, -50%);
+        }
+      }
+
+      .button-group {
+        display: flex;
+        width: 100%;
+        padding: 0 12px;
+        gap: 8px;
+
+        div {
+          flex: 1;
+          display: flex;
+
+          button {
+            width: 100%;
+            padding: 8px 8px;
+            font-size: 16px;
+            border: none;
+            outline: none;
+            border-radius: 6px;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 4px;
+            background-color: themed("commentBgColor");
+            color: themed("textColor");
+
+            &:hover {
+              background-color: themed("commentBgColorHover");
+            }
+          }
+
+          .message {
+            color: white;
+            background-color: themed("bluePrimary");
+
+            &:hover {
+              background-color: themed("bluePrimaryHover");
+            }
+          }
+        }
+      }
+    }
   }
 }

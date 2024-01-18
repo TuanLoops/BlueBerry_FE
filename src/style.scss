@@ -1,6 +1,6 @@
 $themes: (
   light: (
-    textColor: #505050,
+    textColor: #4b4b4b,
     bg: white,
     bgHover: darken(white, 12%),
     logo: darkblue,
@@ -21,6 +21,8 @@ $themes: (
     hoverBtn: #8e8e8e,
     secondaryButton: lightgray,
     secondaryButtonHover: darken(lightgray, 10%),
+    bluePrimary: rgb(53, 100, 255),
+    bluePrimaryHover: darken(rgb(53, 100, 255), 5%),
   ),
   dark: (
     textColor: whitesmoke,
@@ -44,6 +46,8 @@ $themes: (
     hoverBtn: dimgrey,
     secondaryButton: #646464,
     secondaryButtonHover: darken(#646464, 10%),
+    bluePrimary: rgb(53, 100, 255),
+    bluePrimaryHover: lighten(rgb(53, 100, 255), 5%),
   ),
 );
 
