@@ -9,11 +9,13 @@ import { getImageURL, uploadImage } from "../../../firebase";
 import { v4 as uuidv4 } from "uuid";
 import { useDispatch } from "react-redux";
 import { editStatus } from "../../../redux/service/statusService";
+import ImageIcon from "@mui/icons-material/Image";
 
 function EditPost({ post, onClose }) {
   const [body, setBody] = useState(post.body);
   const [imageList, setImageList] = useState(post.imageList);
   const [isUploading, setIsUploading] = useState(false);
+  const fileInputId = uuidv4();
   const modalRef = useRef(null);
   const inputRef = useRef(null);
   const dispatch = useDispatch();
@@ -101,6 +103,7 @@ function EditPost({ post, onClose }) {
               </div>
             </div>
             <div className="post-content">
+
               <TextareaAutosize
                 ref={inputRef}
                 minRows={imageList.length > 0 ? 4 : 8}
@@ -113,18 +116,22 @@ function EditPost({ post, onClose }) {
                 }}
                 onPaste={handlePaste}
               />
-              <input
-                accept="image/*"
-                id="file"
-                type="file"
-                multiple
-                onChange={handleFileChange}
-              />
-              <PreviewImg imageList={imageList} remove={handleFileRemove} />
+              <label htmlFor={fileInputId} className="attach-image">
+                <input
+                    accept="image/*"
+                    id={fileInputId}
+                    type="file"
+                    multiple
+                    onChange={handleFileChange}
+                />
+                <ImageIcon/>
+              </label>
+
+              <PreviewImg imageList={imageList} remove={handleFileRemove}/>
             </div>
           </div>
           <div className="edit-footer">
-            <button className="cancel" onClick={() => onClose()}>
+          <button className="cancel" onClick={() => onClose()}>
               <div>Cancel</div>
             </button>
             <button className="save" onClick={handleSave}>
