@@ -8,7 +8,7 @@ import EmailOutlinedIcon from "@mui/icons-material/EmailOutlined";
 import PersonOutlinedIcon from "@mui/icons-material/PersonOutlined";
 import SearchOutlinedIcon from "@mui/icons-material/SearchOutlined";
 import { Link, useNavigate } from "react-router-dom";
-import { useContext, useState } from "react";
+import {useContext, useEffect, useRef, useState} from "react";
 import { DarkModeContext } from "../../context/darkModeContext";
 import { useDispatch, useSelector } from "react-redux";
 import { logOut } from "../../redux/service/userService.jsx";
@@ -18,6 +18,7 @@ const Navbar = () => {
     const currentUser = useSelector(({ user }) => user.currentUser);
     const { toggle, darkMode } = useContext(DarkModeContext);
     const [isPopupVisible, setPopupVisible] = useState(false);
+    const userRef = useRef(null);
     const [searchValue, setSearchValue] = useState("");
     const dispatch = useDispatch();
     const navigate = useNavigate();
@@ -53,11 +54,22 @@ const Navbar = () => {
     
 
     const togglePopup = () => {
-        setPopupVisible(!isPopupVisible);
+        setPopupVisible(true);
     };
 
+    useEffect(() => {
+        const handleOutsideClick = (event) => {
+            if (userRef.current && !userRef.current.contains(event.target)) {
+                setPopupVisible(false);
+            }
+        };
 
+        document.addEventListener('click', handleOutsideClick);
 
+        return () => {
+            document.removeEventListener('click', handleOutsideClick);
+        };
+    }, [userRef]);
 
     return (
         <>
@@ -101,8 +113,8 @@ const Navbar = () => {
                         <NotificationsOutlinedIcon />
                         <div className="label-acc">Notification</div>
                     </div>
-                    <div className="user" onClick={togglePopup}>
-                        <img src={currentUser?.avatarImage} alt="" />
+                    <div className="user" onClick={togglePopup} ref={userRef}>
+                        <img src={currentUser?.avatarImage} alt=""/>
                         <span></span>
                         <div className="label-acc">Account</div>
                         {isPopupVisible && (
@@ -113,7 +125,7 @@ const Navbar = () => {
                                             <div className="icon">
                                                 <img
                                                     src={currentUser.avatarImage}
-                                                    alt="" />
+                                                    alt=""/>
                                             </div>
                                             <div className="name-uer">
                                                 <span>{currentUser.fullName}</span>
