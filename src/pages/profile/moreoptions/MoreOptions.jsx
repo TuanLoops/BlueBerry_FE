@@ -1,20 +1,14 @@
 import "./moreOptions.scss";
-import ManageAccountsIcon from "@mui/icons-material/ManageAccounts";
 import FaceIcon from "@mui/icons-material/Face";
 import InsertPhotoIcon from "@mui/icons-material/InsertPhoto";
-import {useContext, useEffect, useRef, useState} from "react";
+import { useEffect, useRef, useState} from "react";
 import ChangeAvatar from "./changeavatar/ChangeAvatar";
-import SearchIcon from "@mui/icons-material/Search";
 import {ChangePhoto} from "./changephoto/ChangePhoto.jsx";
-import {SearchModal} from "./search/SearchModal.jsx";
-import {EditProfile} from "./edtiProfile/EditProfile.jsx";
 
-function MoreOptions({onClose, buttonRef, onSearchChange }) {
+function MoreOptions({onClose, buttonRef }) {
     const popupRef = useRef(null);
     const [changeAvatar, setChangeAvatar] = useState(false);
     const [changePhoto, setChangePhoto] = useState(false);
-    const [editProfile, setEditProfile] = useState(false);
-    const [showSearch, setShowSearch] = useState(false);
 
     useEffect(() => {
         window.addEventListener("click", handleOutsideClick);
@@ -45,21 +39,10 @@ function MoreOptions({onClose, buttonRef, onSearchChange }) {
                     <div className="option-item" onClick={()=>setChangePhoto(true)}>
                         <InsertPhotoIcon/> <span>Change cover photo</span>
                     </div>
-                    <div className="option-item" onClick={()=>{
-                        setShowSearch(true)
-                    }}>
-                        <SearchIcon/>
-                        <span>Search</span>
-                    </div>
-                    <div className="option-item" onClick={()=>setEditProfile(true)}>
-                        <ManageAccountsIcon/> <span>Edit profile</span>
-                    </div>
                 </div>
             </div>
             {changeAvatar && <ChangeAvatar onClose={() => setChangeAvatar(false)}/>}
             {changePhoto && <ChangePhoto onClose={() => setChangePhoto(false)}/>}
-            {showSearch && <SearchModal onClose={() => setShowSearch(false)} onSearchChange={onSearchChange} />}
-            {editProfile && <EditProfile/>}
         </div>
     );
 }
