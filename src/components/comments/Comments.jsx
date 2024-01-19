@@ -83,6 +83,15 @@ const Comments = ({ postId }) => {
     })
     setComments(newList)
   }
+  const changedComment=(comment)=>{
+    let list = comments.map((item)=>{
+      if (item.id===comment.id){
+        item=comment;
+      }
+      return item;
+    })
+    setComments(list)
+  }
 
   return (
     <div className="comments">
@@ -127,7 +136,7 @@ const Comments = ({ postId }) => {
         </div>
       </div>
       {comments.map((comment) => (
-        <Comment key={comment.id} comment={comment} changeCountLikes={changeCountLikes}/>
+        <Comment key={comment.id} comment={comment} changeComment={changedComment} changeCountLikes={changeCountLikes}/>
       ))}
     </div>
   );

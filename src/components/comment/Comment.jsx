@@ -14,9 +14,9 @@ import { formatDistanceToNow } from "date-fns";
 import PreviewImg from "../previewimg/PreviewImg";
 import { getImageURL, uploadImage } from "../../firebase";
 import {useDispatch} from "react-redux";
-import {likeComment} from "../../redux/service/commentService.jsx";
+import {editComment, likeComment} from "../../redux/service/commentService.jsx";
 
-const Comment = ({ comment,changeCountLikes }) => {
+const Comment = ({ comment,changeCountLikes,changeComment }) => {
   const actionButtonRef = useRef(null);
   const [index, setIndex] = useState(-1);
   const [showActions, setShowActions] = useState(false);
@@ -83,6 +83,7 @@ const Comment = ({ comment,changeCountLikes }) => {
           {showActions && (
             <Popup
               comment={comment}
+              changeComment={changeComment}
               buttonRef={actionButtonRef}
               onClose={() => setShowActions(false)}
             />
@@ -95,7 +96,7 @@ const Comment = ({ comment,changeCountLikes }) => {
 
 export default Comment;
 
-const Popup = ({ comment, onClose, buttonRef }) => {
+const Popup = ({ comment, onClose, buttonRef,changeComment }) => {
   const popupRef = useRef(null);
   const [showEditModal, setShowEditModal] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
@@ -130,7 +131,7 @@ const Popup = ({ comment, onClose, buttonRef }) => {
         </div>
       </div>
       {showEditModal && (
-        <EditPost comment={comment} onClose={() => setShowEditModal(false)} />
+        <EditComment comment={comment} changeComment={changeComment} onClose={() => setShowEditModal(false)} />
       )}
       {showDeleteModal && (
         <DeleteComment
@@ -180,9 +181,9 @@ function DeleteComment({ commentId, onClose }) {
   );
 }
 
-function EditPost({ comment, onClose }) {
+function EditComment({ comment, onClose,changeComment }) {
   const [body, setBody] = useState(comment.body);
-  const [imageList, setImageList] = useState([comment.image]);
+  const [imageList, setImageList] = useState(comment.image ? [comment.image] : []);
   const [isUploading, setIsUploading] = useState(false);
   const modalRef = useRef(null);
   const inputRef = useRef(null);
@@ -230,7 +231,6 @@ function EditPost({ comment, onClose }) {
     }
     setImageList(images);
   };
-
   const handleFileRemove = () => {
     setImageList([]);
   };
@@ -238,6 +238,17 @@ function EditPost({ comment, onClose }) {
   const handleSave = async () => {
     if (!body) return;
     // TODO: edit
+    try {
+     let data= await editComment(comment.id,
+          {
+            body: body,
+            image:imageList[0]? imageList[0]: null});
+      changeComment(data)
+      onClose()
+    }catch (e){
+
+    }
+
   };
 
   return (
@@ -279,7 +290,8 @@ function EditPost({ comment, onClose }) {
                 multiple
                 onChange={handleFileChange}
               />
-              <PreviewImg imageList={imageList} remove={handleFileRemove} />
+              {imageList.length>0 ? <PreviewImg imageList={imageList} remove={handleFileRemove} />:""}
+
             </div>
           </div>
           <div className="edit-footer">

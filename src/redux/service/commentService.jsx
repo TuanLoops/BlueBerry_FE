@@ -18,6 +18,19 @@ export const createComment = async(id,comment) => {
     }
 }
 
+export const editComment= async(id,comment)=>{
+    return await UrlStatus().put(`/comments/${id}`,comment)
+        .then(res => res.data)
+        .catch(e => {
+            if (e.response.data){
+                throw new Error(e.response.data.message)
+            }else{
+                throw new Error(e.response.data.status)
+            }
+
+    })
+}
+
 export const likeComment = async(id)=>{
    return  await UrlStatus().post(`/comments/${id}/like`)
 }
