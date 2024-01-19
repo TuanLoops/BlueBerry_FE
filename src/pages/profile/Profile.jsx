@@ -18,6 +18,7 @@ import BookmarksIcon from '@mui/icons-material/Bookmarks';
 import SearchIcon from "@mui/icons-material/Search";
 import { SearchModal } from "./moreoptions/search/SearchModal.jsx";
 import { getInfoUser } from "../../redux/service/userService.jsx";
+import FriendButton from "../../components/friendbutton/FriendButton.jsx";
 import { UrlFriend } from "../../context/connect.jsx";
 
 const Profile = () => {
@@ -28,7 +29,7 @@ const Profile = () => {
     const [index, setIndex] = useState(-1);
     const [filteredPosts, setFilteredPosts] = useState(null);
     const [showSearch, setShowSearch] = useState(false);
-    const [friendList, setFriendList] = useState([]);
+    const [userFriendList, setUserFriendList] = useState([]);
 
     const showMoreButtonRef = useRef(null);
     const imagesContainerRef = useRef(null);
@@ -37,15 +38,16 @@ const Profile = () => {
     const posts = useSelector((state) => state.status.list);
     const currentUser = useSelector(({ user }) => user.currentUser)
     const infoUser = useSelector(({ user: user2 }) => user2.infoUser);
+    const friendList = useSelector(({ friend }) => friend.friendList);
     console.log(currentUser)
     useEffect(() => {
         const fetchData = async () => {
             dispatch(getStatusByUser(id));
             dispatch(getInfoUser(id));
             let res = await UrlFriend().get(`/list/${id}`);
-            setFriendList(res.data)
+            setUserFriendList(res.data)
         }
-        
+
         fetchData();
     }, [id]);
 
@@ -124,7 +126,16 @@ const Profile = () => {
                                         <button><SearchIcon /></button>
                                     </div>
                                     <div className="right">
-                                        <button>Add Friends</button>
+                                        {currentUser.id != +id ? (
+                                            <FriendButton userId={infoUser.id} />
+                                        ) : (
+                                            <Link to={"/accountsettings"}>
+                                                <button>
+                                                    <img src="https://static.xx.fbcdn.net/rsrc.php/v3/yl/r/tmaz0VO75BB.png?_nc_eui2=AeHp1Ln-z1HSkfV-aw2uLKAYPeqkNBZWYnQ96qQ0FlZidAfwYPP1T1b5ZVPiivJfvfzVYWO5udsdrbLrOaRHjRcg" alt="" />
+                                                    <span>Edit Profile</span>
+                                                </button>
+                                            </Link>
+                                        )}
                                     </div>
                                 </div>
                             </>
@@ -147,7 +158,7 @@ const Profile = () => {
                                     {infoUser !== null && (
                                         <>
                                             {infoUser.hobbies ? (
-                                                <div className="hobbies" >
+                                                <div className="hobbies">
                                                     <label><BookmarksIcon /> Hobbies:</label>
                                                     <span>{infoUser.hobbies}</span>
                                                 </div>
@@ -169,7 +180,8 @@ const Profile = () => {
                                                 </>
                                             ) : (
                                                 <>
-                                                    <div className="request">Please update your personal information</div>
+                                                    <div className="request">Please update your personal information
+                                                    </div>
                                                 </>
                                             )}
                                         </>
@@ -229,9 +241,9 @@ const Profile = () => {
 
                                 <div className="gallery-photos">
                                     <div className="gallery-photos-rowFirst">
-                                        {friendList.slice(0, 9).map((friend) => (
+                                        {friendList.find(friend => friend.id === +id) && userFriendList.slice(0, 9).map((friend) => (
                                             <Link to={`/profile/${friend.id}`} className="first-friend" key={friend.id}>
-                                                <img
+                                                <img className="friend-avatar"
                                                     src={friend.avatarImage}
                                                     alt=""
                                                 />
@@ -249,7 +261,8 @@ const Profile = () => {
                                 <>
                                     <div className="info-search">
                                         Search: {filteredPosts.length} result
-                                        <button className="goBack" onClick={() => setFilteredPosts(null)}>GoBack</button>
+                                        <button className="goBack"
+                                            onClick={() => setFilteredPosts(null)}>GoBack</button>
                                     </div>
                                     <Posts posts={filteredPosts} />
                                 </>

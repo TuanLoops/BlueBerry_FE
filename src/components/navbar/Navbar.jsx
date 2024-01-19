@@ -12,7 +12,7 @@ import { useContext, useEffect, useRef, useState } from "react";
 import { DarkModeContext } from "../../context/darkModeContext";
 import { useDispatch, useSelector } from "react-redux";
 import { logOut } from "../../redux/service/userService.jsx";
-import logo from '../../../public/logo-blueberry.png';
+import logo from '../../../public/logo-blueberry.png'
 
 const Navbar = () => {
     const currentUser = useSelector(({ user }) => user.currentUser);
@@ -75,6 +75,10 @@ const Navbar = () => {
         };
     }, [userRef]);
 
+    const disable = (e,fa) => {
+        e.stopPropagation()
+        setPopupVisible(fa)
+    }
     return (
         <>
             <div className="navbar">
@@ -129,7 +133,7 @@ const Navbar = () => {
                         {isPopupVisible && (
                             <>
                                 <div className="popup">
-                                    <div className="info-user">
+                                    <div className="info-user" onClick={(e)=> disable(e,false)}>
                                         <Link to={`/profile/${currentUser.id}`} className="icon-user">
                                             <div className="icon">
                                                 <img
@@ -140,12 +144,12 @@ const Navbar = () => {
                                                 <span>{currentUser.fullName}</span>
                                             </div>
                                         </Link>
-                                        <Link to={`/profile/${currentUser?.id}`} className="href">
+                                        <Link to={`/profile/${currentUser?.id}`} className="href" onClick={(e)=> disable(e,false)}>
                                             <span>Trang cá nhân</span>
                                         </Link>
                                     </div>
                                     <div className="function">
-                                        <div className="item-function">
+                                        <div className="item-function" onClick={(e)=> disable(e,false)}>
                                             <Link to={`/accountsettings`} className="on-function">
                                                 <div className="background-item">
                                                     <i className="setting-privacy"></i>
@@ -155,8 +159,8 @@ const Navbar = () => {
                                                 </div>
                                             </Link>
                                         </div>
-                                        <div className="item-function">
-                                            <Link to={{}} className="on-function">
+                                        <div className="item-function" onClick={(e)=> disable(e,false)}>
+                                            <Link to={{}} className="on-function" >
                                                 <div className="background-item">
                                                     <i className="help-support"></i>
                                                 </div>
@@ -165,7 +169,7 @@ const Navbar = () => {
                                                 </div>
                                             </Link>
                                         </div>
-                                        <div className="item-function">
+                                        <div className="item-function" onClick={(e)=> disable(e,false)}>
                                             <Link to={{}} className="on-function">
                                                 <div className="background-item">
                                                     <i className="screen"></i>
