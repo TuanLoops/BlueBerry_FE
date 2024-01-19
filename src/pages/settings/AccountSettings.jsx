@@ -36,7 +36,7 @@ const AccountSettings = () => {
         <div className='right-container'>
           <div className='right-content'>
             {
-                selectedSettings === 1 ? <PersonalInformation /> :
+              selectedSettings === 1 ? <PersonalInformation /> :
                 selectedSettings === 2 ? <ChangePassword /> : ""
             }
           </div>
