@@ -23,10 +23,10 @@ const Login = () => {
     } catch (err) {
       setLoading(false);
       setMessage(err.response.data.message);
-      if (err.response.request.status === 403){
+      if (err.response.request.status === 403) {
         setMessage(err.response.data.message);
-      }else {
-          setMessage("Sai tài khoản hoặc mật khẩu")
+      } else {
+        setMessage("Sai tài khoản hoặc mật khẩu")
       }
     }
   };
@@ -57,12 +57,14 @@ const Login = () => {
       <div className="login">
         <div className="card">
           <div className="left">
-            <h1>Hello World.</h1>
-            <p>
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Libero
-              cum, alias totam numquam ipsa exercitationem dignissimos, error
-              nam, consequatur.
-            </p>
+            <h2>Welcome to</h2>
+            <div className="brand-container">
+              <img src="logo-blueberry.png"></img>
+              <span>BlueBerry</span>
+            </div>
+
+            <h2>Crafting Connections</h2>
+            <h2>Creating Conversations</h2>
             <span>Don't you have an account?</span>
             <Link to="/register">
               <button>Register</button>

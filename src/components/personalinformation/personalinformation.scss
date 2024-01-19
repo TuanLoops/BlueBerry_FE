@@ -1,105 +1,69 @@
-.update-personal-info-container {
-  display: flex;
-  height: calc(100vh - 56px);
-  padding: 4rem;
-  width: 50%;
-  flex-direction: column;
-  h1 {
-    color: #fff;
-    text-align: center;
-  }
+@import "../../style.scss";
 
-  .update-button {
+.update-personal-info {
+  @include themify($themes) {
     display: flex;
-    justify-content: flex-end;
-    .update-button-container{
-
-      display: flex;
-      padding: 1rem;
-      text-align: right;
-      justify-content: flex-end;
-      width: max-content;
-      &:hover {
-        transition: 0.2s;
-        color: #3538f1;
-        cursor: pointer;
-      }
-
-  
-      .title {
-        font-size: larger;
-      }
-  
-      .icon {
-        padding-top: 0.4rem;
-        padding-left: 0.5rem;
-      }
-    }
-  }
-
-  .current-information {
-    display: flex;
-    width: 100%;
-    color: #fff;
+    color: themed("textColor");
     flex-direction: column;
+    width: 100%;
+    height: calc(100vh - 56px);
+    padding: 2rem;
 
-    table {
-      width: 100%;
-      text-align: left;
-      background-color: #68686815;
-      border-radius: 1rem;
-
-      th {
-        padding: 1rem;
-      }
-    }
-
-    .button-container {
+    .update-personal-info-container {
+      width: 80%;
+      min-width: 700px;
       display: flex;
-      justify-content: center;
-      margin-top: 2rem;
-      button {
-        padding: 0.375rem 0.75rem;
-        width: 170px;
-        color: white;
-        font-size: 1rem;
-        line-height: 1.5;
-        border-radius: 0.25rem;
-        background-color: #0004ff;
-        border-color: #142b69;
+      flex-direction: column;
+      align-items: center;
+      .title-container {
+        padding-bottom: 3rem;
+      }
 
-        &:hover {
-          background-color: #007bffb4;
-          border-color: #0062cc;
+      .current-information {
+        width: 60%;
+        padding-left: 1rem;
+        table {
+          width: 100%;
+          background-color: themed("bgSoft");
+
+          tr {
+            th {
+              font-size: large;
+
+              input {
+                width: 100%;
+                font-size: large;
+                background-color: transparent;
+                border: none;
+                color: themed("textColor");
+              }
+              :disabled {
+                cursor: default !important;
+              }
+
+              textarea {
+                width: 100%;
+                font-size: large;
+                background-color: transparent;
+                border: none;
+                color: themed("textColor");
+                resize: none;
+              }
+            }
+          }
+
+          tr th:nth-child(1) {
+            text-align: left;
+            width: 40%;
+            padding: 1rem;
+          }
+          tr th:nth-child(2) {
+            text-align: left;
+            width: 60%;
+            padding: 1rem;
+          }
         }
       }
-    }
-  }
-
-  .title-container {
-    display: flex;
-    color: #fff;
-    margin-bottom: 3rem;
-    flex-direction: column;
-    align-items: flex-start;
-  }
-
-  .form-container {
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-
-    label {
-      margin-bottom: 5px;
-      color: #fff;
-    }
-
-    input,
-    textarea {
-      padding: 8px;
-      margin-bottom: 20px;
-      border: 1px solid #ccc;
-      border-radius: 3px;
     }
   }
 }
