@@ -1,15 +1,23 @@
-import { useState } from 'react';
+import {useEffect, useState} from 'react';
 import './search.scss';
-
 import { FcFilledFilter, FcList, FcConferenceCall, FcSelfie } from "react-icons/fc";
+import {useParams} from "react-router-dom";
+import Post from "../../components/post/post.jsx";
+import {useDispatch, useSelector} from "react-redux";
+import {searchStatus} from "../../redux/service/statusService.jsx";
+import Posts from "../../components/posts/Posts.jsx";
 
 
 
 const Search = () => {
-
+    const {keyword} = useParams();
     const [selectedSettings, setSelectedSettings] = useState(1);
-
-
+    const dispatch= useDispatch();
+    const posts= useSelector(({status}) => status.filterList);
+    console.log(keyword)
+    useEffect(() => {
+        dispatch(searchStatus(keyword));
+    }, []);
 
     return (
         <div className='main-search-container'>
@@ -73,11 +81,18 @@ const Search = () => {
             </div>
             <div className='main-search-right'>
                 <div className='main-search-content'>
-                    {
-                        selectedSettings === 1 ? <h1>Search all relevant</h1> :
-                            selectedSettings === 2 ? <h1>Search by status</h1> :
-                                selectedSettings === 3 ? <h1>Search for people</h1> : ""
-                    }
+                    <div>
+                        {
+                            selectedSettings === 1 ? <div>
+                                    <Posts posts={posts}/>
+                                    {/* {posts?.map(item=>*/}
+                                    {/*<p>hahaha</p>*/}
+                                    {/* )}*/}
+                                </div> :
+                                selectedSettings === 2 ? <h1>Search by status</h1> :
+                                    selectedSettings === 3 ? <h1>Search for people</h1> : ""
+                        }
+                    </div>
                 </div>
             </div>
         </div>

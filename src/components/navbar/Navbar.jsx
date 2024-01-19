@@ -1,4 +1,5 @@
 import "./navbar.scss";
+import logo from "../../../public/logo-blueberry.png"
 import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
 import DarkModeOutlinedIcon from "@mui/icons-material/DarkModeOutlined";
 import WbSunnyOutlinedIcon from "@mui/icons-material/WbSunnyOutlined";
@@ -81,7 +82,7 @@ const Navbar = () => {
                 <div className="left">
                     <Link className="brand-container" to="/" style={{ textDecoration: "none" }}>
                         <div className="brand-container__logo">
-                            <img style={{ width: "30px" }} src="logo-blueberry.png" alt="My Logo" />
+                            <img style={{ width: "30px" }} src={logo} alt="My Logo" />
                         </div>
                         <div className="brand-container__brand-name">
                             <span>Blueberry</span>
