@@ -2,43 +2,52 @@ import "./profile.scss";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import Posts from "../../components/posts/Posts";
 import MoreOptions from "./moreoptions/MoreOptions";
-import {useEffect, useRef, useState} from "react";
+import { useEffect, useRef, useState } from "react";
 import NewPost from "../../components/newpost/NewPost.jsx";
 import Thumbnails from "yet-another-react-lightbox/plugins/thumbnails";
 import Counter from "yet-another-react-lightbox/plugins/counter";
 import Zoom from "yet-another-react-lightbox/plugins/zoom";
 import Lightbox from "yet-another-react-lightbox";
-import {Link, useParams} from "react-router-dom";
-import {useDispatch, useSelector} from "react-redux";
-import {getStatusByUser, searchStatus, showStatus} from "../../redux/service/statusService.jsx";
+import { Link, useParams } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { getStatusByUser, searchStatus, showStatus } from "../../redux/service/statusService.jsx";
 import img from '../../Pic-banner.jpg'
 import PermPhoneMsgIcon from '@mui/icons-material/PermPhoneMsg';
 import HomeIcon from '@mui/icons-material/Home';
 import BookmarksIcon from '@mui/icons-material/Bookmarks';
 import SearchIcon from "@mui/icons-material/Search";
-import {SearchModal} from "./moreoptions/search/SearchModal.jsx";
-import { getInfoUser} from "../../redux/service/userService.jsx";
+import { SearchModal } from "./moreoptions/search/SearchModal.jsx";
+import { getInfoUser } from "../../redux/service/userService.jsx";
+import { UrlFriend } from "../../context/connect.jsx";
 
 const Profile = () => {
-    const {id} = useParams();
+    const { id } = useParams();
     const [showMoreOptions, setShowMoreOptions] = useState(false);
     const [open, setOpen] = useState(false);
     const [openBox, setOpenBox] = useState(false);
     const [index, setIndex] = useState(-1);
     const [filteredPosts, setFilteredPosts] = useState(null);
     const [showSearch, setShowSearch] = useState(false);
+    const [friendList, setFriendList] = useState([]);
+
     const showMoreButtonRef = useRef(null);
     const imagesContainerRef = useRef(null);
     const inputRef = useRef(null);
     const dispatch = useDispatch()
     const posts = useSelector((state) => state.status.list);
-    const currentUser = useSelector(({user})=> user.currentUser)
-    const infoUser = useSelector(({user: user2})=>user2.infoUser);
+    const currentUser = useSelector(({ user }) => user.currentUser)
+    const infoUser = useSelector(({ user: user2 }) => user2.infoUser);
     console.log(currentUser)
     useEffect(() => {
-        dispatch(getStatusByUser(id));
-        dispatch(getInfoUser(id))
-    }, []);
+        const fetchData = async () => {
+            dispatch(getStatusByUser(id));
+            dispatch(getInfoUser(id));
+            let res = await UrlFriend().get(`/list/${id}`);
+            setFriendList(res.data)
+        }
+        
+        fetchData();
+    }, [id]);
 
     const handleSearchChange = async (value) => {
         const result = await dispatch(searchStatus(value));
@@ -66,12 +75,12 @@ const Profile = () => {
                             <Lightbox
                                 open={open}
                                 close={() => setOpen(false)}
-                                slides={[{src: infoUser.bannerImage ? infoUser.bannerImage : img , alt: 'Banner Image'}]}
+                                slides={[{ src: infoUser.bannerImage ? infoUser.bannerImage : img, alt: 'Banner Image' }]}
                             />
                             <Lightbox
                                 open={openBox}
                                 close={() => setOpenBox(false)}
-                                slides={[{src: infoUser.avatarImage, alt: 'Avatar Image'},]}
+                                slides={[{ src: infoUser.avatarImage, alt: 'Avatar Image' },]}
                             />
                             <img
                                 src={infoUser.banner ? infoUser.banner : img}
@@ -91,11 +100,11 @@ const Profile = () => {
                                     ref={showMoreButtonRef}
                                     onClick={() => setShowMoreOptions(!showMoreOptions)}
                                 >
-                                    <MoreVertIcon/>
+                                    <MoreVertIcon />
                                 </div>
                             </div>
                             {showMoreOptions && <MoreOptions buttonRef={showMoreButtonRef}
-                                                             onClose={() => setShowMoreOptions(false)}
+                                onClose={() => setShowMoreOptions(false)}
                             />}
                         </div>
                     )}
@@ -112,7 +121,7 @@ const Profile = () => {
                                     <div className="left" ref={inputRef} onClick={() => {
                                         setShowSearch(true)
                                     }}>
-                                        <button><SearchIcon/></button>
+                                        <button><SearchIcon /></button>
                                     </div>
                                     <div className="right">
                                         <button>Add Friends</button>
@@ -121,7 +130,7 @@ const Profile = () => {
                             </>
                         )}
                         {showSearch && <SearchModal buttonRef={inputRef} onClose={() => setShowSearch(false)}
-                                                    onSearchChange={handleSearchChange}/>}
+                            onSearchChange={handleSearchChange} />}
                     </div>
                 </div>
 
@@ -139,7 +148,7 @@ const Profile = () => {
                                         <>
                                             {infoUser.hobbies ? (
                                                 <div className="hobbies" >
-                                                    <label><BookmarksIcon/> Hobbies:</label>
+                                                    <label><BookmarksIcon /> Hobbies:</label>
                                                     <span>{infoUser.hobbies}</span>
                                                 </div>
                                             ) : (
@@ -150,11 +159,11 @@ const Profile = () => {
                                             {infoUser.address && infoUser.phoneNumber ? (
                                                 <>
                                                     <div className="address">
-                                                        <label><HomeIcon/> Address:</label>
+                                                        <label><HomeIcon /> Address:</label>
                                                         <span>{infoUser.address}</span>
                                                     </div>
                                                     <div className="phone">
-                                                        <label><PermPhoneMsgIcon/> Phone Number:</label>
+                                                        <label><PermPhoneMsgIcon /> Phone Number:</label>
                                                         <span>{infoUser.phoneNumber}</span>
                                                     </div>
                                                 </>
@@ -220,13 +229,13 @@ const Profile = () => {
 
                                 <div className="gallery-photos">
                                     <div className="gallery-photos-rowFirst">
-                                        {posts.slice(0, 9).map((post) => (
-                                            <Link to="" className="first-friend" key={post.id}>
+                                        {friendList.slice(0, 9).map((friend) => (
+                                            <Link to={`/profile/${friend.id}`} className="first-friend" key={friend.id}>
                                                 <img
-                                                    src={post.imageList.length > 0 ? post.imageList[0].imageLink : 'https://cdn.diemnhangroup.com/seoulcenter/2022/11/gai-xinh-10.jpg'}
+                                                    src={friend.avatarImage}
                                                     alt=""
                                                 />
-                                                <span>{post.author.fullName}</span>
+                                                <span>{friend.fullName}</span>
                                             </Link>
                                         ))}
                                     </div>
@@ -242,11 +251,11 @@ const Profile = () => {
                                         Search: {filteredPosts.length} result
                                         <button className="goBack" onClick={() => setFilteredPosts(null)}>GoBack</button>
                                     </div>
-                                    <Posts posts={filteredPosts}/>
+                                    <Posts posts={filteredPosts} />
                                 </>
                             ) : (
                                 <>
-                                    <Posts posts={posts}/>
+                                    <Posts posts={posts} />
                                 </>
                             )}
                         </div>

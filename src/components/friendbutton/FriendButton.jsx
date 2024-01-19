@@ -31,11 +31,11 @@ function FriendButton({ userId }) {
   };
 
   const handleCancelRequest = () => {
-    dispatch(cancelFriendRequest(userId));
+    dispatch(cancelFriendRequest(sentFriendRequests.find(request => request.receiver.id === userId).id));
   };
 
   const handleAcceptRequest = () => {
-    dispatch(acceptFriendRequest(userId));
+    dispatch(acceptFriendRequest(incomingFriendRequests.find(request => request.sender.id === userId).id));
   };
 
   const isFriend = friendList.find((friend) => friend.id === userId);

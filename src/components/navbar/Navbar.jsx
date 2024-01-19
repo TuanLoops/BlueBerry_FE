@@ -12,7 +12,7 @@ import { useContext, useEffect, useRef, useState } from "react";
 import { DarkModeContext } from "../../context/darkModeContext";
 import { useDispatch, useSelector } from "react-redux";
 import { logOut } from "../../redux/service/userService.jsx";
-
+import logo from '../../../public/logo-blueberry.png';
 
 const Navbar = () => {
     const currentUser = useSelector(({ user }) => user.currentUser);
@@ -81,7 +81,7 @@ const Navbar = () => {
                 <div className="left">
                     <Link className="brand-container" to="/" style={{ textDecoration: "none" }}>
                         <div className="brand-container__logo">
-                            <img style={{ width: "30px" }} src="logo-blueberry.png" alt="My Logo" />
+                            <img style={{ width: "30px" }} src={logo} alt="My Logo" />
                         </div>
                         <div className="brand-container__brand-name">
                             <span>Blueberry</span>
