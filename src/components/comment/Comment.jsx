@@ -242,15 +242,13 @@ function EditPost({comment, onClose, onUpdate}) {
 
     const handleSave = async () => {
         if (!body) return;
-
+        onClose();
         const updatedComment = {
             ...comment,
             body: body,
         };
-
         try {
             await updateComment(comment.id, updatedComment);
-            onClose();
             onUpdate();
         } catch (error) {
             console.log(error);
