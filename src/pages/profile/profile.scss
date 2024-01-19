@@ -122,6 +122,24 @@
             margin-right: 0;
           }
         }
+        .right{
+          a{
+            text-decoration: none;
+            button{
+              display: flex;
+              align-items: center;
+              img{
+                width: 15px;
+                height: 15px;
+                margin-right: 10px;
+              }
+              span{
+                font-weight: 600;
+              }
+            }
+          }
+
+        }
       }
     }
     .profile-container {

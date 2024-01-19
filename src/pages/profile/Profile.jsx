@@ -18,6 +18,7 @@ import BookmarksIcon from '@mui/icons-material/Bookmarks';
 import SearchIcon from "@mui/icons-material/Search";
 import {SearchModal} from "./moreoptions/search/SearchModal.jsx";
 import { getInfoUser} from "../../redux/service/userService.jsx";
+import FriendButton from "../../components/friendbutton/FriendButton.jsx";
 
 const Profile = () => {
     const {id} = useParams();
@@ -115,7 +116,8 @@ const Profile = () => {
                                         <button><SearchIcon/></button>
                                     </div>
                                     <div className="right">
-                                        <button>Add Friends</button>
+                                        {currentUser.id === id ? (<FriendButton/>):(<Link to={"/accountsettings"}><button>
+                                            <img src="https://static.xx.fbcdn.net/rsrc.php/v3/yl/r/tmaz0VO75BB.png?_nc_eui2=AeHp1Ln-z1HSkfV-aw2uLKAYPeqkNBZWYnQ96qQ0FlZidAfwYPP1T1b5ZVPiivJfvfzVYWO5udsdrbLrOaRHjRcg" alt=""/> <span>Edit Profile</span></button></Link>)}
                                     </div>
                                 </div>
                             </>
