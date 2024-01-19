@@ -17,7 +17,7 @@ import HomeIcon from '@mui/icons-material/Home';
 import BookmarksIcon from '@mui/icons-material/Bookmarks';
 import SearchIcon from "@mui/icons-material/Search";
 import {SearchModal} from "./moreoptions/search/SearchModal.jsx";
-import { getInfoUser} from "../../redux/service/userService.jsx";
+import {getInfoUser} from "../../redux/service/userService.jsx";
 import FriendButton from "../../components/friendbutton/FriendButton.jsx";
 
 const Profile = () => {
@@ -33,9 +33,10 @@ const Profile = () => {
     const inputRef = useRef(null);
     const dispatch = useDispatch()
     const posts = useSelector((state) => state.status.list);
-    const currentUser = useSelector(({user})=> user.currentUser)
-    const infoUser = useSelector(({user: user2})=>user2.infoUser);
-    console.log(currentUser)
+    const currentUser = useSelector(({user}) => user.currentUser)
+    const infoUser = useSelector(({user: user2}) => user2.infoUser);
+    console.log(currentUser.id)
+    console.log(id)
     useEffect(() => {
         dispatch(getStatusByUser(id));
         dispatch(getInfoUser(id))
@@ -67,7 +68,7 @@ const Profile = () => {
                             <Lightbox
                                 open={open}
                                 close={() => setOpen(false)}
-                                slides={[{src: infoUser.bannerImage ? infoUser.bannerImage : img , alt: 'Banner Image'}]}
+                                slides={[{src: infoUser.bannerImage ? infoUser.bannerImage : img, alt: 'Banner Image'}]}
                             />
                             <Lightbox
                                 open={openBox}
@@ -116,8 +117,16 @@ const Profile = () => {
                                         <button><SearchIcon/></button>
                                     </div>
                                     <div className="right">
-                                        {currentUser.id === id ? (<FriendButton/>):(<Link to={"/accountsettings"}><button>
-                                            <img src="https://static.xx.fbcdn.net/rsrc.php/v3/yl/r/tmaz0VO75BB.png?_nc_eui2=AeHp1Ln-z1HSkfV-aw2uLKAYPeqkNBZWYnQ96qQ0FlZidAfwYPP1T1b5ZVPiivJfvfzVYWO5udsdrbLrOaRHjRcg" alt=""/> <span>Edit Profile</span></button></Link>)}
+                                        {currentUser.id != +id ? (
+                                            <FriendButton/>
+                                        ) : (
+                                            <Link to={"/accountsettings"}>
+                                                <button>
+                                                    <img src="https://static.xx.fbcdn.net/rsrc.php/v3/yl/r/tmaz0VO75BB.png?_nc_eui2=AeHp1Ln-z1HSkfV-aw2uLKAYPeqkNBZWYnQ96qQ0FlZidAfwYPP1T1b5ZVPiivJfvfzVYWO5udsdrbLrOaRHjRcg" alt=""/>
+                                                    <span>Edit Profile</span>
+                                                </button>
+                                            </Link>
+                                        )}
                                     </div>
                                 </div>
                             </>
@@ -140,7 +149,7 @@ const Profile = () => {
                                     {infoUser !== null && (
                                         <>
                                             {infoUser.hobbies ? (
-                                                <div className="hobbies" >
+                                                <div className="hobbies">
                                                     <label><BookmarksIcon/> Hobbies:</label>
                                                     <span>{infoUser.hobbies}</span>
                                                 </div>
@@ -162,7 +171,8 @@ const Profile = () => {
                                                 </>
                                             ) : (
                                                 <>
-                                                    <div className="request">Please update your personal information</div>
+                                                    <div className="request">Please update your personal information
+                                                    </div>
                                                 </>
                                             )}
                                         </>
@@ -237,12 +247,13 @@ const Profile = () => {
                         </div>
 
                         <div className="content-area">
-                            {infoUser && (infoUser.id === currentUser.id && <NewPost />)}
+                            {infoUser && (infoUser.id === currentUser.id && <NewPost/>)}
                             {filteredPosts ? (
                                 <>
                                     <div className="info-search">
                                         Search: {filteredPosts.length} result
-                                        <button className="goBack" onClick={() => setFilteredPosts(null)}>GoBack</button>
+                                        <button className="goBack"
+                                                onClick={() => setFilteredPosts(null)}>GoBack</button>
                                     </div>
                                     <Posts posts={filteredPosts}/>
                                 </>
