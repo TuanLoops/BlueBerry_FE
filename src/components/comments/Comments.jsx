@@ -22,16 +22,15 @@ const Comments = ({ postId }) => {
   const fileInputId = uuidv4();
   const fileInputRef = useRef(null);
 
+  const fetch = async () => {
+    let data = await getAllComments(postId);
+    setComments(data);
+  };
+
   useEffect(() => {
-    // Get comments from API
-    // setComments(commentsFromAPI)
-    const fetch = async () => {
-      let data = await getAllComments(postId);
-      setComments(data);
-      console.log(data)
-    };
     fetch();
-  }, []);
+  }, [postId]);
+
 
   const handleComment = async () => {
     if (body) {
@@ -136,7 +135,13 @@ const Comments = ({ postId }) => {
         </div>
       </div>
       {comments.map((comment) => (
-        <Comment key={comment.id} comment={comment} changeComment={changedComment} changeCountLikes={changeCountLikes}/>
+        <Comment key={comment.id}
+                 comment={comment}
+                 changeComment={changedComment}
+                 changeCountLikes={changeCountLikes}
+                 postId={postId}
+                 onUpdate={fetch}
+        />
       ))}
     </div>
   );

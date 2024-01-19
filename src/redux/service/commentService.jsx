@@ -19,6 +19,7 @@ export const createComment = async(id,comment) => {
 }
 
 export const editComment= async(id,comment)=>{
+    console.log(comment)
     return await UrlStatus().put(`/comments/${id}`,comment)
         .then(res => res.data)
         .catch(e => {
@@ -30,7 +31,15 @@ export const editComment= async(id,comment)=>{
 
     })
 }
-
 export const likeComment = async(id)=>{
    return  await UrlStatus().post(`/comments/${id}/like`)
+}
+
+export const deleteComment = async (id) => {
+    try {
+        const  res  = await UrlStatus().delete(`comments/${id}`);
+        return res.data;
+    }catch (e){
+        console.log(e)
+    }
 }

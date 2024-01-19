@@ -7,7 +7,8 @@ import { useEffect, useRef, useState } from "react";
 import PrivacySetting from "../privacysetting/PrivacySetting";
 import DeletePost from "../deletepost/DeletePost";
 import EditPost from "../editpost/EditPost";
-import { useSelector } from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
+import {changePrivacy} from "../../../redux/service/statusService.jsx";
 
 function MoreOptions({ onClose, buttonRef, post }) {
   const popupRef = useRef(null);
@@ -15,6 +16,7 @@ function MoreOptions({ onClose, buttonRef, post }) {
   const [showPrivacySetting, setShowPrivacySettings] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const currentUser = useSelector(({ user }) => user.currentUser);
+  const dispatch = useDispatch();
 
   useEffect(() => {
     document.addEventListener("click", handleOutsideClick);
@@ -29,6 +31,21 @@ function MoreOptions({ onClose, buttonRef, post }) {
       !buttonRef.current.contains(e.target)
     ) {
       onClose();
+    }
+  };
+
+  const handleSave = (checked) => {
+    const status= {
+      id:post.id,
+      privacyLevel: checked
+    }
+    console.log(status)
+    // TODO: save edit
+    try {
+      dispatch(changePrivacy(status))
+      onClose();
+    }catch (e){
+      console.log(e)
     }
   };
 
@@ -84,7 +101,7 @@ function MoreOptions({ onClose, buttonRef, post }) {
         )}
         {showPrivacySetting && (
           <PrivacySetting
-            postId={post.id}
+              handleSave={handleSave}
             defaultChecked={post.privacyLevel}
             onClose={() => setShowPrivacySettings(false)}
           />

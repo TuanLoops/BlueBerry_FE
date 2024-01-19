@@ -23,6 +23,7 @@ $themes: (
     secondaryButtonHover: darken(lightgray, 10%),
     bluePrimary: rgb(53, 100, 255),
     bluePrimaryHover: darken(rgb(53, 100, 255), 5%),
+    primary-icon: invert(8%) sepia(10%) saturate(200%) saturate(200%) saturate(166%) hue-rotate(177deg) brightness(104%) contrast(91%)
   ),
   dark: (
     textColor: whitesmoke,
@@ -48,6 +49,7 @@ $themes: (
     secondaryButtonHover: darken(#646464, 10%),
     bluePrimary: rgb(53, 100, 255),
     bluePrimaryHover: lighten(rgb(53, 100, 255), 5%),
+    primary-icon: invert(89%) sepia(6%) hue-rotate(185deg),
   ),
 );
 
