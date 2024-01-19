@@ -30,7 +30,7 @@ const Comments = ({ postId }) => {
       setComments(data);
     };
     fetch();
-  }, []);
+  }, [postId]);
 
   const handleComment = async () => {
     if (body) {
@@ -65,6 +65,11 @@ const Comments = ({ postId }) => {
 
   const handleFileRemove = () => {
     setImageList([]);
+  };
+
+  const updateCommentsAfterEdit = async () => {
+    const updatedComments = await getAllComments(postId);
+    setComments(updatedComments);
   };
 
   return (
@@ -110,7 +115,8 @@ const Comments = ({ postId }) => {
         </div>
       </div>
       {comments.map((comment) => (
-        <Comment key={comment.id} comment={comment} />
+        <Comment key={comment.id} comment={comment} postId={postId}
+                 onUpdate={updateCommentsAfterEdit} />
       ))}
     </div>
   );
