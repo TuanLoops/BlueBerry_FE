@@ -22,7 +22,7 @@ import {
   getIncomingFriendRequests,
   getSentFriendRequests,
 } from "./redux/service/friendService";
-import {Saved} from "./pages/saved/Saved.jsx";
+import {Saved} from "./components/saved/Saved.jsx";
 
 function Router() {
   const accessToken = useSelector(({ user }) => user.accessToken);
