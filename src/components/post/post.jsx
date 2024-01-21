@@ -4,6 +4,7 @@ import FavoriteOutlinedIcon from "@mui/icons-material/FavoriteOutlined";
 import TextsmsOutlinedIcon from "@mui/icons-material/TextsmsOutlined";
 import ShareOutlinedIcon from "@mui/icons-material/ShareOutlined";
 import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
+import HighlightOffIcon from '@mui/icons-material/HighlightOff';
 import Comments from "../comments/Comments";
 import { useRef, useState } from "react";
 import UsernameLink from "../usernamelink/UsernameLink";
@@ -23,6 +24,7 @@ import Time from "../time/Time.jsx";
 import {useDispatch} from "react-redux";
 import {likeStatus} from "../../redux/service/statusService.jsx";
 import { Avatar } from "@mui/material";
+import {Message} from "@mui/icons-material";
 
 const Post = ({ post }) => {
   const [commentOpen, setCommentOpen] = useState(false);
@@ -30,6 +32,8 @@ const Post = ({ post }) => {
   const [showMore, setShowMore] = useState(false);
   const showMoreButtonRef = useRef(null);
   const dispatch= useDispatch()
+  const [successMessage, setSuccessMessage] = useState(false);
+
 
   const liked = false;
   const length = post.imageList.length;
@@ -79,6 +83,7 @@ const Post = ({ post }) => {
                 post={post}
                 buttonRef={showMoreButtonRef}
                 onClose={() => setShowMore(false)}
+                updateSuccessMessage={(message) => setSuccessMessage(message)}
               />
             )}
           </div>
@@ -157,6 +162,12 @@ const Post = ({ post }) => {
         </div>
         {commentOpen && <Comments postId={post.id} />}
       </div>
+      {successMessage && (
+          <div className="success-Message">
+            <div className="title">Save Success</div>
+            <div className="off" onClick={()=>setSuccessMessage(false)}><HighlightOffIcon/></div>
+          </div>
+      )}
     </div>
   );
 };

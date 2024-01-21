@@ -22,6 +22,7 @@ import {
   getIncomingFriendRequests,
   getSentFriendRequests,
 } from "./redux/service/friendService";
+import {Saved} from "./pages/saved/Saved.jsx";
 
 function Router() {
   const accessToken = useSelector(({ user }) => user.accessToken);
@@ -81,6 +82,7 @@ function Router() {
                   <Route path="/" exact element={<Home />} />
                   <Route path="/profile/:id" element={<Profile />} />
                   <Route path="/search/all/:keyword" element={<Search />}/>
+                  <Route path="/saved" element={<Saved/>} />
                   <Route path="/accountsettings" element={<AccountSettings />} />
                   <Route path="*" element={<Navigate to={"/"} />} />
                 </>

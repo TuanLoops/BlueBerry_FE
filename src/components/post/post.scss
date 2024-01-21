@@ -140,5 +140,32 @@
         color: rgb(238, 67, 45);
       }
     }
+    .success-Message{
+      position: fixed;
+      background-color: themed("bg");
+      bottom: 40px;
+      left: 30px;
+      width: 300px;
+      height: 60px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 20px;
+      border-radius: 5px;
+      animation: slideIn 0.3s ease-out forwards;
+      @keyframes slideIn {
+        from {
+          transform: translateY(100%);
+        }
+        to {
+          transform: translateY(0);
+        }
+      }
+      .title, .off{
+        color: themed("textColor");
+        font-weight: 500;
+        font-size: 20px;
+      }
+    }
   }
 }

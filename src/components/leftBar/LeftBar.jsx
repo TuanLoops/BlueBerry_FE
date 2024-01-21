@@ -12,6 +12,7 @@ import Messages from "../../assets/10.png";
 import Tutorials from "../../assets/11.png";
 import Courses from "../../assets/12.png";
 import Fund from "../../assets/13.png";
+import BookMark from "../../assets/bookmark.png"
 import { useSelector } from "react-redux";
 import {Link} from "react-router-dom";
 
@@ -23,31 +24,35 @@ const LeftBar = () => {
       <div className="container">
         <div className="menu">
           <Link to={`/profile/${currentUser.id}`} className="user">
-            <img src={currentUser.avatarImage} alt="" />
+            <img src={currentUser.avatarImage} alt=""/>
             <span>{currentUser.fullName}</span>
           </Link>
           <div className="item">
-            <img src={Friends} alt="" />
+            <img src={Friends} alt=""/>
             <span>Friends</span>
           </div>
           <div className="item">
-            <img src={Groups} alt="" />
+            <img src={Groups} alt=""/>
             <span>Groups</span>
           </div>
           <div className="item">
-            <img src={Market} alt="" />
+            <img src={Market} alt=""/>
             <span>Marketplace</span>
           </div>
           <div className="item">
-            <img src={Watch} alt="" />
+            <img src={Watch} alt=""/>
             <span>Watch</span>
           </div>
           <div className="item">
-            <img src={Memories} alt="" />
+            <img src={Memories} alt=""/>
             <span>Memories</span>
           </div>
+          <Link to={"saved"} className="item">
+            <img src={BookMark} alt=""/>
+            <span>Saved</span>
+          </Link>
         </div>
-        <hr />
+        <hr/>
         <div className="menu">
           <span>Your shortcuts</span>
           <div className="item">
