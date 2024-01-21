@@ -13,7 +13,7 @@ import Tutorials from "../../assets/11.png";
 import Courses from "../../assets/12.png";
 import Fund from "../../assets/13.png";
 import { useSelector } from "react-redux";
-import {Link} from "react-router-dom";
+import { Link } from "react-router-dom";
 
 const LeftBar = () => {
   const currentUser = useSelector(({ user }) => user.currentUser);

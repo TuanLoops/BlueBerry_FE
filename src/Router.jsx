@@ -42,18 +42,20 @@ function Router() {
     fetchData().then();
   }, [accessToken]);
 
-  useEffect(() => {
-    dispatch(getIncomingFriendRequests());
-    dispatch(getSentFriendRequests());
-    dispatch(getCurrentUserFriendList());
-    const interval = setInterval(() => {
-      dispatch(getCurrentUserFriendList());
-    }, 1000 * 60);
-    return () => clearInterval(interval);
-  });
-
   const PrivateRoutes = () => {
     const { darkMode } = useContext(DarkModeContext);
+    const dispatch = useDispatch();
+    
+    useEffect(() => {
+      dispatch(getIncomingFriendRequests());
+      dispatch(getSentFriendRequests());
+      dispatch(getCurrentUserFriendList());
+      const interval = setInterval(() => {
+        dispatch(getCurrentUserFriendList());
+      }, 1000 * 60);
+      return () => clearInterval(interval);
+    });
+
     return (
       <div
         className={`theme-${darkMode ? "dark" : "light"}`}
@@ -80,7 +82,10 @@ function Router() {
                   <Route path="/" exact element={<Home />} />
                   <Route path="/profile/:id" element={<Profile />} />
                   <Route path="/search/all/:keyword" />
-                  <Route path="/accountsettings" element={<AccountSettings />} />
+                  <Route
+                    path="/accountsettings"
+                    element={<AccountSettings />}
+                  />
                   <Route path="*" element={<Navigate to={"/"} />} />
                 </>
               ) : (

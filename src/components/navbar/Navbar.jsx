@@ -8,187 +8,187 @@ import EmailOutlinedIcon from "@mui/icons-material/EmailOutlined";
 import PersonOutlinedIcon from "@mui/icons-material/PersonOutlined";
 import SearchOutlinedIcon from "@mui/icons-material/SearchOutlined";
 import { Link, useNavigate } from "react-router-dom";
-import {useContext, useEffect, useRef, useState} from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import { DarkModeContext } from "../../context/darkModeContext";
 import { useDispatch, useSelector } from "react-redux";
 import { logOut } from "../../redux/service/userService.jsx";
-import ChangePassword from "../changepassword/ChangePassword.jsx";
 
 const Navbar = () => {
-    const currentUser = useSelector(({ user }) => user.currentUser);
-    const { toggle, darkMode } = useContext(DarkModeContext);
-    const [isPopupVisible, setPopupVisible] = useState(false);
-    const userRef = useRef(null);
-    const [searchValue, setSearchValue] = useState("");
-    const dispatch = useDispatch();
-    const navigate = useNavigate();
+  const currentUser = useSelector(({ user }) => user.currentUser);
+  const { toggle, darkMode } = useContext(DarkModeContext);
+  const [isPopupVisible, setPopupVisible] = useState(false);
+  const userRef = useRef(null);
+  const [searchValue, setSearchValue] = useState("");
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
-    const handleLogOut = async () => {
-        try {
-            await dispatch(logOut()).unwrap();
-           if (!localStorage.getItem("AccessTokken")){
-               navigate("/login");
-           }
-        } catch (e) {
-            console.log(e)
-        }
+  const handleLogOut = () => {
+    try {
+      dispatch(logOut());
+    } catch (e) {
+      console.log(e);
     }
-    
-    const handleSearchChange = (event) => {
-        setSearchValue(event.target.value);
-    };
+  };
 
-    const handleClearSearch = () => {
-        setSearchValue("");
-    };
+  const handleSearchChange = (event) => {
+    setSearchValue(event.target.value);
+  };
 
-    const handleKeyPress = (event) => {
-        if (event.key === "Enter") {
-            handleSearch()
-            console.log("Search:", searchValue);
-            handleClearSearch()
-        }
-    };
+  const handleClearSearch = () => {
+    setSearchValue("");
+  };
 
-    const handleSearch = () => {
-        navigate(`/search/all/${searchValue}`)
+  const handleKeyPress = (event) => {
+    if (event.key === "Enter") {
+      handleSearch();
+      console.log("Search:", searchValue);
+      handleClearSearch();
     }
-    
+  };
 
-    const togglePopup = () => {
-        setPopupVisible(true);
+  const handleSearch = () => {
+    navigate(`/search/all/${searchValue}`);
+  };
+
+  const togglePopup = () => {
+    setPopupVisible(true);
+  };
+
+  useEffect(() => {
+    const handleOutsideClick = (event) => {
+      if (userRef.current && !userRef.current.contains(event.target)) {
+        setPopupVisible(false);
+      }
     };
 
-    useEffect(() => {
-        const handleOutsideClick = (event) => {
-            if (userRef.current && !userRef.current.contains(event.target)) {
-                setPopupVisible(false);
-            }
-        };
+    document.addEventListener("click", handleOutsideClick);
 
-        document.addEventListener('click', handleOutsideClick);
+    return () => {
+      document.removeEventListener("click", handleOutsideClick);
+    };
+  }, [userRef]);
 
-        return () => {
-            document.removeEventListener('click', handleOutsideClick);
-        };
-    }, [userRef]);
-
-    return (
-        <>
-            <div className="navbar">
-                <div className="left">
-                    <Link to="/" style={{ textDecoration: "none" }}>
-                        <span>Blueberry</span>
+  return (
+    <>
+      <div className="navbar">
+        <div className="left">
+          <Link to="/" style={{ textDecoration: "none" }}>
+            <span>Blueberry</span>
+          </Link>
+          <div className="nav-item">
+            <HomeOutlinedIcon />
+            <div className="label-acc">Home</div>
+          </div>
+          <div className="nav-item">
+            {darkMode ? (
+              <WbSunnyOutlinedIcon onClick={toggle} />
+            ) : (
+              <DarkModeOutlinedIcon onClick={toggle} />
+            )}
+            <div className="label-acc">Mode</div>
+          </div>
+          <div className="nav-item">
+            <GridViewOutlinedIcon />
+            <div className="label-acc">View</div>
+          </div>
+          <div className="search">
+            <SearchOutlinedIcon />
+            <input
+              type="text"
+              placeholder="Search..."
+              value={searchValue}
+              onChange={handleSearchChange}
+              onKeyDown={handleKeyPress}
+            />
+          </div>
+        </div>
+        <div className="right">
+          <div className="nav-item-right">
+            <PersonOutlinedIcon />
+            <div className="label-acc">Person</div>
+          </div>
+          <div className="nav-item-right">
+            <EmailOutlinedIcon />
+            <div className="label-acc">Mail</div>
+          </div>
+          <div className="nav-item-right">
+            <NotificationsOutlinedIcon />
+            <div className="label-acc">Notification</div>
+          </div>
+          <div className="user" onClick={togglePopup} ref={userRef}>
+            <img src={currentUser?.avatarImage} alt="" />
+            <span></span>
+            <div className="label-acc">Account</div>
+            {isPopupVisible && (
+              <>
+                <div className="popup">
+                  <div className="info-user">
+                    <Link
+                      to={`/profile/${currentUser.id}`}
+                      className="icon-user"
+                    >
+                      <div className="icon">
+                        <img src={currentUser.avatarImage} alt="" />
+                      </div>
+                      <div className="name-uer">
+                        <span>{currentUser.fullName}</span>
+                      </div>
                     </Link>
-                    <div className="nav-item">
-                        <HomeOutlinedIcon />
-                        <div className="label-acc">Home</div>
+                    <Link to={`/profile/${currentUser?.id}`} className="href">
+                      <span>Trang cá nhân</span>
+                    </Link>
+                  </div>
+                  <div className="function">
+                    <div className="item-function">
+                      <Link to={"/accountsettings"} className="on-function">
+                        <div className="background-item">
+                          <i className="setting-privacy"></i>
+                        </div>
+                        <div className="body-item">
+                          <span>Settings & Privacy</span>
+                        </div>
+                      </Link>
                     </div>
-                    <div className="nav-item">
-                        {darkMode ? (
-                            <WbSunnyOutlinedIcon onClick={toggle} />
-                        ) : (
-                            <DarkModeOutlinedIcon onClick={toggle} />
-                        )}
-                        <div className="label-acc">Mode</div>
+                    <div className="item-function">
+                      <Link to={{}} className="on-function">
+                        <div className="background-item">
+                          <i className="help-support"></i>
+                        </div>
+                        <div className="body-item">
+                          <span>Change Password</span>
+                        </div>
+                      </Link>
                     </div>
-                    <div className="nav-item">
-                        <GridViewOutlinedIcon />
-                        <div className="label-acc">View</div>
+                    <div className="item-function">
+                      <Link to={{}} className="on-function">
+                        <div className="background-item">
+                          <i className="screen"></i>
+                        </div>
+                        <div className="body-item">
+                          <span>Screen & accessibility</span>
+                        </div>
+                      </Link>
                     </div>
-                    <div className="search">
-                        <SearchOutlinedIcon />
-                        <input type="text" placeholder="Search..." value={searchValue} onChange={handleSearchChange}
-                            onKeyDown={handleKeyPress} />
+                    <div className="item-function" onClick={handleLogOut}>
+                      <Link to={{}} className="on-function">
+                        <div className="background-item">
+                          <i className="logout"></i>
+                        </div>
+                        <div className="body-item">
+                          <span>LogOut</span>
+                          <i className="icon-item-logout"></i>
+                        </div>
+                      </Link>
                     </div>
+                  </div>
                 </div>
-                <div className="right">
-                    <div className="nav-item-right">
-                        <PersonOutlinedIcon />
-                        <div className="label-acc">Person</div>
-                    </div>
-                    <div className="nav-item-right">
-                        <EmailOutlinedIcon />
-                        <div className="label-acc">Mail</div>
-                    </div>
-                    <div className="nav-item-right">
-                        <NotificationsOutlinedIcon />
-                        <div className="label-acc">Notification</div>
-                    </div>
-                    <div className="user" onClick={togglePopup} ref={userRef}>
-                        <img src={currentUser?.avatarImage} alt=""/>
-                        <span></span>
-                        <div className="label-acc">Account</div>
-                        {isPopupVisible && (
-                            <>
-                                <div className="popup">
-                                    <div className="info-user">
-                                        <Link to={`/profile/${currentUser.id}`} className="icon-user">
-                                            <div className="icon">
-                                                <img
-                                                    src={currentUser.avatarImage}
-                                                    alt=""/>
-                                            </div>
-                                            <div className="name-uer">
-                                                <span>{currentUser.fullName}</span>
-                                            </div>
-                                        </Link>
-                                        <Link to={`/profile/${currentUser?.id}`} className="href">
-                                            <span>Trang cá nhân</span>
-                                        </Link>
-                                    </div>
-                                    <div className="function">
-                                        <div className="item-function">
-                                            <Link to={'/accountsettings'} className="on-function">
-                                                <div className="background-item">
-                                                    <i className="setting-privacy"></i>
-                                                </div>
-                                                <div className="body-item">
-                                                    <span>Settings & Privacy</span>
-                                                </div>
-                                            </Link>
-                                        </div>
-                                        <div className="item-function">
-                                            <Link to={{}} className="on-function">
-                                                <div className="background-item">
-                                                    <i className="help-support"></i>
-                                                </div>
-                                                <div className="body-item">
-                                                    <span>Change Password</span>
-                                                </div>
-                                            </Link>
-                                        </div>
-                                        <div className="item-function">
-                                            <Link to={{}} className="on-function">
-                                                <div className="background-item">
-                                                    <i className="screen"></i>
-                                                </div>
-                                                <div className="body-item">
-                                                    <span>Screen & accessibility</span>
-                                                </div>
-                                            </Link>
-                                        </div>
-                                        <div className="item-function" onClick={handleLogOut}>
-                                            <Link to={{}} className="on-function">
-                                                <div className="background-item">
-                                                    <i className="logout"></i>
-                                                </div>
-                                                <div className="body-item">
-                                                    <span>LogOut</span>
-                                                    <i className="icon-item-logout"></i>
-                                                </div>
-                                            </Link>
-                                        </div>
-                                    </div>
-                                </div>
-                            </>
-                        )}
-                    </div>
-                </div>
-            </div>
-
-        </>
-    );
+              </>
+            )}
+          </div>
+        </div>
+      </div>
+    </>
+  );
 };
 
 export default Navbar;

@@ -43,8 +43,8 @@ const userReducer = createSlice({
       localStorage.removeItem("AccessToken");
     });
     builder.addCase(logOut.fulfilled, (state) => {
-      state.accessToken = null;
       localStorage.removeItem("AccessToken");
+      state.accessToken = null;
       state.currentUser = null;
     });
     builder.addCase(getInfoUser.fulfilled,(state,action)=>{
