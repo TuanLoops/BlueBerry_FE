@@ -44,12 +44,11 @@ export const All = ({currentUser,article, setSavedArticles}) => {
                     <div className="container-saved">
                         {article.status.imageList && article.status.imageList.length > 0 ? (
                             <div className="content-img">
-                                <img src={article.status.imageList[0].imageLink} alt={`First Image`} />
+                                <img src={article.status.imageList[0].imageLink} alt="" />
                             </div>
                         ) : (
-                            // If imageList is not present or empty, use appUser.avatarImage
                             <div className="content-img">
-                                <img src={article.appUser.avatarImage} alt={`Avatar Image`} />
+                                <img src={article.appUser.avatarImage} alt="" />
                             </div>
                         )}
 
