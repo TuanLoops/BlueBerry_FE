@@ -40,7 +40,7 @@ export const All = ({currentUser,article, setSavedArticles}) => {
 
     return(
         <>
-            {article.map((article, index) => (
+            {article.sort((a, b) => b.id - a.id).map((article, index) => (
                 <div className="main-saved-all" key={article.id}>
                     <div className="container-saved">
                         {article.status.imageList && article.status.imageList.length > 0 ? (
