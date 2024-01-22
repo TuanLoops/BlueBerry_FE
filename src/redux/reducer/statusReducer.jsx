@@ -71,7 +71,7 @@ const statusReducer = createSlice({
             })
         })
         builder.addCase(getStatusById.fulfilled,(state, action)=>{
-            state.onePost = action.payload
+            state.list = [action.payload]
         })
     },
 });
