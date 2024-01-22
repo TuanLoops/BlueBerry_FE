@@ -44,7 +44,7 @@ export const All = ({currentUser, article, setSavedArticles}) => {
             {article.sort((a,b)=>b.id - a.id).map((article, index) => (
                 <div className="main-saved-all" key={article.id}>
                     <div className="container-saved">
-                        <Link to={`/post/${article.status.id}`} className="content-img">
+                        <Link to={`/${currentUser.fullName}/post/${article.status.id}`} className="content-img">
                             {article.status.imageList && article.status.imageList.length > 0 ? (
                                 <img src={article.status.imageList[0].imageLink} alt=""/>
                             ) : (
