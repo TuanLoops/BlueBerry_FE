@@ -20,7 +20,7 @@ function NewPost() {
   const [body, setBody] = useState("");
   const [imageList, setImageList] = useState([]);
   const [isUploading, setIsUploading] = useState(false);
-  const [privacyLevel, setPrivacyLevel] = useState("PUBLIC");
+  const [privacyLevel, setPrivacyLevel] = useState("Public");
   const [isPopupPrivacy, setPopupPrivacy] =useState(false)
 
   const handleFileChange = async (e) => {
@@ -102,7 +102,7 @@ function NewPost() {
           <div className="second-row">
             <div className="item" onClick={()=>setPopupPrivacy(true)}>
               <span>{privacyLevel}</span>
-              {privacyLevel === "PUBLIC" ? <PublicOutlinedIcon/> : (privacyLevel === "FRIENDS" ? <PeopleAltIcon/> : <LockIcon/>)}
+              {privacyLevel === "Public" ? <PublicOutlinedIcon/> : (privacyLevel === "Friends" ? <PeopleAltIcon/> : <LockIcon/>)}
 
             </div>
             {isPopupPrivacy && (
