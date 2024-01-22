@@ -84,7 +84,7 @@ function Router() {
                   <Route path="/profile/:id" element={<Profile />} />
                   <Route path="/search/all/:keyword" element={<Search />}/>
                   <Route path="/saved" element={<Saved/>} />
-                  <Route path="/:currentUser/post/:postId" element={<OnePost/>} />
+                  <Route path="/post/:postId" element={<OnePost/>} />
                   <Route path="/accountsettings" element={<AccountSettings />} />
                   <Route path="*" element={<Navigate to={"/"} />} />
                 </>

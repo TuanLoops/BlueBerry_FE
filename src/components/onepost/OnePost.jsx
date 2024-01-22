@@ -1,20 +1,35 @@
 import {useParams} from "react-router-dom";
-import {useEffect} from "react";
+import {useEffect, useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
-import {getStatusById} from "../../redux/service/statusService.jsx";
+import axios from "axios";
+import {UrlStatus} from "../../context/connect.jsx";
+import Post from "../post/post.jsx";
+import Posts from "../posts/Posts.jsx";
 
 
 export const OnePost = () => {
-    const {postId} = useParams();
-    const dispatch = useDispatch();
-    const post = useSelector((state)=>state.status.onePost)
+    const { postId } = useParams();
+    const [posts, setPosts] = useState([]);
+
     useEffect(() => {
-        dispatch(getStatusById(postId))
-    }, []);
-    console.log(post)
-    return(
-        <>
-            {post &&  <div>{post.imageList.id}</div>}
-        </>
-    )
-}
+        const fetchData = async () => {
+            try {
+                const res = await UrlStatus().get(`${postId}`);
+                setPosts(res.data);
+            } catch (error) {
+                console.error("Error fetching data:", error);
+            }
+        };
+
+        fetchData();
+    }, [postId]);
+    console.log(postId)
+    console.log(posts)
+    return (
+        <div>
+            {posts && (
+                <Posts posts={posts}/>
+            )}
+        </div>
+    );
+};

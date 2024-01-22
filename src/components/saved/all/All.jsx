@@ -3,7 +3,8 @@ import {Link} from "react-router-dom";
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 import {useEffect, useRef, useState} from "react";
 import {remove} from "../../../redux/service/saveAvticleService.jsx";
-export const All = ({currentUser,article, setSavedArticles}) => {
+
+export const All = ({currentUser, article, setSavedArticles}) => {
     const [isPopUp, setPopUp] = useState(null);
     const popUpRef = useRef();
 
@@ -38,21 +39,18 @@ export const All = ({currentUser,article, setSavedArticles}) => {
     }, [popUpRef]);
 
 
-    return(
+    return (
         <>
-            {article.map((article, index) => (
+            {article.sort((a,b)=>b.id - a.id).map((article, index) => (
                 <div className="main-saved-all" key={article.id}>
                     <div className="container-saved">
-                        {article.status.imageList && article.status.imageList.length > 0 ? (
-                            <Link to={`/${currentUser.fullName}/post/${article.status.id}`} className="content-img">
-                                <img src={article.status.imageList[0].imageLink} alt="" />
-                            </Link>
-                        ) : (
-                            <Link to={`/${currentUser.fullName}/post/${article.status.id}`} className="content-img">
-                                <img src={article.appUser.avatarImage} alt="" />
-                            </Link>
-                        )}
-
+                        <Link to={`/post/${article.status.id}`} className="content-img">
+                            {article.status.imageList && article.status.imageList.length > 0 ? (
+                                <img src={article.status.imageList[0].imageLink} alt=""/>
+                            ) : (
+                                <img src={article.appUser.avatarImage} alt=""/>)
+                            }
+                        </Link>
                         <div className="content-header">
                             <div className="X19">
                                 {article.status.body.length > 100 ? (
@@ -80,7 +78,8 @@ export const All = ({currentUser,article, setSavedArticles}) => {
                                 <div className="link-post">
                                     <span>Save from </span>
                                     <div className="X210">
-                                        <Link to={""}>{article.appUser.firstName +" "+ article.appUser.lastName}</Link>
+                                        <Link
+                                            to={""}>{article.appUser.firstName + " " + article.appUser.lastName}</Link>
                                     </div>
                                 </div>
                             </div>
@@ -92,13 +91,13 @@ export const All = ({currentUser,article, setSavedArticles}) => {
                                     <div className="X22Sy1">
                                         <span>Share</span>
                                     </div>
-                                    <div className="X22Sy1"  onClick={() => handlePopUpToggle(index)}>
+                                    <div className="X22Sy1" onClick={() => handlePopUpToggle(index)}>
                                         <span><MoreHorizIcon/></span>
                                     </div>
                                 </div>
                                 {isPopUp === index && (
                                     <div className="PopupSaved" ref={popUpRef}>
-                                        <div className="actionSaved" onClick={()=> handleDeleteSaved(article.id)}>
+                                        <div className="actionSaved" onClick={() => handleDeleteSaved(article.id)}>
                                             <i></i>
                                             <span>UnSaved</span>
                                         </div>
