@@ -72,3 +72,11 @@ export const likeStatus= createAsyncThunk(
         };
     }
 )
+
+export const getStatusById = createAsyncThunk(
+    "GET_STATUS_BY_ID",
+    async (postId) => {
+        const res = await UrlStatus().get(`${postId}`);
+        return res.data;
+    }
+)

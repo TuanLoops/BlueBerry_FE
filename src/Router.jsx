@@ -23,6 +23,7 @@ import {
   getSentFriendRequests,
 } from "./redux/service/friendService";
 import {Saved} from "./components/saved/Saved.jsx";
+import {OnePost} from "./components/onepost/OnePost.jsx";
 
 function Router() {
   const accessToken = useSelector(({ user }) => user.accessToken);
@@ -83,6 +84,7 @@ function Router() {
                   <Route path="/profile/:id" element={<Profile />} />
                   <Route path="/search/all/:keyword" element={<Search />}/>
                   <Route path="/saved" element={<Saved/>} />
+                  <Route path="/:currentUser/post/:postId" element={<OnePost/>} />
                   <Route path="/accountsettings" element={<AccountSettings />} />
                   <Route path="*" element={<Navigate to={"/"} />} />
                 </>

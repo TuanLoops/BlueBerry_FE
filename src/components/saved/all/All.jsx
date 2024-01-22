@@ -44,13 +44,13 @@ export const All = ({currentUser,article, setSavedArticles}) => {
                 <div className="main-saved-all" key={article.id}>
                     <div className="container-saved">
                         {article.status.imageList && article.status.imageList.length > 0 ? (
-                            <div className="content-img">
+                            <Link to={`/${currentUser.fullName}/post/${article.status.id}`} className="content-img">
                                 <img src={article.status.imageList[0].imageLink} alt="" />
-                            </div>
+                            </Link>
                         ) : (
-                            <div className="content-img">
+                            <Link to={`/${currentUser.fullName}/post/${article.status.id}`} className="content-img">
                                 <img src={article.appUser.avatarImage} alt="" />
-                            </div>
+                            </Link>
                         )}
 
                         <div className="content-header">
