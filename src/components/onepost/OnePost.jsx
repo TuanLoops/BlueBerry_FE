@@ -1,35 +1,30 @@
+import './onepost.scss';
 import {useParams} from "react-router-dom";
-import {useEffect, useState} from "react";
+import {useEffect} from "react";
 import {useDispatch, useSelector} from "react-redux";
-import axios from "axios";
-import {UrlStatus} from "../../context/connect.jsx";
 import Post from "../post/post.jsx";
-import Posts from "../posts/Posts.jsx";
+import {getStatusById} from "../../redux/service/statusService.jsx";
 
 
 export const OnePost = () => {
     const { postId } = useParams();
-    const [posts, setPosts] = useState([]);
+    const dispatch = useDispatch();
+    const posts = useSelector(({status})=> status.onePost)
 
     useEffect(() => {
-        const fetchData = async () => {
-            try {
-                const res = await UrlStatus().get(`${postId}`);
-                setPosts(res.data);
-            } catch (error) {
-                console.error("Error fetching data:", error);
-            }
-        };
-
-        fetchData();
+        dispatch(getStatusById(postId))
     }, [postId]);
-    console.log(postId)
-    console.log(posts)
+
     return (
-        <div>
-            {posts && (
-                <Posts posts={posts}/>
-            )}
+        <div className="onePost">
+           <div className="Xp1">
+               {Object.keys(posts).length > 0 ? (
+                   <Post post={posts} />
+               ) : (
+                   <p>No data found for postId: {postId}</p>
+               )}
+           </div>
         </div>
     );
+
 };
