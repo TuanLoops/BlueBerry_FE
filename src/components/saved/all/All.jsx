@@ -17,6 +17,7 @@ export const All = ({currentUser,article, setSavedArticles}) => {
             setSavedArticles((prevSavedArticles) =>
                 prevSavedArticles.filter((article) => article.id !== articleId)
             );
+            setPopUp(false);
         } catch (error) {
             console.error('Error removing article:', error);
         }

@@ -123,8 +123,9 @@
                 font-size: 16px;
               }
               &:hover{
-                 background-color: themed("bgHover");;
-               }
+                background-color: themed("bgHover");
+                border-radius: 5px;
+              }
             }
           }
         }

@@ -63,10 +63,10 @@ function MoreOptions({ onClose, buttonRef, post, updateSuccessMessage}) {
       }
     };
 
-    fetchData();
+    fetchData().then();
   }, [currentUser.id]);
 
-
+  const isArticleSaved = article.some(articles => articles.status.id === post.id);
   const handleSavePost = async (postId) => {
     try {
       await save({ id: postId });
@@ -93,6 +93,30 @@ function MoreOptions({ onClose, buttonRef, post, updateSuccessMessage}) {
           <div className="wrapper">
             {currentUser.id === post.author.id ? (
               <>
+                {isArticleSaved ? (
+                    <div className="item" onClick={()=>{
+                      const savedArticle = article.find(article => article.status.id === post.id);
+                      if (savedArticle) {
+                        handleDeleteSaved(savedArticle.id).then();
+                        onClose();
+                      }
+                    }}>
+                      <span className="icon">
+                            <BookmarkRemoveIcon/>
+                      </span>
+                      <span>UnSave Post</span>
+                    </div>
+                ) : (
+                    <div className="item" onClick={()=>{
+                      handleSavePost(post.id).then();
+                      onClose();
+                    }}>
+                        <span className="icon">
+                            <BookmarkIcon/>
+                        </span>
+                      <span>Save Post</span>
+                    </div>
+                )}
                 <div className="item" onClick={() => setShowEditModal(true)}>
                   <span className="icon">
                     <EditNoteOutlinedIcon />
