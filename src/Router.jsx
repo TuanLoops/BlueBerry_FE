@@ -22,6 +22,11 @@ import {
   getIncomingFriendRequests,
   getSentFriendRequests,
 } from "./redux/service/friendService";
+import {Saved} from "./components/saved/Saved.jsx";
+import {OnePost} from "./components/onepost/OnePost.jsx";
+import { collection, onSnapshot, query, where } from "firebase/firestore";
+import { firestore } from "./firebase";
+import { getNotifications } from "./redux/service/NotificationService";
 import ForgotPassword from "./pages/forgotpassword/ForgotPassword";
 
 function Router() {
@@ -41,20 +46,39 @@ function Router() {
         setFetched(true);
       }
     };
-    fetchData().then();
+    fetchData();
   }, [accessToken]);
 
-  useEffect(() => {
-    dispatch(getIncomingFriendRequests());
-    dispatch(getSentFriendRequests());
-    dispatch(getCurrentUserFriendList());
-    const interval = setInterval(() => {
+  const PrivateRoutes = () => {
+    const { darkMode } = useContext(DarkModeContext);
+    const [stompClient, setStompClient] = useState(null);
+    const currentUser = useSelector(({ user }) => user.currentUser);
+    const dispatch = useDispatch();
+
+    useEffect(() => {
+      dispatch(getIncomingFriendRequests());
+      dispatch(getSentFriendRequests());
       dispatch(getCurrentUserFriendList());
-    }, 1000 * 60);
-    return () => clearInterval(interval);
-  });
+      const interval = setInterval(() => {
+        dispatch(getCurrentUserFriendList());
+      }, 1000 * 60);
+      return () => clearInterval(interval);
+    }, []);
 
+    useEffect(() => {
+      const unsubscribe = onSnapshot(
+        query(
+          collection(firestore, "notifications"),
+          where("receiver.id", "==", currentUser.id)
+        ),
+        (snapshot) => {
+          console.log("Current data: ", snapshot);
+          dispatch(getNotifications());
+        }
+      );
 
+      return () => unsubscribe();
+    }, []);
 
   const PrivateRoutes = () => {
     const { darkMode } = useContext(DarkModeContext);
@@ -83,7 +107,9 @@ function Router() {
                 <>
                   <Route path="/" exact element={<Home />} />
                   <Route path="/profile/:id" element={<Profile />} />
-                  <Route path="/search/all/:keyword" element={<Search />}/>
+                  <Route path="/search" element={<Search />}/>
+                  <Route path="/saved" element={<Saved/>} />
+                  <Route path="/:currentUser/post/:postId" element={<OnePost/>} />
                   <Route path="/accountsettings" element={<AccountSettings />} />
                   <Route path="*" element={<Navigate to={"/"} />} />
                 </>

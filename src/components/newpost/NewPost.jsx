@@ -101,7 +101,9 @@ function NewPost() {
           <PreviewImg imageList={imageList} remove={handleFileRemove} />
           <div className="second-row">
             <div className="item" onClick={()=>setPopupPrivacy(true)}>
-              <span>{privacyLevel}</span>
+              <span>{privacyLevel==="PUBLIC" ? 'Public': 
+              privacyLevel==="FRIENDS" ? 'Friends': 'Only me'
+                    }</span>
               {privacyLevel === "PUBLIC" ? <PublicOutlinedIcon/> : (privacyLevel === "FRIENDS" ? <PeopleAltIcon/> : <LockIcon/>)}
 
             </div>

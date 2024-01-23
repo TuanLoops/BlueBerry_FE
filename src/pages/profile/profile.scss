@@ -353,9 +353,9 @@
               overflow: auto;
 
               img {
-                width: 70px;
+                width: 100px;
                 border-radius: 10px;
-                height: 70px;
+                height: 100px;
                 object-fit: cover;
               }
               .first-friend{
@@ -365,6 +365,7 @@
                 text-decoration: none;
                 color: themed("textColorSoft");
                 margin-bottom: 5px;
+
                 span{
                   align-self: flex-start;
                   margin-left: 15px;

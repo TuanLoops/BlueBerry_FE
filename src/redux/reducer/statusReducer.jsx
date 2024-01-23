@@ -3,7 +3,7 @@ import {
     addStatus,
     changePrivacy,
     deleteStatus,
-    editStatus,
+    editStatus, getStatusById,
     getStatusByUser, likeStatus,
     searchStatus,
     showStatus,
@@ -12,6 +12,7 @@ import {
 const initialState = {
     list: [],
     filterList: [],
+    onePost:[],
 };
 
 const statusReducer = createSlice({
@@ -68,6 +69,9 @@ const statusReducer = createSlice({
                 }
                 return status
             })
+        })
+        builder.addCase(getStatusById.fulfilled,(state, action)=>{
+            state.list = [action.payload]
         })
     },
 });

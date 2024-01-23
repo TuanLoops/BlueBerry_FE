@@ -2,15 +2,15 @@ import "./profile.scss";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import Posts from "../../components/posts/Posts";
 import MoreOptions from "./moreoptions/MoreOptions";
-import { useEffect, useRef, useState } from "react";
+import {useEffect, useRef, useState} from "react";
 import NewPost from "../../components/newpost/NewPost.jsx";
 import Thumbnails from "yet-another-react-lightbox/plugins/thumbnails";
 import Counter from "yet-another-react-lightbox/plugins/counter";
 import Zoom from "yet-another-react-lightbox/plugins/zoom";
 import Lightbox from "yet-another-react-lightbox";
-import { Link, useParams } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
-import { getStatusByUser, searchStatus, showStatus } from "../../redux/service/statusService.jsx";
+import {Link, useParams} from "react-router-dom";
+import {useDispatch, useSelector} from "react-redux";
+import {getStatusByUser, searchStatus, showStatus} from "../../redux/service/statusService.jsx";
 import img from '../../Pic-banner.jpg'
 import PermPhoneMsgIcon from '@mui/icons-material/PermPhoneMsg';
 import HomeIcon from '@mui/icons-material/Home';
@@ -22,7 +22,7 @@ import FriendButton from "../../components/friendbutton/FriendButton.jsx";
 import { UrlFriend } from "../../context/connect.jsx";
 
 const Profile = () => {
-    const { id } = useParams();
+    const {id} = useParams();
     const [showMoreOptions, setShowMoreOptions] = useState(false);
     const [open, setOpen] = useState(false);
     const [openBox, setOpenBox] = useState(false);
@@ -30,7 +30,6 @@ const Profile = () => {
     const [filteredPosts, setFilteredPosts] = useState(null);
     const [showSearch, setShowSearch] = useState(false);
     const [userFriendList, setUserFriendList] = useState([]);
-
     const showMoreButtonRef = useRef(null);
     const imagesContainerRef = useRef(null);
     const inputRef = useRef(null);
@@ -46,7 +45,9 @@ const Profile = () => {
             dispatch(getInfoUser(id));
             let res = await UrlFriend().get(`/list/${id}`);
             setUserFriendList(res.data)
+            setUserFriendList(res.data)
         }
+
 
         fetchData();
     }, [id]);
@@ -102,11 +103,11 @@ const Profile = () => {
                                     ref={showMoreButtonRef}
                                     onClick={() => setShowMoreOptions(!showMoreOptions)}
                                 >
-                                    <MoreVertIcon />
+                                    <MoreVertIcon/>
                                 </div>
                             </div>
                             {showMoreOptions && <MoreOptions buttonRef={showMoreButtonRef}
-                                onClose={() => setShowMoreOptions(false)}
+                                                             onClose={() => setShowMoreOptions(false)}
                             />}
                         </div>
                     )}
@@ -123,7 +124,7 @@ const Profile = () => {
                                     <div className="left" ref={inputRef} onClick={() => {
                                         setShowSearch(true)
                                     }}>
-                                        <button><SearchIcon /></button>
+                                        <button><SearchIcon/></button>
                                     </div>
                                     <div className="right">
                                         {currentUser.id != +id ? (
@@ -141,7 +142,7 @@ const Profile = () => {
                             </>
                         )}
                         {showSearch && <SearchModal buttonRef={inputRef} onClose={() => setShowSearch(false)}
-                            onSearchChange={handleSearchChange} />}
+                                                    onSearchChange={handleSearchChange}/>}
                     </div>
                 </div>
 
@@ -159,7 +160,7 @@ const Profile = () => {
                                         <>
                                             {infoUser.hobbies ? (
                                                 <div className="hobbies">
-                                                    <label><BookmarksIcon /> Hobbies:</label>
+                                                    <label><BookmarksIcon/> Hobbies:</label>
                                                     <span>{infoUser.hobbies}</span>
                                                 </div>
                                             ) : (
@@ -174,14 +175,13 @@ const Profile = () => {
                                                         <span>{infoUser.address}</span>
                                                     </div>
                                                     <div className="phone">
-                                                        <label><PermPhoneMsgIcon /> Phone Number:</label>
+                                                        <label><PermPhoneMsgIcon/> Phone Number:</label>
                                                         <span>{infoUser.phoneNumber}</span>
                                                     </div>
                                                 </>
                                             ) : (
                                                 <>
-                                                    <div className="request">Please update your personal information
-                                                    </div>
+                                                    <div className="request">Please update your personal information</div>
                                                 </>
                                             )}
                                         </>
@@ -241,7 +241,7 @@ const Profile = () => {
 
                                 <div className="gallery-photos">
                                     <div className="gallery-photos-rowFirst">
-                                        {friendList.find(friend => friend.id === +id) && userFriendList.slice(0, 9).map((friend) => (
+                                        {userFriendList.slice(0, 9).map((friend) => (
                                             <Link to={`/profile/${friend.id}`} className="first-friend" key={friend.id}>
                                                 <img className="friend-avatar"
                                                     src={friend.avatarImage}
@@ -261,14 +261,13 @@ const Profile = () => {
                                 <>
                                     <div className="info-search">
                                         Search: {filteredPosts.length} result
-                                        <button className="goBack"
-                                            onClick={() => setFilteredPosts(null)}>GoBack</button>
+                                        <button className="goBack" onClick={() => setFilteredPosts(null)}>GoBack</button>
                                     </div>
-                                    <Posts posts={filteredPosts} />
+                                    <Posts posts={filteredPosts}/>
                                 </>
                             ) : (
                                 <>
-                                    <Posts posts={posts} />
+                                    <Posts posts={posts}/>
                                 </>
                             )}
                         </div>

@@ -1,6 +1,7 @@
 import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
 import { getDownloadURL, getStorage, ref, uploadBytes } from "firebase/storage";
+import { getFirestore } from "firebase/firestore";
 
 const firebaseConfig = {
   apiKey: "AIzaSyAb00ulfJhFaJu0-RRWobAI4ukdgibIUbM",
@@ -16,6 +17,7 @@ const app = initializeApp(firebaseConfig);
 const analytics = getAnalytics(app);
 
 const storage = getStorage();
+export const firestore = getFirestore(app);
 
 export const customRef = (path) => {
   return ref(storage, path);

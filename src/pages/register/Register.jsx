@@ -6,7 +6,7 @@ import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import * as Yup from "yup";
 import { useState } from "react";
-import logo from '../../../public/logo-blueberry.png'
+import logo from "../../assets/logo-blueberry.png";
 
 
 const Register = () => {

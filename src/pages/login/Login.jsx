@@ -1,21 +1,19 @@
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import "./login.scss";
 import { useDispatch } from "react-redux";
 import { login } from "../../redux/service/userService.jsx";
 import { ErrorMessage, Field, Form, Formik } from "formik";
 import * as Yup from "yup";
 import { useEffect, useState } from "react";
-import ClipLoader from "react-spinners/ClipLoader";
 import Box from "@mui/material/Box";
 import LinearProgress from "@mui/material/LinearProgress";
-import logo from '../../../public/logo-blueberry.png'
+import logo from "../../assets/logo-blueberry.png";
 import { GoogleOAuthProvider, GoogleLogin } from '@react-oauth/google';
 import { jwtDecode } from "jwt-decode";
 
 
 const Login = () => {
   const dispatch = useDispatch();
-  const navigate = useNavigate();
   const [message, setMessage] = useState("");
   let [loading, setLoading] = useState(false);
   const [progress, setProgress] = useState(0);
@@ -25,15 +23,14 @@ const Login = () => {
   const handleLogin = async (values) => {
     try {
       setLoading(true);
-      await dispatch(login(values)).unwrap();
-      navigate("/");
+      dispatch(login(values));
     } catch (err) {
       setLoading(false);
       setMessage(err.response.data.message);
       if (err.response.request.status === 403) {
         setMessage(err.response.data.message);
       } else {
-        setMessage("Sai tài khoản hoặc mật khẩu")
+        setMessage("Sai tài khoản hoặc mật khẩu");
       }
     }
   };
