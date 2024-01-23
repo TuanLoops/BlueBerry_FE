@@ -12,7 +12,8 @@ const PersonalInformation = () => {
   const [hobbies, setHobbies] = useState('');
   const [address, setAddress] = useState('');
 
-  const [selected, setSelected] = useState(true);
+  const [editMode, setEditMode] = useState(false);
+  const [showSaveCancel, setShowSaveCancel] = useState(false);
 
   const dispatch = useDispatch();
   const currentUser = useSelector((state) => state.user.currentUser);
@@ -20,6 +21,41 @@ const PersonalInformation = () => {
   useEffect(() => {
     dispatch(getInfoUser(currentUser.id))
   }, [])
+
+  const toggleEditMode = () => {
+    setEditMode(!editMode);
+    setShowSaveCancel(!showSaveCancel);
+  };
+
+  const handleCancel = () => {
+
+    setEditMode(false);
+    setShowSaveCancel(false);
+
+    setFirstName(infoUser?.firstName || '');
+    setLastName(infoUser?.lastName || '');
+    setDob(infoUser?.dob || '');
+    setPhoneNumber(infoUser?.phoneNumber || '');
+    setHobbies(infoUser?.hobbies || '');
+    setAddress(infoUser?.address || '');
+  };
+
+  const handleSave = () => {
+
+    setEditMode(false);
+    setShowSaveCancel(false);
+
+    const user = {
+      id: currentUser.id,
+      firstName,
+      lastName,
+      dob,
+      phoneNumber,
+      hobbies,
+      address,
+    };
+    dispatch(updateProfile(user));
+  };
 
   const handleUpdate = () => {
     const user = {
@@ -32,7 +68,6 @@ const PersonalInformation = () => {
       address,
     }
     dispatch(updateProfile(user))
-    setSelected(true);
   };
 
   useEffect(() => {
@@ -55,109 +90,122 @@ const PersonalInformation = () => {
             <p>Manage information on your personal page and share information on Blue Berry, CodeGym and more.</p>
           </div>
         </div>
-        {selected
-          ?
-          (
-            <form className='current-information'>
-              <div className='current-information-container'>
-                <table>
-                  <tr>
-                    <th>First Name:</th>
-                    <th>
-                      <input
-                        type="text"
-                        id="firstName"
-                        value={firstName}
-                        disabled
-                        onChange={(e) => setFirstName(e.target.value)}
-                      />
-                    </th>
-                  </tr>
+        <form className={`current-information ${editMode ? 'edit-mode' : ''}`}>
+          <div className='current-information-container'>
+            <table>
+              <tr>
+                <th>First Name:</th>
+                <th>
+                  <input
+                    type="text"
+                    id="firstName"
+                    value={firstName}
+                    disabled={!editMode}
+                    onChange={(e) => setFirstName(e.target.value)}
+                  />
+                </th>
+              </tr>
 
-                  <tr>
-                    <th>Last Name:</th>
-                    <th>
-                      <input
-                        type="text"
-                        id="lastName"
-                        value={lastName}
-                        disabled
-                        onChange={(e) => setLastName(e.target.value)}
-                      />
-                    </th>
-                  </tr>
+              <tr>
+                <th>Last Name:</th>
+                <th>
+                  <input
+                    type="text"
+                    id="lastName"
+                    value={lastName}
+                    disabled={!editMode}
+                    onChange={(e) => setLastName(e.target.value)}
+                  />
+                </th>
+              </tr>
 
-                  <tr>
-                    <th>Date Of Birth:</th>
-                    <th>
-                      <input
-                        type="date"
-                        disabled
-                        id="dob"
-                        value={dob}
-                        onChange={(e) => setDob(e.target.value)}
-                      />
-                    </th>
-                  </tr>
+              <tr>
+                <th>Date Of Birth:</th>
+                <th>
+                  <input
+                    type="date"
+                    id="dob"
+                    value={dob}
+                    disabled={!editMode}
+                    onChange={(e) => setDob(e.target.value)}
+                  />
+                </th>
+              </tr>
 
-                  <tr>
-                    <th>Phone Number:</th>
-                    <th>
-                      <input
-                        type="text"
-                        id="phoneNumber"
-                        value={phoneNumber}
-                        disabled
-                        onChange={(e) => setPhoneNumber(e.target.value)}
-                      />
-                    </th>
-                  </tr>
+              <tr>
+                <th>Phone Number:</th>
+                <th>
+                  <input
+                    type="text"
+                    id="phoneNumber"
+                    value={phoneNumber}
+                    disabled={!editMode}
+                    onChange={(e) => setPhoneNumber(e.target.value)}
+                  />
+                </th>
+              </tr>
 
-                  <tr>
-                    <th>Hobbies:</th>
-                    <th>
-                      <textarea
-                        id="hobbies"
-                        value={hobbies}
-                        disabled
-                        onChange={(e) => setHobbies(e.target.value)}
-                      >
-                      </textarea>
-                    </th>
-                  </tr>
+              <tr>
+                <th>Hobbies:</th>
+                <th>
+                  <textarea
+                    id="hobbies"
+                    value={hobbies}
+                    disabled={!editMode}
+                    onChange={(e) => setHobbies(e.target.value)}
+                  ></textarea>
+                </th>
+              </tr>
 
-                  <tr>
-                    <th>Address:</th>
-                    <th>
-                      <input
-                        type="text"
-                        id="address"
-                        value={address}
-                        disabled
-                        onChange={(e) => setAddress(e.target.value)}
-                      />
-                    </th>
-                  </tr>
-                </table>
+              <tr>
+                <th>Address:</th>
+                <th>
+                  <input
+                    type="text"
+                    id="address"
+                    value={address}
+                    disabled={!editMode}
+                    onChange={(e) => setAddress(e.target.value)}
+                  />
+                </th>
+              </tr>
+            </table>
 
-                <div className='update-button'>
-                  <div className='update-button-container' onClick={() => setSelected(false)}>
-                    <div className='title'>
-                      <span>Edit</span>
-                    </div>
-                    <div className='icon'>
-                      <AiFillEdit />
-                    </div>
+            {/* <div className='update-button'>
+              <div className='update-button-container'>
+                <div className='title-icon' onClick={toggleEditMode}>
+                  <span>EDIT</span>
+                  <AiFillEdit />
+                </div>
+              </div>
+            </div> */}
+
+            {showSaveCancel && (
+              <div className='update-button'>
+                <div className='update-button-container'>
+                  <div className='title-icon' onClick={handleCancel}>
+                    <span className='title-icon__cancel'>CANCEL</span>
+                  </div>
+                  <div className='title-icon' onClick={handleSave}>
+                    <span className='title-icon__save'>SAVE</span>
                   </div>
                 </div>
               </div>
-            </form>
-          )
-          :
-          (
-            <></>
-          )
-        }
+            )}
+
+            {!showSaveCancel && (
+              <div className='update-button'>
+                <div className='update-button-container'>
+                  <div className='title-icon' onClick={toggleEditMode}>
+                    <span className='title-icon__edit'>EDIT</span>
+                    <AiFillEdit />
+                  </div>
+                </div>
+              </div>
+            )}
+
+          </div>
+        </form>
       </div>
     </div>
   );

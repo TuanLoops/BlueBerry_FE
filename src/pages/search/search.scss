@@ -11,6 +11,7 @@
       min-width: 320px;
       height: calc(100vh - 56px);
       position: sticky;
+      top: 56px;
       background-color: themed("bg");
       border-right: 1px solid #ffffff3a;
       padding: 2rem;
@@ -37,7 +38,7 @@
 
       .fillter-function-container {
         &__section-list {
-          list-style: none;
+          //list-style: none;
           padding: 0;
           margin: 0;
         }
@@ -53,11 +54,6 @@
 
         &__section-item {
           margin-bottom: 8px;
-
-          &.active {
-            border-radius: 5px;
-            background-color: themed("bgHover");
-          }
         }
 
         &__section-link {
@@ -73,6 +69,10 @@
           &__icon {
             margin-top: 0.15rem;
             padding-right: 0.5rem;
+          }
+          &.active {
+            border-radius: 5px;
+            background-color: themed("bgHover");
           }
 
           &:hover {
@@ -93,10 +93,44 @@
       justify-content: center;
 
       .main-search-content {
-        min-width: 400px;
-        max-width: 670px;
+        color: themed("textColor");
         display: flex;
-        justify-content: center;
+        flex-shrink: 0;
+        max-width: 100%;
+        flex-direction: column;
+        max-width: 590px;
+        min-width: 400px;
+        flex: 1;
+        .result-container{
+          padding: 1rem;
+          border-radius: 15px;
+          margin-top: 1rem;
+          border-bottom: 1px;
+          .item{
+            padding: 1rem;
+          }
+          .more-button{
+            background-color: themed("bg");
+            color: themed("textColor");
+            border: none;
+            outline: none;
+            border-radius: 7px;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            width: 100%;
+            height: 40px;
+            justify-content: center;
+            align-items: center;
+            gap: 4px;
+          }
+          .more-button:hover {
+              background-color: themed("hoverBtn");
+          }
+          p{
+            text-align: center;
+          }
+        }
       }
     }
   }

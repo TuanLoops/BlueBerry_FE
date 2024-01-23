@@ -80,7 +80,7 @@ function Router() {
                 <>
                   <Route path="/" exact element={<Home />} />
                   <Route path="/profile/:id" element={<Profile />} />
-                  <Route path="/search/all/:keyword" element={<Search />}/>
+                  <Route path="/search" element={<Search />}/>
                   <Route path="/accountsettings" element={<AccountSettings />} />
                   <Route path="*" element={<Navigate to={"/"} />} />
                 </>

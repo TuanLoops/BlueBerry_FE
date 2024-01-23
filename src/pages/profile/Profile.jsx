@@ -19,6 +19,7 @@ import SearchIcon from "@mui/icons-material/Search";
 import {SearchModal} from "./moreoptions/search/SearchModal.jsx";
 import {getInfoUser} from "../../redux/service/userService.jsx";
 import FriendButton from "../../components/friendbutton/FriendButton.jsx";
+import { UrlFriend } from "../../context/connect.jsx";
 
 const Profile = () => {
     const {id} = useParams();
@@ -28,19 +29,26 @@ const Profile = () => {
     const [index, setIndex] = useState(-1);
     const [filteredPosts, setFilteredPosts] = useState(null);
     const [showSearch, setShowSearch] = useState(false);
+    const [userFriendList, setUserFriendList] = useState([]);
     const showMoreButtonRef = useRef(null);
     const imagesContainerRef = useRef(null);
     const inputRef = useRef(null);
     const dispatch = useDispatch()
     const posts = useSelector((state) => state.status.list);
-    const currentUser = useSelector(({user}) => user.currentUser)
-    const infoUser = useSelector(({user: user2}) => user2.infoUser);
-    console.log(currentUser.id)
-    console.log(id)
+    const currentUser = useSelector(({user})=> user.currentUser)
+    const infoUser = useSelector(({user: user2})=>user2.infoUser);
+    const friendList= useSelector(({friend})=> friend.friendList)
+    console.log(currentUser)
     useEffect(() => {
-        dispatch(getStatusByUser(id));
-        dispatch(getInfoUser(id))
-    }, []);
+        const fetchData = async () => {
+            dispatch(getStatusByUser(id));
+            dispatch(getInfoUser(id));
+            let res = await UrlFriend().get(`/list/${id}`);
+            setUserFriendList(res.data)
+        }
+
+        fetchData();
+    }, [id]);
 
     const handleSearchChange = async (value) => {
         const result = await dispatch(searchStatus(value));
@@ -68,12 +76,12 @@ const Profile = () => {
                             <Lightbox
                                 open={open}
                                 close={() => setOpen(false)}
-                                slides={[{src: infoUser.bannerImage ? infoUser.bannerImage : img, alt: 'Banner Image'}]}
+                                slides={[{ src: infoUser.bannerImage ? infoUser.bannerImage : img, alt: 'Banner Image' }]}
                             />
                             <Lightbox
                                 open={openBox}
                                 close={() => setOpenBox(false)}
-                                slides={[{src: infoUser.avatarImage, alt: 'Avatar Image'},]}
+                                slides={[{ src: infoUser.avatarImage, alt: 'Avatar Image' },]}
                             />
                             <img
                                 src={infoUser.banner ? infoUser.banner : img}
@@ -161,7 +169,7 @@ const Profile = () => {
                                             {infoUser.address && infoUser.phoneNumber ? (
                                                 <>
                                                     <div className="address">
-                                                        <label><HomeIcon/> Address:</label>
+                                                        <label><HomeIcon /> Address:</label>
                                                         <span>{infoUser.address}</span>
                                                     </div>
                                                     <div className="phone">
@@ -171,8 +179,7 @@ const Profile = () => {
                                                 </>
                                             ) : (
                                                 <>
-                                                    <div className="request">Please update your personal information
-                                                    </div>
+                                                    <div className="request">Please update your personal information</div>
                                                 </>
                                             )}
                                         </>
@@ -232,13 +239,13 @@ const Profile = () => {
 
                                 <div className="gallery-photos">
                                     <div className="gallery-photos-rowFirst">
-                                        {posts.slice(0, 9).map((post) => (
-                                            <Link to="" className="first-friend" key={post.id}>
+                                        {userFriendList.slice(0, 9).map((friend) => (
+                                            <Link to={`/profile/${friend.id}`} className="first-friend" key={friend.id}>
                                                 <img
-                                                    src={post.imageList.length > 0 ? post.imageList[0].imageLink : 'https://cdn.diemnhangroup.com/seoulcenter/2022/11/gai-xinh-10.jpg'}
+                                                    src={friend.avatarImage}
                                                     alt=""
                                                 />
-                                                <span>{post.author.fullName}</span>
+                                                <span>{friend.fullName}</span>
                                             </Link>
                                         ))}
                                     </div>
@@ -247,13 +254,12 @@ const Profile = () => {
                         </div>
 
                         <div className="content-area">
-                            {infoUser && (infoUser.id === currentUser.id && <NewPost/>)}
+                            {infoUser && (infoUser.id === currentUser.id && <NewPost />)}
                             {filteredPosts ? (
                                 <>
                                     <div className="info-search">
                                         Search: {filteredPosts.length} result
-                                        <button className="goBack"
-                                                onClick={() => setFilteredPosts(null)}>GoBack</button>
+                                        <button className="goBack" onClick={() => setFilteredPosts(null)}>GoBack</button>
                                     </div>
                                     <Posts posts={filteredPosts}/>
                                 </>

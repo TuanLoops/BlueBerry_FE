@@ -1,5 +1,4 @@
 import "./navbar.scss";
-import logo from "../../../public/logo-blueberry.png"
 import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
 import DarkModeOutlinedIcon from "@mui/icons-material/DarkModeOutlined";
 import WbSunnyOutlinedIcon from "@mui/icons-material/WbSunnyOutlined";
@@ -13,7 +12,7 @@ import { useContext, useEffect, useRef, useState } from "react";
 import { DarkModeContext } from "../../context/darkModeContext";
 import { useDispatch, useSelector } from "react-redux";
 import { logOut } from "../../redux/service/userService.jsx";
-import logo from '../../../public/logo-blueberry.png'
+import logo from '../../assets/logo-blueberry.png';
 
 const Navbar = () => {
     const currentUser = useSelector(({ user }) => user.currentUser);
@@ -54,7 +53,7 @@ const Navbar = () => {
     };
 
     const handleSearch = () => {
-        navigate(`/search/all/${searchValue}`)
+        navigate(`/search?q=${searchValue}`)
     }
 
 
