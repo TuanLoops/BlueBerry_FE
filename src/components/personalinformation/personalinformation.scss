@@ -72,6 +72,11 @@
           background-color: themed("bg");
           border-radius: 1rem;
 
+          .error-message {
+            font-size: smaller;
+            font-weight: lighter;
+            color: red;
+          }
           tr {
             th {
               font-size: large;

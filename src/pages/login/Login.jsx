@@ -8,8 +8,8 @@ import { useEffect, useState } from "react";
 import Box from "@mui/material/Box";
 import LinearProgress from "@mui/material/LinearProgress";
 import logo from "../../assets/logo-blueberry.png";
-import { GoogleOAuthProvider, GoogleLogin } from '@react-oauth/google';
-import { jwtDecode } from "jwt-decode";
+
+
 
 
 const Login = () => {
@@ -20,13 +20,15 @@ const Login = () => {
 
 
 
+
+
   const handleLogin = async (values) => {
     try {
       setLoading(true);
-      dispatch(login(values));
+      await dispatch(login(values)).unwrap();
+      setLoading(false);
     } catch (err) {
       setLoading(false);
-      setMessage(err.response.data.message);
       if (err.response.request.status === 403) {
         setMessage(err.response.data.message);
       } else {
@@ -84,18 +86,14 @@ const Login = () => {
               }}
               validationSchema={Yup.object({
                 email: Yup.string()
-                  .required("Required")
+                  .required("Required!")
                   .matches(
-                    /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@(gmail\.com)$/,
-                    "Định dạng email không hợp lệ. Nên kết thúc bằng @gmail.com"
+                    /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
+                    "Invalid email format!"
                   ),
                 password: Yup.string()
                   .required("Required")
-                  .min(8, "Password should be at least 8 characters long")
-                  .matches(
-                    /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[#?!@$%^&*-])[A-Za-z\d@$!%*?&]{8,}$/,
-                    "Yêu cầu độ dài tối thiểu 8 ký tự và có thể chứa ít nhất một chữ cái viết thường, ít nhất một chữ cái viết hoa, ít nhất một chữ số ký tự đặc biệt từ danh sách (@, $, !, %, *, ?, &)"
-                  ),
+                  .min(8, "Password should be at least 8 characters long!"),
               })}
               onSubmit={(values, { setSubmitting, resetForm }) => {
                 handleLogin(values);
@@ -126,24 +124,11 @@ const Login = () => {
                   component="div"
                   className="error-message"
                 />
-                {message
-                  ? message && <div className="error-message">{message}</div>
-                  : ""}
+                {message && <div className="error-message">{message}</div>}
                 <button type="submit">Sign in</button>
                 <Link className="forgot-password" to={"/forgotpassword"}>Forgot your password?</Link>
               </Form>
             </Formik>
-            <GoogleOAuthProvider clientId="1031771119021-gahkg7gbtie9e4pre908n1ggv9rl6l1n.apps.googleusercontent.com">
-              <GoogleLogin
-                onSuccess={credentialResponse => {
-                  const decoded = jwtDecode(credentialResponse.credential);
-                  console.log(decoded);
-                }}
-                onError={() => {
-                  console.log('Login Failed');
-                }}
-              />
-            </GoogleOAuthProvider>
           </div>
         </div>
       </div>

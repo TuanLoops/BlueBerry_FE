@@ -9,6 +9,7 @@ const PersonalInformation = () => {
   const [lastName, setLastName] = useState('');
   const [dob, setDob] = useState('');
   const [phoneNumber, setPhoneNumber] = useState('');
+  const [phoneNumberError, setPhoneNumberError] = useState('');
   const [hobbies, setHobbies] = useState('');
   const [address, setAddress] = useState('');
 
@@ -55,6 +56,17 @@ const PersonalInformation = () => {
       address,
     };
     dispatch(updateProfile(user));
+  };
+
+  const handleInputPhoneNumber = (e) => {
+    const value = e.target.value;
+    setPhoneNumber(value);
+
+    if (value.length !== 10 || !/^\d{10}$/.test(value)) {
+      setPhoneNumberError('Invalid phone number. Please enter a 10-digit number.');
+    } else {
+      setPhoneNumberError('');
+    }
   };
 
   useEffect(() => {
@@ -127,8 +139,10 @@ const PersonalInformation = () => {
                     id="phoneNumber"
                     value={phoneNumber}
                     disabled={!editMode}
-                    onChange={(e) => setPhoneNumber(e.target.value)}
+                    // onChange={(e) => setPhoneNumber(e.target.value)}
+                    onChange={(e) => handleInputPhoneNumber(e)}
                   />
+                  {phoneNumberError && <div className="error-message">{phoneNumberError}</div>}
                 </th>
               </tr>
 
