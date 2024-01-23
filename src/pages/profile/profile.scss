@@ -132,6 +132,7 @@
                 width: 15px;
                 height: 15px;
                 margin-right: 10px;
+                -webkit-filter: themed("primary-icon");
               }
               span{
                 font-weight: 600;

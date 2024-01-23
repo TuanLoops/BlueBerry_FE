@@ -1,12 +1,7 @@
 import "./navbar.scss";
-import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
-import DarkModeOutlinedIcon from "@mui/icons-material/DarkModeOutlined";
-import WbSunnyOutlinedIcon from "@mui/icons-material/WbSunnyOutlined";
-import GridViewOutlinedIcon from "@mui/icons-material/GridViewOutlined";
 import { FaRegBell } from "react-icons/fa6";
 import { FaBell } from "react-icons/fa6";
 import EmailOutlinedIcon from "@mui/icons-material/EmailOutlined";
-import PersonOutlinedIcon from "@mui/icons-material/PersonOutlined";
 import SearchOutlinedIcon from "@mui/icons-material/SearchOutlined";
 import { Link, useNavigate } from "react-router-dom";
 import { useContext, useEffect, useRef, useState } from "react";
@@ -118,7 +113,7 @@ const Navbar = () => {
             <div className="brand-container__logo">
               <img
                 style={{ width: "30px" }}
-                src="logo-blueberry.png"
+                src={logo}
                 alt="My Logo"
               />
             </div>
@@ -126,14 +121,6 @@ const Navbar = () => {
               <span>Blueberry</span>
             </div>
           </Link>
-          <div className="nav-item">
-            {darkMode ? (
-              <WbSunnyOutlinedIcon onClick={toggle} />
-            ) : (
-              <DarkModeOutlinedIcon onClick={toggle} />
-            )}
-            <div className="label-acc">Mode</div>
-          </div>
           <div className="search">
             <SearchOutlinedIcon />
             <input
@@ -201,8 +188,8 @@ const Navbar = () => {
                   </div>
                   <div className="function">
                     <div
-                      className="item-function"
-                      onClick={(e) => disable(e, false)}
+                        className="item-function"
+                        onClick={(e) => disable(e, false)}
                     >
                       <Link to={`/accountsettings`} className="on-function">
                         <div className="background-item">
@@ -212,6 +199,16 @@ const Navbar = () => {
                           <span>Settings & Privacy</span>
                         </div>
                       </Link>
+                    </div>
+                    <div className="item-function" onClick={toggle}>
+                      <div className="on-function">
+                        <div className="background-item">
+                          <i className="screen"></i>
+                        </div>
+                        <div className="body-item">
+                          <span>Themes</span>
+                        </div>
+                      </div>
                     </div>
                     <div className="item-function" onClick={handleLogOut}>
                       <Link to={{}} className="on-function">
@@ -237,17 +234,17 @@ const Navbar = () => {
 
 export default Navbar;
 
-function NotificationPopup({ onClose, buttonRef }) {
+function NotificationPopup({onClose, buttonRef}) {
   const notificationRef = useRef(null);
   const notifications = useSelector(
-    ({ notification }) => notification.notifications
+      ({notification}) => notification.notifications
   );
 
   useEffect(() => {
     function handleClickOutside(event) {
       if (
-        !notificationRef.current.contains(event.target) &&
-        !buttonRef.current.contains(event.target)
+          !notificationRef.current.contains(event.target) &&
+          !buttonRef.current.contains(event.target)
       ) {
         onClose();
       }
