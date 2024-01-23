@@ -8,6 +8,8 @@ import { useEffect, useState } from "react";
 import ClipLoader from "react-spinners/ClipLoader";
 import Box from "@mui/material/Box";
 import LinearProgress from "@mui/material/LinearProgress";
+import logo from '../../../public/logo-blueberry.png'
+
 const Login = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -59,7 +61,7 @@ const Login = () => {
           <div className="left">
             <h2>Welcome to</h2>
             <div className="brand-container">
-              <img src="logo-blueberry.png"></img>
+              <img src={logo}></img>
               <span>BlueBerry</span>
             </div>
 

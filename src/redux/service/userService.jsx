@@ -95,3 +95,11 @@ export const logOut = createAsyncThunk(
 export const changePassword = async (passwordRequest) => {
     return await UrlUser().put("change-password", passwordRequest);
 }
+
+export const searchUsers = createAsyncThunk(
+    "SEARCH_USERS",
+    async (query) => {
+        let res= await UrlAppUser().get(`/search?query=${query}`)
+        return res.data;
+    }
+)

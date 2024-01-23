@@ -12,7 +12,7 @@ import { useContext, useEffect, useRef, useState } from "react";
 import { DarkModeContext } from "../../context/darkModeContext";
 import { useDispatch, useSelector } from "react-redux";
 import { logOut } from "../../redux/service/userService.jsx";
-
+import logo from '../../assets/logo-blueberry.png';
 
 const Navbar = () => {
     const currentUser = useSelector(({ user }) => user.currentUser);
@@ -53,7 +53,7 @@ const Navbar = () => {
     };
 
     const handleSearch = () => {
-        navigate(`/search/all/${searchValue}`)
+        navigate(`/search?q=${searchValue}`)
     }
 
 
@@ -75,23 +75,23 @@ const Navbar = () => {
         };
     }, [userRef]);
 
-    
+    const disable = (e,fa) => {
+        e.stopPropagation()
+        setPopupVisible(fa)
+    }
     return (
         <>
             <div className="navbar">
                 <div className="left">
                     <Link className="brand-container" to="/" style={{ textDecoration: "none" }}>
                         <div className="brand-container__logo">
-                            <img style={{ width: "30px" }} src="logo-blueberry.png" alt="My Logo" />
+                            <img style={{ width: "30px" }} src={logo} alt="My Logo" />
                         </div>
                         <div className="brand-container__brand-name">
                             <span>Blueberry</span>
                         </div>
                     </Link>
-                    <div className="nav-item">
-                        <HomeOutlinedIcon />
-                        <div className="label-acc">Home</div>
-                    </div>
+
                     <div className="nav-item">
                         {darkMode ? (
                             <WbSunnyOutlinedIcon onClick={toggle} />
@@ -130,7 +130,7 @@ const Navbar = () => {
                         {isPopupVisible && (
                             <>
                                 <div className="popup">
-                                    <div className="info-user">
+                                    <div className="info-user" onClick={(e)=> disable(e,false)}>
                                         <Link to={`/profile/${currentUser.id}`} className="icon-user">
                                             <div className="icon">
                                                 <img
@@ -141,18 +141,38 @@ const Navbar = () => {
                                                 <span>{currentUser.fullName}</span>
                                             </div>
                                         </Link>
-                                        <Link to={`/profile/${currentUser?.id}`} className="href">
+                                        <Link to={`/profile/${currentUser?.id}`} className="href" onClick={(e)=> disable(e,false)}>
                                             <span>Trang cá nhân</span>
                                         </Link>
                                     </div>
                                     <div className="function">
-                                        <div className="item-function">
+                                        <div className="item-function" onClick={(e)=> disable(e,false)}>
                                             <Link to={`/accountsettings`} className="on-function">
                                                 <div className="background-item">
                                                     <i className="setting-privacy"></i>
                                                 </div>
                                                 <div className="body-item">
                                                     <span>Settings & Privacy</span>
+                                                </div>
+                                            </Link>
+                                        </div>
+                                        <div className="item-function" onClick={(e)=> disable(e,false)}>
+                                            <Link to={{}} className="on-function" >
+                                                <div className="background-item">
+                                                    <i className="help-support"></i>
+                                                </div>
+                                                <div className="body-item">
+                                                    <span>Change Password</span>
+                                                </div>
+                                            </Link>
+                                        </div>
+                                        <div className="item-function" onClick={(e)=> disable(e,false)}>
+                                            <Link to={{}} className="on-function">
+                                                <div className="background-item">
+                                                    <i className="screen"></i>
+                                                </div>
+                                                <div className="body-item">
+                                                    <span>Screen & accessibility</span>
                                                 </div>
                                             </Link>
                                         </div>

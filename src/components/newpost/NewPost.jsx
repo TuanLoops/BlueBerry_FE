@@ -20,7 +20,7 @@ function NewPost() {
   const [body, setBody] = useState("");
   const [imageList, setImageList] = useState([]);
   const [isUploading, setIsUploading] = useState(false);
-  const [privacyLevel, setPrivacyLevel] = useState("Public");
+  const [privacyLevel, setPrivacyLevel] = useState("PUBLIC");
   const [isPopupPrivacy, setPopupPrivacy] =useState(false)
 
   const handleFileChange = async (e) => {
@@ -101,8 +101,10 @@ function NewPost() {
           <PreviewImg imageList={imageList} remove={handleFileRemove} />
           <div className="second-row">
             <div className="item" onClick={()=>setPopupPrivacy(true)}>
-              <span>{privacyLevel}</span>
-              {privacyLevel === "Public" ? <PublicOutlinedIcon/> : (privacyLevel === "Friends" ? <PeopleAltIcon/> : <LockIcon/>)}
+              <span>{privacyLevel==="PUBLIC" ? 'Public': 
+              privacyLevel==="FRIENDS" ? 'Friends': 'Only me'
+                    }</span>
+              {privacyLevel === "PUBLIC" ? <PublicOutlinedIcon/> : (privacyLevel === "FRIENDS" ? <PeopleAltIcon/> : <LockIcon/>)}
 
             </div>
             {isPopupPrivacy && (
