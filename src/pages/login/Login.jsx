@@ -24,19 +24,20 @@ const Login = () => {
       if (err.response.request.status === 403) {
         setMessage(err.response.data.message);
       } else {
-        setMessage("Sai tài khoản hoặc mật khẩu")
+        setMessage("Sai tài khoản hoặc mật khẩu");
       }
     }
-    useEffect(() => {
-      const timer = setInterval(() => {
-        setProgress((oldProgress) => {
-          if (oldProgress === 100) {
-            return 0;
-          }
-          const diff = Math.random() * 10;
-          return Math.min(oldProgress + diff, 100);
-        });
-      }, 500);
+  };
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setProgress((oldProgress) => {
+        if (oldProgress === 100) {
+          return 0;
+        }
+        const diff = Math.random() * 10;
+        return Math.min(oldProgress + diff, 100);
+      });
+    }, 500);
 
     return () => {
       clearInterval(timer);

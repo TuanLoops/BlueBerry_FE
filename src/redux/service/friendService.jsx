@@ -100,6 +100,7 @@ export const declineFriendRequest = createAsyncThunk(
 export const cancelFriendRequest = createAsyncThunk(
   "CANCEL_FRIEND_REQUEST",
   async (requestId) => {
+    console.log(requestId);
     try {
       let res = await UrlFriend().put(`/friend-request/respond`, {
         requestId,

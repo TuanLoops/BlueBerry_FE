@@ -86,127 +86,145 @@ const Navbar = () => {
     setPopupVisible(true);
   };
 
-    useEffect(() => {
-        const handleOutsideClick = (event) => {
-            if (userRef.current && !userRef.current.contains(event.target)) {
-                setPopupVisible(false);
-            }
-        };
+  useEffect(() => {
+    const handleOutsideClick = (event) => {
+      if (userRef.current && !userRef.current.contains(event.target)) {
+        setPopupVisible(false);
+      }
+    };
 
-        document.addEventListener('click', handleOutsideClick);
+    document.addEventListener("click", handleOutsideClick);
 
-        return () => {
-            document.removeEventListener('click', handleOutsideClick);
-        };
-    }, [userRef]);
+    return () => {
+      document.removeEventListener("click", handleOutsideClick);
+    };
+  }, [userRef]);
 
-    
-
-    
-    return (
-        <>
-            <div className="navbar">
-                <div className="left">
-                    <Link className="brand-container" to="/" style={{ textDecoration: "none" }}>
-                        <div className="brand-container__logo">
-                            <img style={{ width: "30px" }} src="logo-blueberry.png" alt="My Logo" />
-                        </div>
-                        <div className="brand-container__brand-name">
-                            <span>Blueberry</span>
-                        </div>
-                    </Link>
-                    <div className="nav-item">
-                        <HomeOutlinedIcon />
-                        <div className="label-acc">Home</div>
-                    </div>
-                    <div className="nav-item">
-                        {darkMode ? (
-                            <WbSunnyOutlinedIcon onClick={toggle} />
-                        ) : (
-                            <DarkModeOutlinedIcon onClick={toggle} />
-                        )}
-                        <div className="label-acc">Mode</div>
-                    </div>
-                    <div className="nav-item">
-                        <GridViewOutlinedIcon />
-                        <div className="label-acc">View</div>
-                    </div>
-                    <div className="search">
-                        <SearchOutlinedIcon />
-                        <input type="text" placeholder="Search..." value={searchValue} onChange={handleSearchChange}
-                            onKeyDown={handleKeyPress} />
-                    </div>
-                </div>
-                <div className="right">
-                    <div className="nav-item-right">
-                        <PersonOutlinedIcon />
-                        <div className="label-acc">Person</div>
-                    </div>
-                    <div className="nav-item-right">
-                        <EmailOutlinedIcon />
-                        <div className="label-acc">Mail</div>
-                    </div>
-                    <div className="nav-item-right">
-                        <NotificationsOutlinedIcon />
-                        <div className="label-acc">Notification</div>
-                    </div>
-                    <div className="user" onClick={togglePopup} ref={userRef}>
-                        <img src={currentUser?.avatarImage} alt="" />
-                        <img src={currentUser?.avatarImage} alt="" />
-                        <span></span>
-                        <div className="label-acc">Account</div>
-                        {isPopupVisible && (
-                            <>
-                                <div className="popup">
-                                    <div className="info-user">
-                                        <Link to={`/profile/${currentUser.id}`} className="icon-user">
-                                            <div className="icon">
-                                                <img
-                                                    src={currentUser.avatarImage}
-                                                    alt="" />
-                                                    alt="" />
-                                            </div>
-                                            <div className="name-uer">
-                                                <span>{currentUser.fullName}</span>
-                                            </div>
-                                        </Link>
-                                        <Link to={`/profile/${currentUser?.id}`} className="href">
-                                            <span>Trang cá nhân</span>
-                                        </Link>
-                                    </div>
-                                    <div className="function">
-                                        <div className="item-function">
-                                            <Link to={`/accountsettings`} className="on-function">
-                                            <Link to={`/accountsettings`} className="on-function">
-                                                <div className="background-item">
-                                                    <i className="setting-privacy"></i>
-                                                </div>
-                                                <div className="body-item">
-                                                    <span>Settings & Privacy</span>
-                                                </div>
-                                            </Link>
-                                        </div>
-                                        <div className="item-function" onClick={handleLogOut}>
-                                            <Link to={{}} className="on-function">
-                                                <div className="background-item">
-                                                    <i className="logout"></i>
-                                                </div>
-                                                <div className="body-item">
-                                                    <span>LogOut</span>
-                                                    <i className="icon-item-logout"></i>
-                                                </div>
-                                            </Link>
-                                        </div>
-                                    </div>
-                                </div>
-                            </>
-                        )}
-                    </div>
-                </div>
+  return (
+    <>
+      <div className="navbar">
+        <div className="left">
+          <Link
+            className="brand-container"
+            to="/"
+            style={{ textDecoration: "none" }}
+            onClick={handleHome}
+          >
+            <div className="brand-container__logo">
+              <img
+                style={{ width: "30px" }}
+                src="logo-blueberry.png"
+                alt="My Logo"
+              />
             </div>
-
-        </>
-    );
+            <div className="brand-container__brand-name">
+              <span>Blueberry</span>
+            </div>
+          </Link>
+          <div className="nav-item">
+            {darkMode ? (
+              <WbSunnyOutlinedIcon onClick={toggle} />
+            ) : (
+              <DarkModeOutlinedIcon onClick={toggle} />
+            )}
+            <div className="label-acc">Mode</div>
+          </div>
+          <div className="search">
+            <SearchOutlinedIcon />
+            <input
+              type="text"
+              placeholder="Search..."
+              value={searchValue}
+              onChange={handleSearchChange}
+              onKeyDown={handleKeyPress}
+            />
+          </div>
+        </div>
+        <div className="right">
+          <div className="nav-item-right">
+            <EmailOutlinedIcon />
+            <div className="label-acc">Mail</div>
+          </div>
+          <div className="nav-item-right notification">
+            <Badge
+              badgeContent={notifications?.reduce((total, current) => {
+                if (!current.isRead) return total + 1;
+                else return total;
+              }, 0)}
+              max={9}
+              color="error"
+            >
+              <div
+                className="item-wrapper"
+                onClick={() => setShowNotifications(!showNotifications)}
+                ref={notificationsRef}
+              >
+                {showNotifications ? <FaBell /> : <FaRegBell />}
+              </div>
+            </Badge>
+            {showNotifications && (
+              <NotificationPopup
+                onClose={() => setShowNotifications(false)}
+                notifications={notifications}
+                buttonRef={notificationsRef}
+              />
+            )}
+            <div className="label-acc">Notification</div>
+          </div>
+          <div className="user" onClick={togglePopup} ref={userRef}>
+            <img src={currentUser?.avatarImage} alt="" />
+            <span></span>
+            <div className="label-acc">Account</div>
+            {isPopupVisible && (
+              <>
+                <div className="popup">
+                  <div className="info-user">
+                    <Link
+                      to={`/profile/${currentUser.id}`}
+                      className="icon-user"
+                    >
+                      <div className="icon">
+                        <img src={currentUser.avatarImage} alt="" />
+                      </div>
+                      <div className="name-uer">
+                        <span>{currentUser.fullName}</span>
+                      </div>
+                    </Link>
+                    <Link to={`/profile/${currentUser?.id}`} className="href">
+                      <span>Trang cá nhân</span>
+                    </Link>
+                  </div>
+                  <div className="function">
+                    <div className="item-function">
+                      <Link to={`/accountsettings`} className="on-function">
+                        <div className="background-item">
+                          <i className="setting-privacy"></i>
+                        </div>
+                        <div className="body-item">
+                          <span>Settings & Privacy</span>
+                        </div>
+                      </Link>
+                    </div>
+                    <div className="item-function" onClick={handleLogOut}>
+                      <Link to={{}} className="on-function">
+                        <div className="background-item">
+                          <i className="logout"></i>
+                        </div>
+                        <div className="body-item">
+                          <span>LogOut</span>
+                          <i className="icon-item-logout"></i>
+                        </div>
+                      </Link>
+                    </div>
+                  </div>
+                </div>
+              </>
+            )}
+          </div>
+        </div>
+      </div>
+    </>
+  );
 };
 
 export default Navbar;

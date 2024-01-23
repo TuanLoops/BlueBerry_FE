@@ -17,7 +17,6 @@ import Login from "./pages/login/Login";
 import { getCurrentUser } from "./redux/service/userService";
 import AccountSettings from "./pages/settings/AccountSettings";
 import Search from "./pages/search/Search";
-import Search from "./pages/search/Search";
 import {
   getCurrentUserFriendList,
   getIncomingFriendRequests,
