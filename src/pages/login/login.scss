@@ -77,6 +77,15 @@
                 flex-direction: column;
                 gap: 30px;
 
+                .forgot-password {
+                    text-decoration: none;
+
+                    &:hover {
+                        font-weight: bold;
+                        color: #0d00ffb2;
+                    }
+                }
+
                 input {
                     border: none;
                     border-bottom: 1px solid lightgray;
@@ -84,7 +93,7 @@
                 }
 
                 button {
-                    width: 50%;
+                    width: 59%;
                     padding: 10px;
                     border: none;
                     background-color: #938eef;

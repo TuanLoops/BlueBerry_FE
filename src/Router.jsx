@@ -22,6 +22,7 @@ import {
   getIncomingFriendRequests,
   getSentFriendRequests,
 } from "./redux/service/friendService";
+import ForgotPassword from "./pages/forgotpassword/ForgotPassword";
 
 function Router() {
   const accessToken = useSelector(({ user }) => user.accessToken);
@@ -52,6 +53,8 @@ function Router() {
     }, 1000 * 60);
     return () => clearInterval(interval);
   });
+
+
 
   const PrivateRoutes = () => {
     const { darkMode } = useContext(DarkModeContext);
@@ -93,6 +96,7 @@ function Router() {
               <Route path="/login" element={<Login />} />
               <Route path="/confirm" element={<ConfirmAccount />} />
               <Route path="/register" element={<Register />} />
+              <Route path="/forgotpassword" element={<ForgotPassword />} />
               <Route path="*" element={<Navigate to={"/login"} />} />
             </Route>
           )}

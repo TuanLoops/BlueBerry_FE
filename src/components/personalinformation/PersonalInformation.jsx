@@ -57,19 +57,6 @@ const PersonalInformation = () => {
     dispatch(updateProfile(user));
   };
 
-  const handleUpdate = () => {
-    const user = {
-      id: currentUser.id,
-      firstName,
-      lastName,
-      dob,
-      phoneNumber,
-      hobbies,
-      address,
-    }
-    dispatch(updateProfile(user))
-  };
-
   useEffect(() => {
     setFirstName(infoUser?.firstName);
     setLastName(infoUser?.lastName);
@@ -170,15 +157,6 @@ const PersonalInformation = () => {
                 </th>
               </tr>
             </table>
-
-            {/* <div className='update-button'>
-              <div className='update-button-container'>
-                <div className='title-icon' onClick={toggleEditMode}>
-                  <span>EDIT</span>
-                  <AiFillEdit />
-                </div>
-              </div>
-            </div> */}
 
             {showSaveCancel && (
               <div className='update-button'>

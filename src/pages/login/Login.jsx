@@ -9,6 +9,9 @@ import ClipLoader from "react-spinners/ClipLoader";
 import Box from "@mui/material/Box";
 import LinearProgress from "@mui/material/LinearProgress";
 import logo from '../../../public/logo-blueberry.png'
+import { GoogleOAuthProvider, GoogleLogin } from '@react-oauth/google';
+import { jwtDecode } from "jwt-decode";
+
 
 const Login = () => {
   const dispatch = useDispatch();
@@ -16,6 +19,8 @@ const Login = () => {
   const [message, setMessage] = useState("");
   let [loading, setLoading] = useState(false);
   const [progress, setProgress] = useState(0);
+
+
 
   const handleLogin = async (values) => {
     try {
@@ -71,6 +76,7 @@ const Login = () => {
             <Link to="/register">
               <button>Register</button>
             </Link>
+
           </div>
           <div className="right">
             <h1>Login</h1>
@@ -83,8 +89,8 @@ const Login = () => {
                 email: Yup.string()
                   .required("Required")
                   .matches(
-                    /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@(gmail\.com|example\.com\.vn|microsoft\.com\.vn)$/,
-                    "Định dạng email không hợp lệ. Nên kết thúc bằng @gmail.com, @example.com.vn hoặc @microsoft.com.vn"
+                    /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@(gmail\.com)$/,
+                    "Định dạng email không hợp lệ. Nên kết thúc bằng @gmail.com"
                   ),
                 password: Yup.string()
                   .required("Required")
@@ -126,9 +132,21 @@ const Login = () => {
                 {message
                   ? message && <div className="error-message">{message}</div>
                   : ""}
-                <button type="submit">SignIn</button>
+                <button type="submit">Sign in</button>
+                <Link className="forgot-password" to={"/forgotpassword"}>Forgot your password?</Link>
               </Form>
             </Formik>
+            <GoogleOAuthProvider clientId="1031771119021-gahkg7gbtie9e4pre908n1ggv9rl6l1n.apps.googleusercontent.com">
+              <GoogleLogin
+                onSuccess={credentialResponse => {
+                  const decoded = jwtDecode(credentialResponse.credential);
+                  console.log(decoded);
+                }}
+                onError={() => {
+                  console.log('Login Failed');
+                }}
+              />
+            </GoogleOAuthProvider>
           </div>
         </div>
       </div>
