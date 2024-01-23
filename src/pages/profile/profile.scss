@@ -387,20 +387,26 @@
               margin-top: 10px;
               margin-left: 20px;
               font-size: 20px;
+            .keyword {
+              font-weight: 600;
+            }
             .goBack{
               margin-left: 20px;
-              background-color: themed("bgSoft");
+              background-color: themed("btn");
               color: themed("textColor");
               width: 90px;
               height: 35px;
               border-radius: 10px;
               border: none;
               font-size: 18px;
-              transition: background-color 0.3s;
+              cursor: pointer;
               &:hover{
                 background-color: lighten(themed("bgSoft"),10%);
               }
             }
+          }
+          .not-found{
+            text-align: center;
           }
           .status-field-container {
             margin-top: 20px;

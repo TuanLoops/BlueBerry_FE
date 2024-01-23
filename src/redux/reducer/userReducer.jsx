@@ -20,7 +20,7 @@ const initialState = {
   accessToken: token,
   currentUser: null,
   infoUser: null,
-  filterList: [],
+  list:[],
 };
 
 const userReducer = createSlice({
@@ -57,7 +57,7 @@ const userReducer = createSlice({
       state.currentUser = state.infoUser;
     });
     builder.addCase(searchUsers.fulfilled, (state, { payload }) => {
-      state.filterList = payload;
+      state.list = payload;
     });
   },
 });
