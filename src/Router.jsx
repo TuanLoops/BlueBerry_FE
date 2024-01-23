@@ -21,6 +21,9 @@ import {
   getIncomingFriendRequests,
   getSentFriendRequests,
 } from "./redux/service/friendService";
+import { collection, onSnapshot, query, where } from "firebase/firestore";
+import { firestore } from "./firebase";
+import { getNotifications } from "./redux/service/NotificationService";
 
 function Router() {
   const accessToken = useSelector(({ user }) => user.accessToken);
@@ -39,13 +42,15 @@ function Router() {
         setFetched(true);
       }
     };
-    fetchData().then();
+    fetchData();
   }, [accessToken]);
 
   const PrivateRoutes = () => {
     const { darkMode } = useContext(DarkModeContext);
+    const [stompClient, setStompClient] = useState(null);
+    const currentUser = useSelector(({ user }) => user.currentUser);
     const dispatch = useDispatch();
-    
+
     useEffect(() => {
       dispatch(getIncomingFriendRequests());
       dispatch(getSentFriendRequests());
@@ -54,7 +59,22 @@ function Router() {
         dispatch(getCurrentUserFriendList());
       }, 1000 * 60);
       return () => clearInterval(interval);
-    });
+    }, []);
+
+    useEffect(() => {
+      const unsubscribe = onSnapshot(
+        query(
+          collection(firestore, "notifications"),
+          where("receiver.id", "==", currentUser.id)
+        ),
+        (snapshot) => {
+          console.log("Current data: ", snapshot);
+          dispatch(getNotifications());
+        }
+      );
+
+      return () => unsubscribe();
+    }, []);
 
     return (
       <div

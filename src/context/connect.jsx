@@ -61,3 +61,17 @@ export const UrlFriend = () => {
     });
   }
 }
+
+export const UrlNotification = () => {
+  let accessToken = JSON.parse(localStorage.getItem("AccessToken"));
+  if (accessToken) {
+    return axios.create({
+      baseURL: "http://localhost:8080/auth/api/notification",
+      headers: { Authorization: `Bearer ${accessToken}` },
+    });
+  } else {
+    return axios.create({
+      baseURL: "http://localhost:8080/auth/api/notification",
+    });
+  }
+};

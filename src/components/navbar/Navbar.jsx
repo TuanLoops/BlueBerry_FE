@@ -3,7 +3,8 @@ import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
 import DarkModeOutlinedIcon from "@mui/icons-material/DarkModeOutlined";
 import WbSunnyOutlinedIcon from "@mui/icons-material/WbSunnyOutlined";
 import GridViewOutlinedIcon from "@mui/icons-material/GridViewOutlined";
-import NotificationsOutlinedIcon from "@mui/icons-material/NotificationsOutlined";
+import { FaRegBell } from "react-icons/fa6";
+import { FaBell } from "react-icons/fa6";
 import EmailOutlinedIcon from "@mui/icons-material/EmailOutlined";
 import PersonOutlinedIcon from "@mui/icons-material/PersonOutlined";
 import SearchOutlinedIcon from "@mui/icons-material/SearchOutlined";
@@ -12,15 +13,46 @@ import { useContext, useEffect, useRef, useState } from "react";
 import { DarkModeContext } from "../../context/darkModeContext";
 import { useDispatch, useSelector } from "react-redux";
 import { logOut } from "../../redux/service/userService.jsx";
+import { Avatar, Badge } from "@mui/material";
+import { getNotifications } from "../../redux/service/NotificationService.jsx";
+import { formatDistanceToNowStrict } from "date-fns";
+import { showStatus } from "../../redux/service/statusService.jsx";
 
 const Navbar = () => {
   const currentUser = useSelector(({ user }) => user.currentUser);
+  const notifications = useSelector(
+    ({ notification }) => notification.notifications
+  );
   const { toggle, darkMode } = useContext(DarkModeContext);
   const [isPopupVisible, setPopupVisible] = useState(false);
+  const [showNotifications, setShowNotifications] = useState(false);
   const userRef = useRef(null);
+  const notificationsRef = useRef(null);
   const [searchValue, setSearchValue] = useState("");
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const handleOutsideClick = (event) => {
+      if (userRef.current && !userRef.current.contains(event.target)) {
+        setPopupVisible(false);
+      }
+    };
+
+    dispatch(getNotifications());
+
+    document.addEventListener("click", handleOutsideClick);
+
+    return () => {
+      document.removeEventListener("click", handleOutsideClick);
+    };
+  }, []);
+
+  const handleHome = () => {
+    navigate("/");
+    dispatch(showStatus());
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
 
   const handleLogOut = () => {
     try {
@@ -54,25 +86,12 @@ const Navbar = () => {
     setPopupVisible(true);
   };
 
-  useEffect(() => {
-    const handleOutsideClick = (event) => {
-      if (userRef.current && !userRef.current.contains(event.target)) {
-        setPopupVisible(false);
-      }
-    };
-
-    document.addEventListener("click", handleOutsideClick);
-
-    return () => {
-      document.removeEventListener("click", handleOutsideClick);
-    };
-  }, [userRef]);
 
   return (
     <>
       <div className="navbar">
         <div className="left">
-          <Link to="/" style={{ textDecoration: "none" }}>
+          <Link to="/" onClick={handleHome} style={{ textDecoration: "none" }}>
             <span>Blueberry</span>
           </Link>
           <div className="nav-item">
@@ -104,15 +123,35 @@ const Navbar = () => {
         </div>
         <div className="right">
           <div className="nav-item-right">
-            <PersonOutlinedIcon />
-            <div className="label-acc">Person</div>
+            <div className="item-wrapper">
+              <EmailOutlinedIcon />
+              <div className="label-acc">Mail</div>
+            </div>
           </div>
-          <div className="nav-item-right">
-            <EmailOutlinedIcon />
-            <div className="label-acc">Mail</div>
-          </div>
-          <div className="nav-item-right">
-            <NotificationsOutlinedIcon />
+          <div className="nav-item-right notification">
+            <Badge
+              badgeContent={notifications?.reduce((total, current) => {
+                if (!current.isRead) return total + 1;
+                else return total;
+              }, 0)}
+              max={9}
+              color="error"
+            >
+              <div
+                className="item-wrapper"
+                onClick={() => setShowNotifications(!showNotifications)}
+                ref={notificationsRef}
+              >
+                {showNotifications ? <FaBell /> : <FaRegBell />}
+              </div>
+            </Badge>
+            {showNotifications && (
+              <NotificationPopup
+                onClose={() => setShowNotifications(false)}
+                notifications={notifications}
+                buttonRef={notificationsRef}
+              />
+            )}
             <div className="label-acc">Notification</div>
           </div>
           <div className="user" onClick={togglePopup} ref={userRef}>
@@ -192,3 +231,127 @@ const Navbar = () => {
 };
 
 export default Navbar;
+
+function NotificationPopup({ onClose, buttonRef }) {
+  const notificationRef = useRef(null);
+  const notifications = useSelector(
+    ({ notification }) => notification.notifications
+  );
+
+  useEffect(() => {
+    function handleClickOutside(event) {
+      if (
+        !notificationRef.current.contains(event.target) &&
+        !buttonRef.current.contains(event.target)
+      ) {
+        onClose();
+      }
+    }
+
+    document.addEventListener("mousedown", handleClickOutside);
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
+
+  return (
+    <div className="notification-container" ref={notificationRef}>
+      <div className="notification-wrapper">
+        <div className="notification-header">Notifications</div>
+        <div className="notification-body">
+          {notifications.length > 0 ? (
+            notifications.map((notification) => (
+              <NotificationItem
+                key={notification.id}
+                notification={notification}
+              />
+            ))
+          ) : (
+            <div className="placeholder">You don't have any notifications</div>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function NotificationItem({ notification }) {
+  console.log("ALO", notification);
+  const notificationMessage = () => {
+    switch (notification.type) {
+      case "COMMENT_ON_OWN_POST":
+        return (
+          <div className="message">
+            <span className="name">{notification.sender.fullName}</span>{" "}
+            commented on your post
+          </div>
+        );
+      case "COMMENT_ON_FOLLOWED_POST":
+        return (
+          <div className="message">
+            <span className="name">{notification.sender.fullName}</span>{" "}
+            commented on {notification.statusAuthorName} 's post
+          </div>
+        );
+      case "LIKE_ON_POST":
+        return (
+          <div className="message">
+            <span className="name">{notification.sender.fullName}</span> liked
+            your post
+          </div>
+        );
+      case "LIKE_ON_COMMENT":
+        return (
+          <div className="message">
+            <span className="name">{notification.sender.fullName}</span> liked
+            your comment
+          </div>
+        );
+      case "FRIEND_REQUEST_INCOMING":
+        return (
+          <div className="message">
+            <span className="name">{notification.sender.fullName}</span> sent
+            you a friend request
+          </div>
+        );
+      case "FRIEND_REQUEST_ACCEPT":
+        return (
+          <div className="message">
+            <span className="name">{notification.sender.fullName}</span>{" "}
+            accepted your friend request
+          </div>
+        );
+      case "FRIEND_REQUEST_DECLINE":
+        return (
+          <div className="message">
+            <span className="name">{notification.sender.fullName}</span>{" "}
+            declined your friend request
+          </div>
+        );
+    }
+  };
+
+  const destination = () => {
+    //TODO: Navigate to appropriate destination based on notification type
+  };
+
+  return (
+    <Link to={destination()} className="notification-item">
+      <Avatar
+        sx={{ width: 56, height: 56 }}
+        src={notification.sender.avatarImage}
+        alt=""
+      />
+      <div
+        className={`notification-detail ${notification.isRead ? "read" : ""}`}
+      >
+        {notificationMessage()}
+        <div className="timestamp">
+          {formatDistanceToNowStrict(notification.timeStamp) + " ago"}
+        </div>
+      </div>
+      {!notification.isRead && <div className="dot"></div>}
+    </Link>
+  );
+}
