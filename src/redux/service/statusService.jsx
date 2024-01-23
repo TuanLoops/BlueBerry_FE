@@ -58,7 +58,7 @@ export const getStatusByUser= createAsyncThunk(
   "GET_STATUS_BY_USER",
   async (userId)=>{
       const res = await UrlStatus().get(`/users/${userId}`);
-      return res.data;
+      return res.data ? res.data : [];
   }
 )
 

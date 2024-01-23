@@ -2,27 +2,28 @@ import "./profile.scss";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import Posts from "../../components/posts/Posts";
 import MoreOptions from "./moreoptions/MoreOptions";
-import {useEffect, useRef, useState} from "react";
+import { useEffect, useRef, useState } from "react";
 import NewPost from "../../components/newpost/NewPost.jsx";
 import Thumbnails from "yet-another-react-lightbox/plugins/thumbnails";
 import Counter from "yet-another-react-lightbox/plugins/counter";
 import Zoom from "yet-another-react-lightbox/plugins/zoom";
 import Lightbox from "yet-another-react-lightbox";
-import {Link, useParams} from "react-router-dom";
-import {useDispatch, useSelector} from "react-redux";
-import {getStatusByUser, searchStatus, showStatus} from "../../redux/service/statusService.jsx";
+import { Link, useParams } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { getStatusByUser, searchStatus, showStatus } from "../../redux/service/statusService.jsx";
 import img from '../../Pic-banner.jpg'
 import PermPhoneMsgIcon from '@mui/icons-material/PermPhoneMsg';
 import HomeIcon from '@mui/icons-material/Home';
+import CakeIcon from '@mui/icons-material/Cake';
 import BookmarksIcon from '@mui/icons-material/Bookmarks';
 import SearchIcon from "@mui/icons-material/Search";
-import {SearchModal} from "./moreoptions/search/SearchModal.jsx";
-import {getInfoUser} from "../../redux/service/userService.jsx";
+import { SearchModal } from "./moreoptions/search/SearchModal.jsx";
+import { getInfoUser } from "../../redux/service/userService.jsx";
 import FriendButton from "../../components/friendbutton/FriendButton.jsx";
 import { UrlFriend } from "../../context/connect.jsx";
 
 const Profile = () => {
-    const {id} = useParams();
+    const { id } = useParams();
     const [showMoreOptions, setShowMoreOptions] = useState(false);
     const [open, setOpen] = useState(false);
     const [openBox, setOpenBox] = useState(false);
@@ -35,9 +36,9 @@ const Profile = () => {
     const inputRef = useRef(null);
     const dispatch = useDispatch()
     const posts = useSelector((state) => state.status.list);
-    const currentUser = useSelector(({user})=> user.currentUser)
-    const infoUser = useSelector(({user: user2})=>user2.infoUser);
-    const friendList= useSelector(({friend})=> friend.friendList)
+    const currentUser = useSelector(({ user }) => user.currentUser)
+    const infoUser = useSelector(({ user: user2 }) => user2.infoUser);
+    const friendList = useSelector(({ friend }) => friend.friendList)
     console.log(currentUser)
     useEffect(() => {
         const fetchData = async () => {
@@ -84,7 +85,7 @@ const Profile = () => {
                                 slides={[{ src: infoUser.avatarImage, alt: 'Avatar Image' },]}
                             />
                             <img
-                                src={infoUser.banner ? infoUser.banner : img}
+                                src={infoUser.bannerImage ? infoUser.bannerImage : img}
                                 alt=""
                                 className="cover"
                                 onClick={() => setOpen(true)}
@@ -101,11 +102,11 @@ const Profile = () => {
                                     ref={showMoreButtonRef}
                                     onClick={() => setShowMoreOptions(!showMoreOptions)}
                                 >
-                                    <MoreVertIcon/>
+                                    <MoreVertIcon />
                                 </div>
                             </div>
                             {showMoreOptions && <MoreOptions buttonRef={showMoreButtonRef}
-                                                             onClose={() => setShowMoreOptions(false)}
+                                onClose={() => setShowMoreOptions(false)}
                             />}
                         </div>
                     )}
@@ -122,15 +123,15 @@ const Profile = () => {
                                     <div className="left" ref={inputRef} onClick={() => {
                                         setShowSearch(true)
                                     }}>
-                                        <button><SearchIcon/></button>
+                                        <button><SearchIcon /></button>
                                     </div>
                                     <div className="right">
                                         {currentUser.id != +id ? (
-                                            <FriendButton userId={+id}/>
+                                            <FriendButton userId={+id} />
                                         ) : (
                                             <Link to={"/accountsettings"}>
                                                 <button>
-                                                    <img src="https://static.xx.fbcdn.net/rsrc.php/v3/yl/r/tmaz0VO75BB.png?_nc_eui2=AeHp1Ln-z1HSkfV-aw2uLKAYPeqkNBZWYnQ96qQ0FlZidAfwYPP1T1b5ZVPiivJfvfzVYWO5udsdrbLrOaRHjRcg" alt=""/>
+                                                    <img src="https://static.xx.fbcdn.net/rsrc.php/v3/yl/r/tmaz0VO75BB.png?_nc_eui2=AeHp1Ln-z1HSkfV-aw2uLKAYPeqkNBZWYnQ96qQ0FlZidAfwYPP1T1b5ZVPiivJfvfzVYWO5udsdrbLrOaRHjRcg" alt="" />
                                                     <span>Edit Profile</span>
                                                 </button>
                                             </Link>
@@ -140,7 +141,7 @@ const Profile = () => {
                             </>
                         )}
                         {showSearch && <SearchModal buttonRef={inputRef} onClose={() => setShowSearch(false)}
-                                                    onSearchChange={handleSearchChange}/>}
+                            onSearchChange={handleSearchChange} />}
                     </div>
                 </div>
 
@@ -156,27 +157,27 @@ const Profile = () => {
                                 <div className="intro-details">
                                     {infoUser !== null && (
                                         <>
-                                            {infoUser.hobbies ? (
-                                                <div className="hobbies">
-                                                    <label><BookmarksIcon/> Hobbies:</label>
-                                                    <span>{infoUser.hobbies}</span>
-                                                </div>
-                                            ) : (
-                                                <>
-
-                                                </>
-                                            )}
-                                            {infoUser.address && infoUser.phoneNumber ? (
-                                                <>
-                                                    <div className="address">
-                                                        <label><HomeIcon /> Address:</label>
-                                                        <span>{infoUser.address}</span>
-                                                    </div>
-                                                    <div className="phone">
-                                                        <label><PermPhoneMsgIcon/> Phone Number:</label>
-                                                        <span>{infoUser.phoneNumber}</span>
-                                                    </div>
-                                                </>
+                                            {infoUser.address || infoUser.phoneNumber || infoUser.hobbies ? (
+                                                <table>
+                                                    <tbody>
+                                                        <tr>
+                                                            <td><label><CakeIcon /> Dob:</label></td>
+                                                            <td><span>{infoUser.dob}</span></td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td><label><PermPhoneMsgIcon /> Phone Number:</label></td>
+                                                            <td><span>{infoUser.phoneNumber}</span></td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td><label><BookmarksIcon /> Hobbies:</label></td>
+                                                            <td><span>{infoUser.hobbies}</span></td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td><label><HomeIcon /> Address:</label></td>
+                                                            <td><span>{infoUser.address}</span></td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
                                             ) : (
                                                 <>
                                                     <div className="request">Please update your personal information</div>
@@ -261,11 +262,11 @@ const Profile = () => {
                                         Search: {filteredPosts.length} result
                                         <button className="goBack" onClick={() => setFilteredPosts(null)}>GoBack</button>
                                     </div>
-                                    <Posts posts={filteredPosts}/>
+                                    <Posts posts={filteredPosts} />
                                 </>
                             ) : (
                                 <>
-                                    <Posts posts={posts}/>
+                                    <Posts posts={posts} />
                                 </>
                             )}
                         </div>
