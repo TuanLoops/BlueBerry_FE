@@ -6,7 +6,7 @@ import { useRef, useState } from "react";
 import {useDispatch} from "react-redux";
 import {changePrivacy} from "../../../redux/service/statusService.jsx";
 
-function PrivacySetting({ onClose, defaultChecked, postId }) {
+function PrivacySetting({ onClose, defaultChecked,handleSave }) {
   const [checked, setChecked] = useState(defaultChecked);
   const modalRef = useRef(null);
   const dispatch = useDispatch();
@@ -16,20 +16,6 @@ function PrivacySetting({ onClose, defaultChecked, postId }) {
     }
   };
 
-  const handleSave = () => {
-    const status= {
-      id:postId,
-      privacyLevel: checked
-    }
-    console.log(status)
-    // TODO: save edit
-    try {
-      dispatch(changePrivacy(status))
-      onClose();
-    }catch (e){
-      console.log(e)
-    }
-  };
 
   return (
     <div className="privacy-modal" ref={modalRef} onClick={handleClose}>
@@ -39,7 +25,7 @@ function PrivacySetting({ onClose, defaultChecked, postId }) {
             <span>Privacy setting</span>
           </div>
           <div className="modal-body">
-            <div className="item" onClick={() => setChecked("PUBLIC")}>
+            <div className="item" onClick={() => setChecked("Public")}>
               <div className="icon">
                 <PublicOutlinedIcon />
               </div>
@@ -48,12 +34,12 @@ function PrivacySetting({ onClose, defaultChecked, postId }) {
                 <div className="description">Everybody can see yor post</div>
               </div>
               <input
-                onChange={() => setChecked("PUBLIC")}
+                onChange={() => setChecked("Public")}
                 type="radio"
-                checked={checked === "PUBLIC"}
+                checked={checked === "Public"}
               />
             </div>
-            <div className="item" onClick={() => setChecked("FRIENDS")}>
+            <div className="item" onClick={() => setChecked("Friends")}>
               <div className="icon">
                 <PeopleAltIcon />
               </div>
@@ -64,12 +50,12 @@ function PrivacySetting({ onClose, defaultChecked, postId }) {
                 </div>
               </div>
               <input
-                onChange={() => setChecked("FRIENDS")}
+                onChange={() => setChecked("Friends")}
                 type="radio"
-                checked={checked === "FRIENDS"}
+                checked={checked === "Friends"}
               />
             </div>
-            <div className="item" onClick={() => setChecked("PRIVATE")}>
+            <div className="item" onClick={() => setChecked("Only me")}>
               <div className="icon">
                 <LockIcon />
               </div>
@@ -80,9 +66,9 @@ function PrivacySetting({ onClose, defaultChecked, postId }) {
                 </div>
               </div>
               <input
-                onChange={() => setChecked("PRIVATE")}
+                onChange={() => setChecked("Only me")}
                 type="radio"
-                checked={checked === "PRIVATE"}
+                checked={checked === "Only me"}
               />
             </div>
           </div>
@@ -90,7 +76,7 @@ function PrivacySetting({ onClose, defaultChecked, postId }) {
             <button className="cancel" onClick={() => onClose()}>
               <div>Cancel</div>
             </button>
-            <button className="save" onClick={handleSave}>
+            <button className="save" onClick={() => handleSave(checked)}>
               <div>Save</div>
             </button>
           </div>

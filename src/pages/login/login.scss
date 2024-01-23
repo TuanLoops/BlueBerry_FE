@@ -23,6 +23,20 @@
             flex-direction: column;
             gap: 30px;
             color: white;
+            
+            .brand-container {
+                display: flex;
+                align-items: center;
+                img {
+                    width: 70px;
+                    height: 70px;
+                    
+                }
+                span {
+                    font-size: 70px;
+                    font-weight: bold;
+                }
+            }
 
             h1 {
                 font-size: 100px;

@@ -338,6 +338,27 @@
                     word-break: break-word;
                     border: none;
                   }
+                  .attach-image{
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    position: relative;
+                    left: 200px;
+                    border-radius: 50%;
+                    width: 30px;
+                    height: 30px;
+                    input {
+                      order: 2;
+                    }
+
+                    [type="file"] {
+                      display: none;
+                    }
+                    &:hover{
+                      background-color: themed("bgHover");
+                      border-radius: 50%;
+                    }
+                  }
                 }
               }
 

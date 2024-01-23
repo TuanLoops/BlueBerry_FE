@@ -36,7 +36,7 @@ const userReducer = createSlice({
       state.accessToken = payload.token;
     });
     builder.addCase(getCurrentUser.fulfilled, (state, { payload }) => {
-        state.currentUser = payload;
+      state.currentUser = payload;
     });
     builder.addCase(getCurrentUser.rejected, (state) => {
       state.accessToken = null;
@@ -47,11 +47,12 @@ const userReducer = createSlice({
       state.accessToken = null;
       state.currentUser = null;
     });
-    builder.addCase(getInfoUser.fulfilled,(state,action)=>{
+    builder.addCase(getInfoUser.fulfilled, (state, action) => {
       state.infoUser = action.payload;
     })
-    builder.addCase(updateProfile.fulfilled,(state,{payload})=>{
+    builder.addCase(updateProfile.fulfilled, (state, { payload }) => {
       state.infoUser = payload;
+      state.currentUser = state.infoUser;
     })
   },
 });

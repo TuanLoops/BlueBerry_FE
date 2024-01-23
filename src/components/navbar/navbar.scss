@@ -18,7 +18,14 @@
       display: flex;
       align-items: center;
       gap: 30px;
+  
 
+      .brand-container {
+        display: flex;
+        &__logo {
+          padding-right: 0.4rem;
+        }
+      }
       span {
         font-weight: bold;
         font-size: 20px;
@@ -383,6 +390,7 @@
           }
 
           .item-function {
+            cursor: pointer;
             .on-function {
               display: flex;
               align-items: center;

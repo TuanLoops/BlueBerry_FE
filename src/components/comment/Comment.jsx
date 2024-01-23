@@ -7,21 +7,25 @@ import FavoriteBorderOutlinedIcon from "@mui/icons-material/FavoriteBorderOutlin
 import FavoriteOutlinedIcon from "@mui/icons-material/FavoriteOutlined";
 import Lightbox from "yet-another-react-lightbox";
 import Zoom from "yet-another-react-lightbox/plugins/zoom";
-import { useEffect, useRef, useState } from "react";
-import { v4 as uuidv4 } from "uuid";
-import { CircularProgress, TextareaAutosize } from "@mui/material";
-import { formatDistanceToNow } from "date-fns";
+import {useEffect, useRef, useState} from "react";
+import {v4 as uuidv4} from "uuid";
+import {CircularProgress, TextareaAutosize} from "@mui/material";
+import {formatDistanceToNow} from "date-fns";
 import PreviewImg from "../previewimg/PreviewImg";
-import { getImageURL, uploadImage } from "../../firebase";
+import {useDispatch} from "react-redux";
+import {editComment, likeComment, deleteComment} from "../../redux/service/commentService.jsx";
+import {getImageURL, uploadImage} from "../../firebase";
+import ImageIcon from "@mui/icons-material/Image";
 
-const Comment = ({ comment }) => {
+const Comment = ({ comment, changeCountLikes, changeComment, postId, onUpdate }) => {
   const actionButtonRef = useRef(null);
   const [index, setIndex] = useState(-1);
-  const [liked, setLiked] = useState(false);
   const [showActions, setShowActions] = useState(false);
+  const dispatch = useDispatch()
   const handleLike = () => {
-    setLiked(!liked);
-    // call api to like comment
+    likeComment(comment.id).then(res=>{
+      changeCountLikes(comment.id,res.data)
+    })
   };
 
   return (
@@ -56,12 +60,12 @@ const Comment = ({ comment }) => {
         </div>
         <div className="comment-footer">
           <div className="like" onClick={handleLike}>
-            {liked ? (
+            {comment.liked ? (
               <FavoriteOutlinedIcon className="liked" />
             ) : (
               <FavoriteBorderOutlinedIcon />
             )}
-            <span className={liked ? "liked" : ""}>10 Likes</span>
+            <span className={comment.liked ? "liked" : ""}>{comment.countLikes ? comment.countLikes : ""} Likes</span>
           </div>
           <Time time={comment.createdAt} />
         </div>
@@ -78,6 +82,9 @@ const Comment = ({ comment }) => {
           {showActions && (
             <Popup
               comment={comment}
+              postId={postId}
+              onUpdate={onUpdate}
+              changeComment={changeComment}
               buttonRef={actionButtonRef}
               onClose={() => setShowActions(false)}
             />
@@ -90,17 +97,17 @@ const Comment = ({ comment }) => {
 
 export default Comment;
 
-const Popup = ({ comment, onClose, buttonRef }) => {
+const Popup = ({ comment, onClose, buttonRef,changeComment , postId, onUpdate }) => {
   const popupRef = useRef(null);
   const [showEditModal, setShowEditModal] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
 
-  useEffect(() => {
-    document.addEventListener("click", handleOutsideClick);
-    return () => {
-      document.removeEventListener("click", handleOutsideClick);
-    };
-  }, []);
+    useEffect(() => {
+        document.addEventListener("click", handleOutsideClick);
+        return () => {
+            document.removeEventListener("click", handleOutsideClick);
+        };
+    }, []);
 
   const handleOutsideClick = (e) => {
     if (
@@ -125,11 +132,12 @@ const Popup = ({ comment, onClose, buttonRef }) => {
         </div>
       </div>
       {showEditModal && (
-        <EditPost comment={comment} onClose={() => setShowEditModal(false)} />
+        <EditPost comment={comment} changeComment={changeComment} postId={postId} onClose={() => setShowEditModal(false)} />
       )}
       {showDeleteModal && (
         <DeleteComment
           commentId={comment.id}
+          onUpdate={onUpdate}
           onClose={() => {
             setShowDeleteModal(false);
           }}
@@ -139,47 +147,54 @@ const Popup = ({ comment, onClose, buttonRef }) => {
   );
 };
 
-function DeleteComment({ commentId, onClose }) {
-  const modalRef = useRef(null);
-  const handleClose = (e) => {
-    if (e.target === modalRef.current) {
-      onClose();
-    }
-  };
+function DeleteComment({commentId, onClose, onUpdate}) {
+    const modalRef = useRef(null);
+    const handleClose = (e) => {
+        if (e.target === modalRef.current) {
+            onClose();
+        }
+    };
 
-  const handleDelete = () => {
-    //TODO: delete post
-  };
+    const handleDelete = async () => {
+        try {
+            await deleteComment(commentId);
+            onClose();
+            onUpdate();
+        } catch (error) {
+            console.log(error);
+        }
+    };
 
-  return (
-    <div className="delete-comment-modal" ref={modalRef} onClick={handleClose}>
-      <div className="delete-container">
-        <div className="delete-wrapper">
-          <div className="delete-header">
-            <span>Delete comment</span>
-          </div>
-          <div className="delete-body">
-            <span>Are you sure you want to delete this comment?</span>
-          </div>
-          <div className="delete-footer">
-            <button className="cancel" onClick={() => onClose()}>
-              <div>Cancel</div>
-            </button>
-            <button className="delete" onClick={handleDelete}>
-              <div>Delete</div>
-            </button>
-          </div>
+    return (
+        <div className="delete-comment-modal" ref={modalRef} onClick={handleClose}>
+            <div className="delete-container">
+                <div className="delete-wrapper">
+                    <div className="delete-header">
+                        <span>Delete comment</span>
+                    </div>
+                    <div className="delete-body">
+                        <span>Are you sure you want to delete this comment?</span>
+                    </div>
+                    <div className="delete-footer">
+                        <button className="cancel" onClick={() => onClose()}>
+                            <div>Cancel</div>
+                        </button>
+                        <button className="delete" onClick={handleDelete}>
+                            <div>Delete</div>
+                        </button>
+                    </div>
+                </div>
+            </div>
         </div>
-      </div>
-    </div>
-  );
+    );
 }
 
-function EditPost({ comment, onClose }) {
+function EditPost({ comment, onClose,changeComment}) {
   const [body, setBody] = useState(comment.body);
-  const [imageList, setImageList] = useState([comment.image]);
+  const [imageList, setImageList] = useState(comment.image ? [comment.image] : []);
   const [isUploading, setIsUploading] = useState(false);
   const modalRef = useRef(null);
+  const fileInputId = uuidv4();
   const inputRef = useRef(null);
 
   useEffect(() => {
@@ -233,66 +248,84 @@ function EditPost({ comment, onClose }) {
   const handleSave = async () => {
     if (!body) return;
     // TODO: edit
+      onClose()
+    try {
+        console.log(imageList[0])
+        const commentUpdate={
+            body: body,
+        }
+        if (imageList[0]){
+            commentUpdate.image=imageList[0];
+        }
+     let data= await editComment(comment.id,commentUpdate);
+      changeComment(data)
+
+    }catch (e){
+        //TODO: handle error
+    }
   };
 
-  return (
-    <div className="edit-comment-modal" ref={modalRef} onClick={handleClose}>
-      <div className="edit-container">
-        <div className="edit-wrapper">
-          <div className="edit-header">
-            <span>Edit comment</span>
-          </div>
-          <div className="edit-body">
-            <div className="author-info">
-              <div className="avatar">
-                <img src={comment.author.avatarImage} alt="" />
-              </div>
-              <div className="author-container">
-                <div className="author-name">{comment.author.fullName}</div>
-                <div className="time">
-                  {`${formatDistanceToNow(comment.createdAt)} ago`}
+    return (
+        <div className="edit-comment-modal" ref={modalRef} onClick={handleClose}>
+            <div className="edit-container">
+                <div className="edit-wrapper">
+                    <div className="edit-header">
+                        <span>Edit comment</span>
+                    </div>
+                    <div className="edit-body">
+                        <div className="author-info">
+                            <div className="avatar">
+                                <img src={comment.author.avatarImage} alt=""/>
+                            </div>
+                            <div className="author-container">
+                                <div className="author-name">{comment.author.fullName}</div>
+                                <div className="time">
+                                    {`${formatDistanceToNow(comment.createdAt)} ago`}
+                                </div>
+                            </div>
+                        </div>
+                        <div className="post-content">
+                            <TextareaAutosize
+                                ref={inputRef}
+                                minRows={imageList.length > 0 ? 4 : 8}
+                                maxRows={12}
+                                placeholder={`What's on your mind`}
+                                value={body}
+                                spellCheck="false"
+                                onChange={(e) => {
+                                    setBody(e.target.value);
+                                }}
+                                onPaste={handlePaste}
+                            />
+                            <label htmlFor={fileInputId} className="attach-image">
+                                <input
+                                    accept="image/*"
+                                    id={fileInputId}
+                                    type="file"
+                                    multiple
+                                    onChange={handleFileChange}
+                                />
+                                <ImageIcon/>
+                            </label>
+                            <PreviewImg imageList={imageList} remove={handleFileRemove}/>
+                        </div>
+                    </div>
+                    <div className="edit-footer">
+                        <button className="cancel" onClick={() => onClose()}>
+                            <div>Cancel</div>
+                        </button>
+                        <button className="save" onClick={handleSave}>
+                            <div className="btn-content">
+                                {isUploading ? (
+                                    <CircularProgress color="inherit" size={20}/>
+                                ) : (
+                                    <div>Save</div>
+                                )}
+                            </div>
+                        </button>
+                    </div>
                 </div>
-              </div>
             </div>
-            <div className="post-content">
-              <TextareaAutosize
-                ref={inputRef}
-                minRows={imageList.length > 0 ? 4 : 8}
-                maxRows={12}
-                placeholder={`What's on your mind`}
-                value={body}
-                spellCheck="false"
-                onChange={(e) => {
-                  setBody(e.target.value);
-                }}
-                onPaste={handlePaste}
-              />
-              <input
-                accept="image/*"
-                id="file"
-                type="file"
-                multiple
-                onChange={handleFileChange}
-              />
-              <PreviewImg imageList={imageList} remove={handleFileRemove} />
-            </div>
-          </div>
-          <div className="edit-footer">
-            <button className="cancel" onClick={() => onClose()}>
-              <div>Cancel</div>
-            </button>
-            <button className="save" onClick={handleSave}>
-              <div className="btn-content">
-                {isUploading ? (
-                  <CircularProgress color="inherit" size={20} />
-                ) : (
-                  <div>Save</div>
-                )}
-              </div>
-            </button>
-          </div>
         </div>
-      </div>
-    </div>
-  );
+    );
 }

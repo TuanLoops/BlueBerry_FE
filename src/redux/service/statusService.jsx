@@ -61,3 +61,22 @@ export const getStatusByUser= createAsyncThunk(
       return res.data;
   }
 )
+
+export const likeStatus= createAsyncThunk(
+    "LIKE_STATUS",
+    async (statusId) => {
+        const res = await UrlStatus().post(`${statusId}/like`);
+        return {
+            id: statusId,
+            like: res.data
+        };
+    }
+)
+
+export const getStatusById = createAsyncThunk(
+    "GET_STATUS_BY_ID",
+    async (postId) => {
+        const res = await UrlStatus().get(`${postId}`);
+        return res.data;
+    }
+)

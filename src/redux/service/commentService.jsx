@@ -17,3 +17,29 @@ export const createComment = async(id,comment) => {
         console.log(e.response.data.message)
     }
 }
+
+export const editComment= async(id,comment)=>{
+    console.log(comment)
+    return await UrlStatus().put(`/comments/${id}`,comment)
+        .then(res => res.data)
+        .catch(e => {
+            if (e.response.data){
+                throw new Error(e.response.data.message)
+            }else{
+                throw new Error(e.response.data.status)
+            }
+
+    })
+}
+export const likeComment = async(id)=>{
+   return  await UrlStatus().post(`/comments/${id}/like`)
+}
+
+export const deleteComment = async (id) => {
+    try {
+        const  res  = await UrlStatus().delete(`comments/${id}`);
+        return res.data;
+    }catch (e){
+        console.log(e)
+    }
+}

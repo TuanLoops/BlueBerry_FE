@@ -16,11 +16,14 @@ import Register from "./pages/register/Register";
 import Login from "./pages/login/Login";
 import { getCurrentUser } from "./redux/service/userService";
 import AccountSettings from "./pages/settings/AccountSettings";
+import Search from "./pages/search/Search";
 import {
   getCurrentUserFriendList,
   getIncomingFriendRequests,
   getSentFriendRequests,
 } from "./redux/service/friendService";
+import {Saved} from "./components/saved/Saved.jsx";
+import {OnePost} from "./components/onepost/OnePost.jsx";
 import { collection, onSnapshot, query, where } from "firebase/firestore";
 import { firestore } from "./firebase";
 import { getNotifications } from "./redux/service/NotificationService";
@@ -101,7 +104,9 @@ function Router() {
                 <>
                   <Route path="/" exact element={<Home />} />
                   <Route path="/profile/:id" element={<Profile />} />
-                  <Route path="/search/all/:keyword" />
+                  <Route path="/search/all/:keyword" element={<Search />}/>
+                  <Route path="/saved" element={<Saved/>} />
+                  <Route path="/:currentUser/post/:postId" element={<OnePost/>} />
                   <Route
                     path="/accountsettings"
                     element={<AccountSettings />}

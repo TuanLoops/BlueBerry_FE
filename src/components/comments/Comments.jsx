@@ -22,15 +22,15 @@ const Comments = ({ postId }) => {
   const fileInputId = uuidv4();
   const fileInputRef = useRef(null);
 
+  const fetch = async () => {
+    let data = await getAllComments(postId);
+    setComments(data);
+  };
+
   useEffect(() => {
-    // Get comments from API
-    // setComments(commentsFromAPI)
-    const fetch = async () => {
-      let data = await getAllComments(postId);
-      setComments(data);
-    };
     fetch();
-  }, []);
+  }, [postId]);
+
 
   const handleComment = async () => {
     if (body) {
@@ -66,6 +66,31 @@ const Comments = ({ postId }) => {
   const handleFileRemove = () => {
     setImageList([]);
   };
+
+  const changeCountLikes = (id,like) =>{
+    let newList = comments.map(item=>{
+      if (item.id===id){
+        if(like===1){
+          item.countLikes+=1;
+          item.liked=true;
+        }else {
+          item.countLikes-=1;
+          item.liked=false;
+        }
+      }
+      return item;
+    })
+    setComments(newList)
+  }
+  const changedComment=(comment)=>{
+    let list = comments.map((item)=>{
+      if (item.id===comment.id){
+        item=comment;
+      }
+      return item;
+    })
+    setComments(list)
+  }
 
   return (
     <div className="comments">
@@ -110,7 +135,13 @@ const Comments = ({ postId }) => {
         </div>
       </div>
       {comments.map((comment) => (
-        <Comment key={comment.id} comment={comment} />
+        <Comment key={comment.id}
+                 comment={comment}
+                 changeComment={changedComment}
+                 changeCountLikes={changeCountLikes}
+                 postId={postId}
+                 onUpdate={fetch}
+        />
       ))}
     </div>
   );

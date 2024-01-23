@@ -2,7 +2,9 @@ $themes: (
   light: (
     textColor: #4b4b4b,
     bg: white,
-    bgHover: darken(white, 10%),
+    bgHover: darken(white, 12%),
+    bgSecondary: white,
+    bgSecondaryHover: darken(white, 5%),
     logo: darkblue,
     bgSoft: #f6f3f3,
     textColorSoft: #7c7c7c,
@@ -10,8 +12,6 @@ $themes: (
     overlayColor: rgba(0, 0, 0, 0.05),
     commentBgColor: rgb(235, 235, 235),
     commentBgColorHover: darken(rgb(235, 235, 235), 5%),
-    bgSecondary: white,
-    bgSecondaryHover: darken(white, 5%),
     infoPopup: rgba(0, 0, 0, 0.75),
     infoPopupText: white,
     modalBg: rgba(228, 228, 228, 0.7),
@@ -23,11 +23,14 @@ $themes: (
     secondaryButtonHover: darken(lightgray, 10%),
     bluePrimary: rgb(53, 100, 255),
     bluePrimaryHover: darken(rgb(53, 100, 255), 5%),
+    primary-icon: invert(8%) sepia(10%) saturate(200%) saturate(200%) saturate(166%) hue-rotate(177deg) brightness(104%) contrast(91%)
   ),
   dark: (
     textColor: whitesmoke,
     bg: #333,
     bgHover: lighten(#333, 5%),
+    bgSecondary: #1d1d1d,
+    bgSecondaryHover: lighten(#1d1d1d, 10%),
     logo: white,
     bgSoft: #1f1f1f,
     textColorSoft: lightgray,
@@ -35,8 +38,6 @@ $themes: (
     overlayColor: rgba(255, 255, 255, 0.1),
     commentBgColor: rgb(65, 65, 65),
     commentBgColorHover: lighten(rgb(65, 65, 65), 5%),
-    bgSecondary: #1d1d1d,
-    bgSecondaryHover: lighten(#1d1d1d, 10%),
     infoPopup: rgba(255, 255, 255, 0.75),
     infoPopupText: black,
     modalBg: rgba(0, 0, 0, 0.7),
@@ -48,6 +49,7 @@ $themes: (
     secondaryButtonHover: darken(#646464, 10%),
     bluePrimary: rgb(53, 100, 255),
     bluePrimaryHover: lighten(rgb(53, 100, 255), 5%),
+    primary-icon: invert(89%) sepia(6%) hue-rotate(185deg),
   ),
 );
 
