@@ -118,7 +118,7 @@ const Navbar = () => {
             <div className="brand-container__logo">
               <img
                 style={{ width: "30px" }}
-                src="logo-blueberry.png"
+                src={logo}
                 alt="My Logo"
               />
             </div>
