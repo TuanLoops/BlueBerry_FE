@@ -122,6 +122,24 @@
             margin-right: 0;
           }
         }
+        .right{
+          a{
+            text-decoration: none;
+            button{
+              display: flex;
+              align-items: center;
+              img{
+                width: 15px;
+                height: 15px;
+                margin-right: 10px;
+              }
+              span{
+                font-weight: 600;
+              }
+            }
+          }
+
+        }
       }
     }
     .profile-container {
@@ -335,9 +353,9 @@
               overflow: auto;
 
               img {
-                width: 95%;
+                width: 100px;
                 border-radius: 10px;
-                height: 80%;
+                height: 100px;
                 object-fit: cover;
               }
               .first-friend{
@@ -347,6 +365,7 @@
                 text-decoration: none;
                 color: themed("textColorSoft");
                 margin-bottom: 5px;
+
                 span{
                   align-self: flex-start;
                   margin-left: 15px;

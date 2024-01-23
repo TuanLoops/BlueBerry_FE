@@ -6,6 +6,8 @@ import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import * as Yup from "yup";
 import { useState } from "react";
+import logo from "../../assets/logo-blueberry.png";
+
 
 const Register = () => {
     const navigate = useNavigate();
@@ -31,7 +33,7 @@ const Register = () => {
                 <div className="card">
                     <div className="left">
                         <div className="logo">
-                            <img style={{ width: "150px" }} src="logo-blueberry.png" />
+                            <img style={{width: "150px"}} src={logo}/>
                         </div>
                         <h1>BlueBerry</h1>
                         <p>

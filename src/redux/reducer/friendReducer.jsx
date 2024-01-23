@@ -60,10 +60,10 @@ const friendReducer = createSlice({
       state.incomingFriendRequests.splice(index, 1);
     });
     builder.addCase(cancelFriendRequest.fulfilled, (state, { payload }) => {
-      const index = state.incomingFriendRequests.findIndex(
+      const index = state.sentFriendRequests.findIndex(
         (item) => item.id === payload.id
       );
-      state.incomingFriendRequests.splice(index, 1);
+      state.sentFriendRequests.splice(index, 1);
     });
     builder.addCase(unfriend.fulfilled, (state, { payload }) => {
       state.friendList = state.friendList.filter(

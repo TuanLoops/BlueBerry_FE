@@ -25,7 +25,7 @@ function PrivacySetting({ onClose, defaultChecked,handleSave }) {
             <span>Privacy setting</span>
           </div>
           <div className="modal-body">
-            <div className="item" onClick={() => setChecked("Public")}>
+            <div className="item" onClick={() => setChecked("PUBLIC")}>
               <div className="icon">
                 <PublicOutlinedIcon />
               </div>
@@ -34,12 +34,12 @@ function PrivacySetting({ onClose, defaultChecked,handleSave }) {
                 <div className="description">Everybody can see yor post</div>
               </div>
               <input
-                onChange={() => setChecked("Public")}
+                onChange={() => setChecked("PUBLIC")}
                 type="radio"
-                checked={checked === "Public"}
+                checked={checked === "PUBLIC"}
               />
             </div>
-            <div className="item" onClick={() => setChecked("Friends")}>
+            <div className="item" onClick={() => setChecked("FRIENDS")}>
               <div className="icon">
                 <PeopleAltIcon />
               </div>
@@ -50,12 +50,12 @@ function PrivacySetting({ onClose, defaultChecked,handleSave }) {
                 </div>
               </div>
               <input
-                onChange={() => setChecked("Friends")}
+                onChange={() => setChecked("FRIENDS")}
                 type="radio"
-                checked={checked === "Friends"}
+                checked={checked === "FRIENDS"}
               />
             </div>
-            <div className="item" onClick={() => setChecked("Only me")}>
+            <div className="item" onClick={() => setChecked("PRIVATE")}>
               <div className="icon">
                 <LockIcon />
               </div>
@@ -66,9 +66,9 @@ function PrivacySetting({ onClose, defaultChecked,handleSave }) {
                 </div>
               </div>
               <input
-                onChange={() => setChecked("Only me")}
+                onChange={() => setChecked("PRIVATE")}
                 type="radio"
-                checked={checked === "Only me"}
+                checked={checked === "PRIVATE"}
               />
             </div>
           </div>

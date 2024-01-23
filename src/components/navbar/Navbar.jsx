@@ -17,6 +17,7 @@ import { Avatar, Badge } from "@mui/material";
 import { getNotifications } from "../../redux/service/NotificationService.jsx";
 import { formatDistanceToNowStrict } from "date-fns";
 import { showStatus } from "../../redux/service/statusService.jsx";
+import logo from "../../assets/logo-blueberry.png";
 
 const Navbar = () => {
   const currentUser = useSelector(({ user }) => user.currentUser);
@@ -73,13 +74,12 @@ const Navbar = () => {
   const handleKeyPress = (event) => {
     if (event.key === "Enter") {
       handleSearch();
-      console.log("Search:", searchValue);
       handleClearSearch();
     }
   };
 
   const handleSearch = () => {
-    navigate(`/search/all/${searchValue}`);
+    navigate(`/search?q=${searchValue}`);
   };
 
   const togglePopup = () => {
@@ -99,6 +99,11 @@ const Navbar = () => {
       document.removeEventListener("click", handleOutsideClick);
     };
   }, [userRef]);
+
+  const disable = (e, fa) => {
+    e.stopPropagation();
+    setPopupVisible(fa);
+  };
 
   return (
     <>
@@ -178,7 +183,7 @@ const Navbar = () => {
             {isPopupVisible && (
               <>
                 <div className="popup">
-                  <div className="info-user">
+                  <div className="info-user" onClick={(e) => disable(e, false)}>
                     <Link
                       to={`/profile/${currentUser.id}`}
                       className="icon-user"
@@ -195,7 +200,10 @@ const Navbar = () => {
                     </Link>
                   </div>
                   <div className="function">
-                    <div className="item-function">
+                    <div
+                      className="item-function"
+                      onClick={(e) => disable(e, false)}
+                    >
                       <Link to={`/accountsettings`} className="on-function">
                         <div className="background-item">
                           <i className="setting-privacy"></i>
@@ -274,7 +282,6 @@ function NotificationPopup({ onClose, buttonRef }) {
 }
 
 function NotificationItem({ notification }) {
-  console.log("ALO", notification);
   const notificationMessage = () => {
     switch (notification.type) {
       case "COMMENT_ON_OWN_POST":

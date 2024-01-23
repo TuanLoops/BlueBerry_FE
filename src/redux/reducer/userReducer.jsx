@@ -4,7 +4,8 @@ import {
   getInfoUser,
   login,
   logOut,
-  updateProfile
+  searchUsers,
+  updateProfile,
 } from "../service/userService.jsx";
 
 let token;
@@ -19,6 +20,7 @@ const initialState = {
   accessToken: token,
   currentUser: null,
   infoUser: null,
+  filterList: [],
 };
 
 const userReducer = createSlice({
@@ -49,11 +51,14 @@ const userReducer = createSlice({
     });
     builder.addCase(getInfoUser.fulfilled, (state, action) => {
       state.infoUser = action.payload;
-    })
+    });
     builder.addCase(updateProfile.fulfilled, (state, { payload }) => {
       state.infoUser = payload;
       state.currentUser = state.infoUser;
-    })
+    });
+    builder.addCase(searchUsers.fulfilled, (state, { payload }) => {
+      state.filterList = payload;
+    });
   },
 });
 
