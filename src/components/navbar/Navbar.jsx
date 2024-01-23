@@ -9,7 +9,7 @@ import EmailOutlinedIcon from "@mui/icons-material/EmailOutlined";
 import PersonOutlinedIcon from "@mui/icons-material/PersonOutlined";
 import SearchOutlinedIcon from "@mui/icons-material/SearchOutlined";
 import { Link, useNavigate } from "react-router-dom";
-import {  useContext, useEffect, useRef, useState  } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import { DarkModeContext } from "../../context/darkModeContext";
 import { useDispatch, useSelector } from "react-redux";
 import { logOut } from "../../redux/service/userService.jsx";
@@ -101,6 +101,8 @@ const Navbar = () => {
     }, [userRef]);
 
     
+
+    
     return (
         <>
             <div className="navbar">
@@ -150,6 +152,7 @@ const Navbar = () => {
                     </div>
                     <div className="user" onClick={togglePopup} ref={userRef}>
                         <img src={currentUser?.avatarImage} alt="" />
+                        <img src={currentUser?.avatarImage} alt="" />
                         <span></span>
                         <div className="label-acc">Account</div>
                         {isPopupVisible && (
@@ -160,6 +163,7 @@ const Navbar = () => {
                                             <div className="icon">
                                                 <img
                                                     src={currentUser.avatarImage}
+                                                    alt="" />
                                                     alt="" />
                                             </div>
                                             <div className="name-uer">
@@ -172,6 +176,7 @@ const Navbar = () => {
                                     </div>
                                     <div className="function">
                                         <div className="item-function">
+                                            <Link to={`/accountsettings`} className="on-function">
                                             <Link to={`/accountsettings`} className="on-function">
                                                 <div className="background-item">
                                                     <i className="setting-privacy"></i>

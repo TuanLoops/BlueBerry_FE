@@ -17,6 +17,7 @@ import Login from "./pages/login/Login";
 import { getCurrentUser } from "./redux/service/userService";
 import AccountSettings from "./pages/settings/AccountSettings";
 import Search from "./pages/search/Search";
+import Search from "./pages/search/Search";
 import {
   getCurrentUserFriendList,
   getIncomingFriendRequests,
@@ -107,10 +108,7 @@ function Router() {
                   <Route path="/search/all/:keyword" element={<Search />}/>
                   <Route path="/saved" element={<Saved/>} />
                   <Route path="/:currentUser/post/:postId" element={<OnePost/>} />
-                  <Route
-                    path="/accountsettings"
-                    element={<AccountSettings />}
-                  />
+                  <Route path="/accountsettings" element={<AccountSettings />} />
                   <Route path="*" element={<Navigate to={"/"} />} />
                 </>
               ) : (
