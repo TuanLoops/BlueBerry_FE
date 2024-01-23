@@ -75,6 +75,7 @@ const Navbar = () => {
         };
     }, [userRef]);
 
+    
     return (
         <>
             <div className="navbar">
@@ -152,26 +153,6 @@ const Navbar = () => {
                                                 </div>
                                                 <div className="body-item">
                                                     <span>Settings & Privacy</span>
-                                                </div>
-                                            </Link>
-                                        </div>
-                                        <div className="item-function">
-                                            <Link to={{}} className="on-function">
-                                                <div className="background-item">
-                                                    <i className="help-support"></i>
-                                                </div>
-                                                <div className="body-item">
-                                                    <span>Change Password</span>
-                                                </div>
-                                            </Link>
-                                        </div>
-                                        <div className="item-function">
-                                            <Link to={{}} className="on-function">
-                                                <div className="background-item">
-                                                    <i className="screen"></i>
-                                                </div>
-                                                <div className="body-item">
-                                                    <span>Screen & accessibility</span>
                                                 </div>
                                             </Link>
                                         </div>
