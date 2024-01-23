@@ -41,9 +41,10 @@
                 align-items: center;
 
                 &__cancel {
+
                   &:hover {
-                    cursor: pointer;
                     color: red;
+                    cursor: pointer;
                   }
                 }
 

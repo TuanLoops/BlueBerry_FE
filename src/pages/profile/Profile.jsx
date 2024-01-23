@@ -38,7 +38,7 @@ const Profile = () => {
     const currentUser = useSelector(({ user }) => user.currentUser)
     const infoUser = useSelector(({ user: user2 }) => user2.infoUser);
     const friendList = useSelector(({ friend }) => friend.friendList);
-    console.log(currentUser)
+
     useEffect(() => {
         const fetchData = async () => {
             dispatch(getStatusByUser(id));
@@ -128,7 +128,7 @@ const Profile = () => {
                                     </div>
                                     <div className="right">
                                         {currentUser.id != +id ? (
-                                            <FriendButton userId={+id}/>
+                                            <FriendButton/>
                                         ) : (
                                             <Link to={"/accountsettings"}>
                                                 <button>

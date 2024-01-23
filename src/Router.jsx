@@ -27,7 +27,6 @@ import {OnePost} from "./components/onepost/OnePost.jsx";
 import { collection, onSnapshot, query, where } from "firebase/firestore";
 import { firestore } from "./firebase";
 import { getNotifications } from "./redux/service/NotificationService";
-import ForgotPassword from "./pages/forgotpassword/ForgotPassword";
 
 function Router() {
   const accessToken = useSelector(({ user }) => user.accessToken);
@@ -80,8 +79,6 @@ function Router() {
       return () => unsubscribe();
     }, []);
 
-  const PrivateRoutes = () => {
-    const { darkMode } = useContext(DarkModeContext);
     return (
       <div
         className={`theme-${darkMode ? "dark" : "light"}`}
@@ -122,7 +119,6 @@ function Router() {
               <Route path="/login" element={<Login />} />
               <Route path="/confirm" element={<ConfirmAccount />} />
               <Route path="/register" element={<Register />} />
-              <Route path="/forgotpassword" element={<ForgotPassword />} />
               <Route path="*" element={<Navigate to={"/login"} />} />
             </Route>
           )}
@@ -132,6 +128,5 @@ function Router() {
   } else {
     return <></>;
   }
-}
 }
 export default Router;

@@ -158,6 +158,8 @@ const PersonalInformation = () => {
               </tr>
             </table>
 
+          </div>
+          <div className='button-container'>
             {showSaveCancel && (
               <div className='update-button'>
                 <div className='update-button-container'>
@@ -171,18 +173,20 @@ const PersonalInformation = () => {
               </div>
             )}
 
-          {!showSaveCancel && (
-            <div className='update-button'>
-              <div className='update-button-container'>
-                <div className='title-icon' onClick={toggleEditMode}>
-                  <span className='title-icon__edit'>EDIT</span>
-                  <AiFillEdit />
+            {!showSaveCancel && (
+              <div className='update-button'>
+                <div className='update-button-container'>
+                  <div className='title-icon' onClick={toggleEditMode}>
+                    <span className='title-icon__edit'>EDIT</span>
+                    <AiFillEdit />
+                  </div>
                 </div>
               </div>
-            </div>
-          )}
-        </div>
+            )}
+
+          </div>
         </form>
+
       </div>
     </div>
   );

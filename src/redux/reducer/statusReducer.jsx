@@ -54,7 +54,10 @@ const statusReducer = createSlice({
             })
         })
         builder.addCase(getStatusByUser.fulfilled, (state, { payload }) => {
-            state.list = payload;
+            if (payload !== null) {
+                state.list = payload;
+            }
+            state.list = [];
         })
         builder.addCase(likeStatus.fulfilled, (state, { payload }) => {
             state.list = state.list.map(status => {
