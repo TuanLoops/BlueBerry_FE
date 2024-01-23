@@ -128,7 +128,7 @@ const Profile = () => {
                                     </div>
                                     <div className="right">
                                         {currentUser.id != +id ? (
-                                            <FriendButton userId={infoUser.id} />
+                                            <FriendButton userId={+id}/>
                                         ) : (
                                             <Link to={"/accountsettings"}>
                                                 <button>
