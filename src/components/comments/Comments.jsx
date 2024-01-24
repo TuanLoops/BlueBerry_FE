@@ -16,6 +16,7 @@ import {
 const Comments = ({ postId }) => {
   const currentUser = useSelector(({ user }) => user.currentUser);
   const [comments, setComments] = useState([]);
+  const [countComments, setCountComments] = useState(5);
   const [body, setBody] = useState("");
   const [imageList, setImageList] = useState([]);
   const [isUploading, setIsUploading] = useState(false);
@@ -92,9 +93,20 @@ const Comments = ({ postId }) => {
     setComments(list)
   }
 
+  const handleShowMore = () => {
+    setCountComments(acomments=> acomments + 1);
+  }
   return (
     <div className="comments">
       <hr />
+      <div className="show-more">
+        <div className="show" onClick={handleShowMore}>
+          <button>Show more</button>
+        </div>
+        <div className="count">
+          <span>{comments.length}</span>
+        </div>
+      </div>
       <div className="write">
         <div className="avatar">
           <img src={currentUser.avatarImage} alt="" />
@@ -134,7 +146,7 @@ const Comments = ({ postId }) => {
           </button>
         </div>
       </div>
-      {comments.map((comment) => (
+      {comments.slice(0,countComments).map((comment) => (
         <Comment key={comment.id}
                  comment={comment}
                  changeComment={changedComment}

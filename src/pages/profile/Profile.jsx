@@ -52,6 +52,7 @@ const Profile = () => {
     };
 
     fetchData();
+    window.scroll({top:0})
   }, [id]);
 
   console.log(userFriendList)

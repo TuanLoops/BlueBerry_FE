@@ -4,6 +4,7 @@ import Avatar from "@mui/material/Avatar";
 import { useDispatch, useSelector } from "react-redux";
 import { differenceInSeconds } from "date-fns";
 import { acceptFriendRequest, declineFriendRequest } from "../../redux/service/friendService";
+import {useNavigate} from "react-router-dom";
 
 const RightBar = () => {
   const friendList = useSelector(({ friend }) => friend.friendList);
@@ -68,11 +69,12 @@ const FriendRequestQuickView = ({ requests }) => {
 };
 
 const FriendList = ({ friendList }) => {
+  const navigate = useNavigate();
   return (
     <div className="friend-list">
       <div className="title">Friend list</div>
       {friendList.map((friend) => (
-        <div key={friend.id} className="friend">
+        <div key={friend.id} className="friend" onClick={() => navigate(`/profile/${friend.id}`)}>
           {differenceInSeconds(Date.now(), new Date(friend.lastOnline)) <=
           60 ? (
             <>

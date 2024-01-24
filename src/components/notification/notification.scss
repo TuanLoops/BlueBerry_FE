@@ -1,0 +1,44 @@
+@import "../../style.scss";
+
+.notification-intro{
+  @include themify($themes) {
+    position: absolute;
+    background-color: themed("bg");
+    bottom: 40px;
+    left: 30px;
+    width: fit-content;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 20px;
+    border-radius: 5px;
+    animation: slideIn 0.3s ease-out forwards;
+    @keyframes slideIn {
+      from {
+        transform: translateY(100%);
+      }
+      to {
+        transform: translateY(0);
+      }
+    }
+    .user{
+      padding-right: 10px;
+      img {
+        width: 35px;
+        height: 35px;
+        border-radius: 50%;
+      }
+    }
+    .message{
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .message, .remove{
+      color: themed("textColor");
+      gap: 20px;
+    }
+  }
+}

@@ -28,7 +28,7 @@ const Login = () => {
       if (err.response.request.status === 403) {
         setMessage(err.response.data.message);
       } else {
-        setMessage("Sai tài khoản hoặc mật khẩu");
+        setMessage("Wrong email or password");
       }
     }
   };

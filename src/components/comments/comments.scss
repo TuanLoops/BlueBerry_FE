@@ -9,6 +9,24 @@
       background-color: themed("border");
     }
 
+    .show-more{
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 14px;
+      .show{
+
+        button{
+          border: none;
+          background: none;
+          color: themed("textColor");
+
+          &:hover{
+            text-decoration: underline #535bf2;
+          }
+        }
+      }
+    }
     .write {
       display: flex;
       gap: 8px;
