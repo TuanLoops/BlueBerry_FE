@@ -55,8 +55,6 @@ const Profile = () => {
     window.scroll({top:0})
   }, [id]);
 
-  console.log(userFriendList)
-
   const handleSearch = async () => {
     const query = {
       id: id,
