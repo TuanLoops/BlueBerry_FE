@@ -1,0 +1,71 @@
+@import "../../../style.scss";
+
+.friend{
+  @include themify($themes) {
+    display: flex;
+    .left-friend{
+      display: flex;
+      flex-direction: column;
+      flex-basis: 25%;
+      position: sticky;
+      height: calc(100vh - 56px);
+      top: 56px;
+      border-right: 1px solid #ffffff3a;
+      padding: 1rem;
+      color: #fff;
+      background-color: themed("bg");
+
+      .btn{
+        display: flex;
+        flex-direction: column;
+        width: 200px;
+        margin: 40px auto ;
+        button{
+          height: 50px;
+          margin-bottom: 20px;
+        }
+      }
+    }
+    .right-friend{
+      display: flex;
+      justify-content: center;
+      // align-items: center;
+      .container{
+        min-width: 460px;
+        max-width: 790px;
+        display: flex;
+        flex-wrap: wrap;
+        .item{
+          margin-left: 1rem;
+          border-radius: 5px;
+          padding: 1rem;
+          background-color: themed("bg");
+          display: flex;
+          color: themed("textColor");
+          justify-content: center;
+          flex-direction: column;
+          width: 200px;
+          height: 250px;
+          .avatar{
+            display: flex;
+            justify-content: center;
+            img{
+              width: 75px;
+              text-align: center;
+              object-fit: cover;
+              height: 75px;
+            }
+          }
+          .full-name{
+            text-align: center;
+          }
+          .btn{
+            padding: 0.4rem;
+            display: flex;
+            justify-content: center;
+          }
+        }
+      }
+    }
+  }
+}
