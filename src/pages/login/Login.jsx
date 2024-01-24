@@ -119,7 +119,7 @@ const Login = () => {
                       className="error-message"
                     />
                     {message && <div className="error-message">{message}</div>}
-                    {messageSuccess && <span>{messageSuccess}</span>}
+                    {messageSuccess && <span className="success">{messageSuccess}</span>}
                     <button type="submit">Recover Password</button>
                     <span
                       className="text-forgot-password"

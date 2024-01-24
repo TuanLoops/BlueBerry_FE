@@ -23,7 +23,7 @@ export const ResetPassword = () => {
           "Password updated successfully, will automatically redirect to the login page after a few seconds");
           setTimeout(() =>{
             navigate("/login");
-          },2000)
+          },4000)
       })
       .catch((err) => {
           if (err.response.data) {
