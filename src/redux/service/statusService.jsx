@@ -32,51 +32,55 @@ export const editStatus = createAsyncThunk(
   }
 );
 
-
 export const searchStatus = createAsyncThunk(
-    "SEARCH",
-    async (keyword,{rejectWithValue}) => {
-        try {
-            const res = await UrlStatus().get(`/search?query=${keyword}`);
-            return res.data;
-        }catch (e){
-            return rejectWithValue(e);
-        }
+  "SEARCH",
+  async (keyword, { rejectWithValue }) => {
+    try {
+      const res = await UrlStatus().get(`/search?query=${keyword}`);
+      return res.data;
+    } catch (e) {
+      return rejectWithValue(e);
     }
-)
-
-export const changePrivacy= createAsyncThunk(
-    "CHANGE_PRIVACY",
-    async (status)=>{
-        console.log(status)
-        await UrlStatus().put(status.id+`/change-privacy`, status);
-        return status;
-    }
-)
-
-export const getStatusByUser= createAsyncThunk(
-  "GET_STATUS_BY_USER",
-  async (userId)=>{
-      const res = await UrlStatus().get(`/users/${userId}`);
-      return res.data ? res.data : [];
   }
-)
+);
 
-export const likeStatus= createAsyncThunk(
-    "LIKE_STATUS",
-    async (statusId) => {
-        const res = await UrlStatus().post(`${statusId}/like`);
-        return {
-            id: statusId,
-            like: res.data
-        };
-    }
-)
+export const changePrivacy = createAsyncThunk(
+  "CHANGE_PRIVACY",
+  async (status) => {
+    console.log(status);
+    await UrlStatus().put(status.id + `/change-privacy`, status);
+    return status;
+  }
+);
+
+export const getStatusByUser = createAsyncThunk(
+  "GET_STATUS_BY_USER",
+  async (userId) => {
+    const res = await UrlStatus().get(`/users/${userId}`);
+    return res.data ? res.data : [];
+  }
+);
+
+export const likeStatus = createAsyncThunk("LIKE_STATUS", async (statusId) => {
+  const res = await UrlStatus().post(`${statusId}/like`);
+  return {
+    id: statusId,
+    like: res.data,
+  };
+});
 
 export const getStatusById = createAsyncThunk(
-    "GET_STATUS_BY_ID",
-    async (postId) => {
-        const res = await UrlStatus().get(`${postId}`);
-        return res.data;
-    }
-)
+  "GET_STATUS_BY_ID",
+  async (postId) => {
+    const res = await UrlStatus().get(`${postId}`);
+    return res.data;
+  }
+);
+
+export const findStatusByUserAndBody = createAsyncThunk(
+  "FIND_STATUS_BY_USER_AND_BODY",
+  async (query) => {
+    const res = await UrlStatus().get(`/users/${query.id}/search?query=${query.body}`);
+    return res.data ? res.data : [];
+  }
+);

@@ -28,9 +28,13 @@
         .right-container{
           display: flex;
           align-items: center;
+          .friend-button{
+            height: 32px;
+          }
           .edit-profile{
             border: none;
             outline: none;
+            height: 32px;
             border-radius: 4px;
             font-weight: 600;
             cursor: pointer;
@@ -40,8 +44,11 @@
             gap: 4px;
             background-color: themed("commentBgColor");
             color: themed("textColor");
+            &:hover{
+              background-color: themed("commentBgColorHover");
+            }
           }
-        }
+          }
       }
     }
   }

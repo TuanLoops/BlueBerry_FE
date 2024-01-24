@@ -3,7 +3,7 @@ import {
     addStatus,
     changePrivacy,
     deleteStatus,
-    editStatus, getStatusById,
+    editStatus, findStatusByUserAndBody, getStatusById,
     getStatusByUser, likeStatus,
     searchStatus,
     showStatus,
@@ -43,7 +43,7 @@ const statusReducer = createSlice({
             }
         });
         builder.addCase(searchStatus.fulfilled, (state, { payload }) => {
-            state.filterList = payload;
+            state.list = payload;
         })
         builder.addCase(changePrivacy.fulfilled, (state, { payload }) => {
             state.list = state.list.map(status => {
@@ -75,6 +75,9 @@ const statusReducer = createSlice({
         })
         builder.addCase(getStatusById.fulfilled,(state, action)=>{
             state.list = [action.payload]
+        })
+        builder.addCase(findStatusByUserAndBody.fulfilled,(state, {payload})=>{
+            state.list = payload;
         })
     },
 });

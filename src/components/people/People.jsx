@@ -30,7 +30,7 @@ export const People=({people})=>{
                         <div className={'right-container'}>
                             {
                             currentUser &&<> {currentUser.id != item.id ? (
-                                    <FriendButton userId={item.id}/>
+                                    <FriendButton className={'friend-button'} userId={item.id}/>
                                 ) : (
                                         <button className={'edit-profile'}>
                                             <MdEdit />

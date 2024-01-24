@@ -14,8 +14,8 @@ const Search = () => {
     const [searchParams] = useSearchParams()
     const [selectedSettings, setSelectedSettings] = useState(1);
     const dispatch = useDispatch();
-    const posts = useSelector(({status}) => status.filterList);
-    const users = useSelector(({user}) => user.filterList);
+    const posts = useSelector(({status}) => status.list);
+    const users = useSelector(({user}) => user.list);
     const [loading, setLoading] = useState(false);
     const q = searchParams.get('q');
     useEffect(() => {
