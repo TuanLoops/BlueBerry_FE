@@ -99,7 +99,14 @@ export const changePassword = async (passwordRequest) => {
 export const searchUsers = createAsyncThunk(
     "SEARCH_USERS",
     async (query) => {
-        let res= await UrlAppUser().get(`/search?query=${query}`)
+        let res= await UrlAppUser().get(`search?query=${query}`)
         return res.data;
     }
 )
+
+export const forgotPassword = async (email) => {
+    return await UrlUser().get(`forgot-password?email=${email}`);
+}
+export const updatePassword = async (token,data) => {
+    return await UrlUser().put(`reset-password?token=${token}`,data);
+}
