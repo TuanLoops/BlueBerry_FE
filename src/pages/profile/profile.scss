@@ -328,8 +328,8 @@
           .gallery {
             margin-top: 10px;
             border-radius: 15px;
-            padding: 5px 8px 0 20px;
-            background-color: themed("bg");
+            padding: 5px 20px 20px 20px;
+            background-color: #333;
             box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 
             .profile-heading-link{
@@ -358,6 +358,7 @@
                 border-radius: 10px;
                 height: 100px;
                 object-fit: cover;
+                margin-bottom: 5px;
               }
               .first-friend{
                 display: flex;

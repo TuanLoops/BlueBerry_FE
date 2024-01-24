@@ -1,5 +1,6 @@
 import './notification.scss'
 import HighlightOffIcon from "@mui/icons-material/HighlightOff";
+import {Avatar} from "@mui/material";
 
 export const Notification = ({notifor, onClose}) => {
     console.log(notifor)
@@ -9,7 +10,7 @@ export const Notification = ({notifor, onClose}) => {
                 return (
                     <>
                         <div className="user">
-                            <img src={notifor.sender.avatarImage} alt=""/>
+                            <Avatar sx={{width:35, height:35}} src={notifor.sender.avatarImage} alt=""/>
                         </div>
                         <div className="message">
                             <span className="name">{notifor.sender.fullName}  commented on {notifor.statusAuthorName} 's post </span>
@@ -22,7 +23,7 @@ export const Notification = ({notifor, onClose}) => {
                 return (
                     <>
                         <div className="user">
-                            <img src={notifor.sender.avatarImage} alt=""/>
+                            <Avatar sx={{width:35, height:35}} src={notifor.sender.avatarImage} alt=""/>
                         </div>
                         <div className="message">
                             <span className="name">{notifor.sender.fullName} commented on 's post</span>
@@ -34,7 +35,7 @@ export const Notification = ({notifor, onClose}) => {
                 return (
                     <>
                         <div className="user">
-                            <img src={notifor.sender.avatarImage} alt=""/>
+                            <Avatar sx={{width:35, height:35}} src={notifor.sender.avatarImage} alt=""/>
                         </div>
                         <div className="message">
                             <span className="name">{notifor.sender.fullName} liked your post</span>
@@ -46,7 +47,7 @@ export const Notification = ({notifor, onClose}) => {
                 return (
                     <>
                         <div className="user">
-                            <img src={notifor.sender.avatarImage} alt=""/>
+                            <Avatar sx={{width:35, height:35}} src={notifor.sender.avatarImage} alt=""/>
                         </div>
                         <div className="message">
                             <span className="name">{notifor.sender.fullName} liked your comment</span>
@@ -58,10 +59,9 @@ export const Notification = ({notifor, onClose}) => {
                 return (
                     <>
                         <div className="user">
-                            <img src={notifor.sender.avatarImage} alt=""/>
+                            <Avatar sx={{width:35, height:35}} src={notifor.sender.avatarImage} alt=""/>
                         </div>
                         <div className="message">
-                            <img src={notifor.sender.avatarImage}/>
                             <span className="name">{notifor.sender.fullName} sent you a friend request</span>
                             <HighlightOffIcon className="remove" onClick={() => onClose()}/>
                         </div>
@@ -71,7 +71,7 @@ export const Notification = ({notifor, onClose}) => {
                 return (
                     <>
                         <div className="user">
-                            <img src={notifor.sender.avatarImage} alt=""/>
+                            <Avatar sx={{width:35, height:35}} src={notifor.sender.avatarImage} alt=""/>
                         </div>
                         <div className="message">
                             <span className="name">{notifor.sender.fullName}</span>ccepted your friend request
@@ -83,7 +83,7 @@ export const Notification = ({notifor, onClose}) => {
                 return (
                     <>
                         <div className="user">
-                            <img src={notifor.sender.avatarImage} alt=""/>
+                            <Avatar sx={{width:35, height:35}} src={notifor.sender.avatarImage} alt=""/>
                         </div>
                         <div className="message">
                             <span className="name">{notifor.sender.fullName}</span>{" "}
