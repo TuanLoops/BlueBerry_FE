@@ -27,6 +27,7 @@ import {OnePost} from "./components/onepost/OnePost.jsx";
 import { collection, onSnapshot, query, where } from "firebase/firestore";
 import { firestore } from "./firebase";
 import { getNotifications } from "./redux/service/NotificationService";
+import { ResetPassword } from "./pages/reset/ResetPassword.jsx";
 
 function Router() {
   const accessToken = useSelector(({ user }) => user.accessToken);
@@ -119,6 +120,7 @@ function Router() {
               <Route path="/login" element={<Login />} />
               <Route path="/confirm" element={<ConfirmAccount />} />
               <Route path="/register" element={<Register />} />
+              <Route path="/reset-password" element={<ResetPassword />} />
               <Route path="*" element={<Navigate to={"/login"} />} />
             </Route>
           )}
