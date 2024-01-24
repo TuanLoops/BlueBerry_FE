@@ -3,7 +3,6 @@ import {Link} from "react-router-dom";
 import UsernameLink from "../usernamelink/UsernameLink.jsx";
 import {Avatar} from "@mui/material";
 import FriendButton from "../friendbutton/FriendButton.jsx";
-import img from "../../Pic-banner.jpg";
 import {useSelector} from "react-redux";
 import { MdEdit } from "react-icons/md";
 export const People=({people})=>{

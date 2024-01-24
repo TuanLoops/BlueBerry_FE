@@ -1,8 +1,7 @@
 import {useEffect, useState} from 'react';
 import './search.scss';
 import {FcFilledFilter, FcList, FcConferenceCall, FcSelfie} from "react-icons/fc";
-import {useParams, useSearchParams} from "react-router-dom";
-import Post from "../../components/post/post.jsx";
+import { useSearchParams} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
 import {searchStatus} from "../../redux/service/statusService.jsx";
 import Posts from "../../components/posts/Posts.jsx";
@@ -133,18 +132,12 @@ const Search = () => {
                             :
                             selectedSettings === 2 ?
                                 <div className={'result-container'}>
-                                    {/*<h3>Status</h3>*/}
-                                    {/*<div className={'item'}>*/}
                                     {posts.length > 0 ? <Posts posts={posts}/> : <p>No results found</p>}
-                                    {/*</div>*/}
                                 </div>
                                 :
                                 selectedSettings === 3 ?
                                     <div className={'result-container'}>
-                                        {/*<h3>People</h3>*/}
-                                        {/*<div className={'item'}>*/}
                                         {users.length > 0 ? <People people={users}/> : <p>No results found</p>}
-                                        {/*</div>*/}
                                     </div> : ""
                     }
                 </div>
