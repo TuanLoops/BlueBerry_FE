@@ -1,69 +1,120 @@
 @import "../../../style.scss";
 
-.friend{
+.friend {
   @include themify($themes) {
     display: flex;
-    .left-friend{
+    .left-friend {
       display: flex;
       flex-direction: column;
-      flex-basis: 25%;
+      min-width: 340px;
       position: sticky;
       height: calc(100vh - 56px);
       top: 56px;
       border-right: 1px solid #ffffff3a;
       padding: 1rem;
-      color: #fff;
+      color: themed("textColor");
       background-color: themed("bg");
-
-      .btn{
+      .user-details {
         display: flex;
         flex-direction: column;
-        width: 200px;
-        margin: 40px auto ;
-        button{
+        width: 100%;
+        .avatar {
+          display: flex;
+          justify-content: center;
+        }
+        .name {
+          font-size: 20px;
+          padding-top: 5px;
+          display: flex;
+          justify-content: center;
+        }
+        .email {
+          display: flex;
+          justify-content: center;
+        }
+        .message{
           height: 50px;
-          margin-bottom: 20px;
         }
       }
-    }
-    .right-friend{
-      display: flex;
-      justify-content: center;
-      // align-items: center;
-      .container{
-        min-width: 460px;
-        max-width: 790px;
+
+      .fillter {
         display: flex;
-        flex-wrap: wrap;
-        .item{
-          margin-left: 1rem;
+        flex-direction: column;
+        width: 100%;
+        border-radius: 5px;
+        margin: 40px auto;
+        cursor: pointer;
+        .btn-fillter {
+          gap: 5px;
+          height: 50px;
           border-radius: 5px;
-          padding: 1rem;
-          background-color: themed("bg");
-          display: flex;
+          margin-bottom: 5px;
+          &:hover {
+            background-color: themed("commentBgColorHover");
+          }
+          .btn-name{
+            padding: 10px;
+            font-size: larger;
+          }
+        }
+        .active{
+          background-color: themed("bgHover");
+        }
+        
+      }
+    }
+    .right-friend {
+      display: flex;
+      width: 100%;
+      justify-content: center;
+      .container {
+        min-width: 560px;
+        max-width: 790px;
+        .friend-container {
           color: themed("textColor");
-          justify-content: center;
-          flex-direction: column;
-          width: 200px;
-          height: 250px;
-          .avatar{
+          display: flex;
+          justify-items: center;
+          .not-found{
+            font-size: 20px;
             display: flex;
             justify-content: center;
-            img{
-              width: 75px;
+            width: 100%;
+          }
+          .item {
+            margin-left: 1rem;
+            border-radius: 5px;
+            padding: 1rem;
+            background-color: themed("bg");
+            display: flex;
+            color: themed("textColor");
+            justify-content: center;
+            flex-direction: column;
+            width: 200px;
+            height: 250px;
+            .avatar {
+              display: flex;
+              justify-content: center;
+              img {
+                width: 75px;
+                text-align: center;
+                object-fit: cover;
+                height: 75px;
+              }
+            }
+            .full-name {
               text-align: center;
-              object-fit: cover;
-              height: 75px;
+            }
+            .btn {
+              padding: 0.4rem;
+              display: flex;
+              justify-content: center;
             }
           }
-          .full-name{
-            text-align: center;
-          }
-          .btn{
-            padding: 0.4rem;
-            display: flex;
-            justify-content: center;
-          }
+        }
+        .error {
+          font-size: 24px;
+          margin: 1rem;
+          color: themed("textColor");
         }
       }
     }

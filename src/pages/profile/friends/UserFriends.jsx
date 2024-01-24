@@ -3,12 +3,16 @@ import "./userfriends.scss";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { UrlFriend } from "../../../context/connect.jsx";
+import { Avatar } from "@mui/material";
+import { getInfoUser } from "../../../redux/service/userService.jsx";
+import UsernameLink from "../../../components/usernamelink/UsernameLink.jsx";
 export const UserFriends = () => {
   const { id } = useParams();
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [selected, setSelected] = useState(1);
   const [userFriends, setUserFriends] = useState([]);
+  const [mutualFriends, setMutualFriends] = useState([]);
   const user = useSelector(({ user }) => user.infoUser);
   const currentUser = useSelector(({ user }) => user.currentUser);
   const currentFriends = useSelector(({ friend }) => friend.friendList);
@@ -17,9 +21,19 @@ export const UserFriends = () => {
     if (+id === currentUser.id) {
       navigate("/friend");
     }
-    await UrlFriend().get(`/list/${id}`)
+    dispatch(getInfoUser(id));
+    await UrlFriend()
+      .get(`/list/${id}`)
       .then((res) => {
         setUserFriends(res.data ? res.data : []);
+        if (res.data) {
+          let newList = res.data.map((data) => {
+            if (currentFriends.some(data.id)) {
+              return data;
+            }
+          });
+          setMutualFriend(newList);
+        }
       });
   };
 
@@ -29,214 +43,78 @@ export const UserFriends = () => {
   return (
     <div className="friend">
       <div className="left-friend">
-        <div className="title">
-          <h1>Friend </h1>
+        <div className="user-details">
+          {user ? (
+            <>
+              <div className="avatar">
+                <Avatar
+                  sx={{ width: 150, height: 150 }}
+                  src={user.avatarImage}
+                  alt={user.fullName}
+                />
+              </div>
+
+              <div className="name">
+                <UsernameLink user={user} />
+              </div>
+              <div className="email">{user.email}</div>
+            </>
+          ) : (
+            ""
+          )}
         </div>
-        <div className="btn">
-          <button>All Friend</button>
-          <button>Mutual Friend</button>
-          <button>Resident Friend Request</button>
+        <div className="fillter">
+          <div
+            className={`btn-fillter ${selected === 1 ? "active" : ""}`}
+            onClick={() => setSelected(1)}
+          >
+            <span className="btn-name">All Friend</span>
+          </div>
+          <div
+            className={`btn-fillter ${selected === 2 ? "active" : ""}`}
+            onClick={() => setSelected(2)}
+          >
+            <span className="btn-name">Mutual Friend</span>
+          </div>
         </div>
       </div>
       <div className="right-friend">
         <div className="container">
           {userFriends.some((item) => item.id === currentUser.id) ? (
             <>
-              <div className="item">
-                <div className="avatar">
-                  <img
-                    src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQinxRawWd1hg3nnzizyGY4po95fZ0W8J51cvP3oXVv0fO0pmv4YOkBmLZpAz0PdFXf84U&usqp=CAU"
-                    alt=""
-                  />
+              {selected === 1 ? (
+                <>
+                  <div className="friend-container">
+                    {userFriends.length > 0 ? (
+                      userFriends.map((friend) => <p>{friend.fullName}</p>)
+                    ) : (
+                      <div  className="not-found">
+                      <p>This user has no friends yet</p>
+                      </div>
+                    )}
+                  </div>
+                </>
+              ) : selected === 2 ? (
+                <div className="friend-container">
+                  {mutualFriends.length > 0 ? (
+                    mutualFriends.map((friend) => <p>{friend.fullName}</p>)
+                  ) : (
+                    <div  className="not-found">
+                    <p>There are no mutual friends</p>
+                    </div>
+                  )}
                 </div>
-                <div className="full-name">Full Name</div>
-                <div className="btn">
-                  <button>Add Friend</button>{" "}
-                </div>
-              </div>
-              <div className="item">
-                <div className="avatar">
-                  <img
-                    src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQinxRawWd1hg3nnzizyGY4po95fZ0W8J51cvP3oXVv0fO0pmv4YOkBmLZpAz0PdFXf84U&usqp=CAU"
-                    alt=""
-                  />
-                </div>
-                <div className="full-name">Full Name</div>
-                <div className="btn">
-                  <button>Add Friend</button>{" "}
-                </div>
-              </div>
-              <div className="item">
-                <div className="avatar">
-                  <img
-                    src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQinxRawWd1hg3nnzizyGY4po95fZ0W8J51cvP3oXVv0fO0pmv4YOkBmLZpAz0PdFXf84U&usqp=CAU"
-                    alt=""
-                  />
-                </div>
-                <div className="full-name">Full Name</div>
-                <div className="btn">
-                  <button>Add Friend</button>{" "}
-                </div>
-              </div>
-              <div className="item">
-                <div className="avatar">
-                  <img
-                    src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQinxRawWd1hg3nnzizyGY4po95fZ0W8J51cvP3oXVv0fO0pmv4YOkBmLZpAz0PdFXf84U&usqp=CAU"
-                    alt=""
-                  />
-                </div>
-                <div className="full-name">Full Name</div>
-                <div className="btn">
-                  <button>Add Friend</button>{" "}
-                </div>
-              </div>
-              <div className="item">
-                <div className="avatar">
-                  <img
-                    src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQinxRawWd1hg3nnzizyGY4po95fZ0W8J51cvP3oXVv0fO0pmv4YOkBmLZpAz0PdFXf84U&usqp=CAU"
-                    alt=""
-                  />
-                </div>
-                <div className="full-name">Full Name</div>
-                <div className="btn">
-                  <button>Add Friend</button>{" "}
-                </div>
-              </div>
-              <div className="item">
-                <div className="avatar">
-                  <img
-                    src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQinxRawWd1hg3nnzizyGY4po95fZ0W8J51cvP3oXVv0fO0pmv4YOkBmLZpAz0PdFXf84U&usqp=CAU"
-                    alt=""
-                  />
-                </div>
-                <div className="full-name">Full Name</div>
-                <div className="btn">
-                  <button>Add Friend</button>{" "}
-                </div>
-              </div>
-              <div className="item">
-                <div className="avatar">
-                  <img
-                    src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQinxRawWd1hg3nnzizyGY4po95fZ0W8J51cvP3oXVv0fO0pmv4YOkBmLZpAz0PdFXf84U&usqp=CAU"
-                    alt=""
-                  />
-                </div>
-                <div className="full-name">Full Name</div>
-                <div className="btn">
-                  <button>Add Friend</button>{" "}
-                </div>
-              </div>
-              <div className="item">
-                <div className="avatar">
-                  <img
-                    src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQinxRawWd1hg3nnzizyGY4po95fZ0W8J51cvP3oXVv0fO0pmv4YOkBmLZpAz0PdFXf84U&usqp=CAU"
-                    alt=""
-                  />
-                </div>
-                <div className="full-name">Full Name</div>
-                <div className="btn">
-                  <button>Add Friend</button>{" "}
-                </div>
-              </div>
-              <div className="item">
-                <div className="avatar">
-                  <img
-                    src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQinxRawWd1hg3nnzizyGY4po95fZ0W8J51cvP3oXVv0fO0pmv4YOkBmLZpAz0PdFXf84U&usqp=CAU"
-                    alt=""
-                  />
-                </div>
-                <div className="full-name">Full Name</div>
-                <div className="btn">
-                  <button>Add Friend</button>{" "}
-                </div>
-              </div>
-              <div className="item">
-                <div className="avatar">
-                  <img
-                    src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQinxRawWd1hg3nnzizyGY4po95fZ0W8J51cvP3oXVv0fO0pmv4YOkBmLZpAz0PdFXf84U&usqp=CAU"
-                    alt=""
-                  />
-                </div>
-                <div className="full-name">Full Name</div>
-                <div className="btn">
-                  <button>Add Friend</button>{" "}
-                </div>
-              </div>
-              <div className="item">
-                <div className="avatar">
-                  <img
-                    src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQinxRawWd1hg3nnzizyGY4po95fZ0W8J51cvP3oXVv0fO0pmv4YOkBmLZpAz0PdFXf84U&usqp=CAU"
-                    alt=""
-                  />
-                </div>
-                <div className="full-name">Full Name</div>
-                <div className="btn">
-                  <button>Add Friend</button>{" "}
-                </div>
-              </div>
-              <div className="item">
-                <div className="avatar">
-                  <img
-                    src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQinxRawWd1hg3nnzizyGY4po95fZ0W8J51cvP3oXVv0fO0pmv4YOkBmLZpAz0PdFXf84U&usqp=CAU"
-                    alt=""
-                  />
-                </div>
-                <div className="full-name">Full Name</div>
-                <div className="btn">
-                  <button>Add Friend</button>{" "}
-                </div>
-              </div>
-              <div className="item">
-                <div className="avatar">
-                  <img
-                    src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQinxRawWd1hg3nnzizyGY4po95fZ0W8J51cvP3oXVv0fO0pmv4YOkBmLZpAz0PdFXf84U&usqp=CAU"
-                    alt=""
-                  />
-                </div>
-                <div className="full-name">Full Name</div>
-                <div className="btn">
-                  <button>Add Friend</button>{" "}
-                </div>
-              </div>
-              <div className="item">
-                <div className="avatar">
-                  <img
-                    src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQinxRawWd1hg3nnzizyGY4po95fZ0W8J51cvP3oXVv0fO0pmv4YOkBmLZpAz0PdFXf84U&usqp=CAU"
-                    alt=""
-                  />
-                </div>
-                <div className="full-name">Full Name</div>
-                <div className="btn">
-                  <button>Add Friend</button>{" "}
-                </div>
-              </div>
-              <div className="item">
-                <div className="avatar">
-                  <img
-                    src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQinxRawWd1hg3nnzizyGY4po95fZ0W8J51cvP3oXVv0fO0pmv4YOkBmLZpAz0PdFXf84U&usqp=CAU"
-                    alt=""
-                  />
-                </div>
-                <div className="full-name">Full Name</div>
-                <div className="btn">
-                  <button>Add Friend</button>{" "}
-                </div>
-              </div>
-              <div className="item">
-                <div className="avatar">
-                  <img
-                    src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQinxRawWd1hg3nnzizyGY4po95fZ0W8J51cvP3oXVv0fO0pmv4YOkBmLZpAz0PdFXf84U&usqp=CAU"
-                    alt=""
-                  />
-                </div>
-                <div className="full-name">Full Name</div>
-                <div className="btn">
-                  <button>Add Friend</button>{" "}
-                </div>
-              </div>
+              ) : (
+                ""
+              )}
             </>
           ) : (
-            <div>no friend</div>
+            <div className="error">
+              <p className="text">
+                Can't view this user's friends, please add friends to view the
+                user's friends
+              </p>
+            </div>
           )}
         </div>
       </div>

@@ -305,7 +305,7 @@ const Profile = () => {
               <div className="gallery">
                 <div className="heading-link profile-heading-link">
                   <h4>Friends</h4>
-                  <a href="">All Friends</a>
+                  <Link to={`/profile/${+id}/friend`}>All Friends</Link>
                 </div>
 
                 <div className="gallery-photos">
