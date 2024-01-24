@@ -33,10 +33,10 @@ const LeftBar = () => {
             <img src={currentUser.avatarImage} alt="" />
             <span>{currentUser.fullName}</span>
           </Link>
-          <div className="item">
+          <Link to={"friend"} className="item">
             <img src={Friends} alt="" />
             <span>Friends</span>
-          </div>
+          </Link>
           <div className="item">
             <img src={notification} alt="" />
             <span>Notifications</span>

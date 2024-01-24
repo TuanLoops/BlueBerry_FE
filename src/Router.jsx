@@ -29,6 +29,7 @@ import {firestore} from "./firebase";
 import {getNotifications} from "./redux/service/NotificationService";
 import {Notification} from "./components/notification/Notification.jsx";
 import {ResetPassword} from "./pages/reset/ResetPassword.jsx";
+import {Friends} from "./pages/friends/Friends.jsx";
 
 function Router() {
     const accessToken = useSelector(({user}) => user.accessToken);
@@ -122,7 +123,7 @@ function Router() {
                                     <Route path="/search" element={<Search/>}/>
                                     <Route path="/saved" element={<Saved/>}/>
                                     <Route path="/:currentUser/post/:postId" element={<OnePost/>}/>
-                                    <Route path="/accountsettings" element={<AccountSettings/>}/>
+                                    <Route path="/friend" element={<Friends/>}/>
                                     <Route path="*" element={<Navigate to={"/"}/>}/>
                                 </>
                             ) : (

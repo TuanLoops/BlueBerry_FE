@@ -1,0 +1,30 @@
+@import "../../style.scss";
+
+.friend{
+  @include themify($themes) {
+    display: flex;
+    .left-friend{
+      display: flex;
+      flex-direction: column;
+      flex-basis: 25%;
+      position: sticky;
+      height: calc(100vh - 56px);
+      top: 56px;
+      border-right: 1px solid #ffffff3a;
+      padding: 1rem;
+      color: #fff;
+      background-color: themed("bg");
+
+      .btn{
+        display: flex;
+        flex-direction: column;
+        width: 200px;
+        margin: 40px auto ;
+        button{
+          height: 50px;
+          margin-bottom: 20px;
+        }
+      }
+    }
+  }
+}
