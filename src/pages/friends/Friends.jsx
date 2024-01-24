@@ -23,7 +23,7 @@ export const Friends = () => {
         fetchData().then()
     }
     return(
-        <div className="friend">
+        <div className="friend-page">
             <div className="left-friend">
                 <div className="title">
                     <h1>Friend</h1>

@@ -1,6 +1,6 @@
 @import "../../style.scss";
 
-.friend{
+.friend-page{
   @include themify($themes) {
     display: grid;
     grid-template-columns: 15% 85%;
