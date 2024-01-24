@@ -9,7 +9,7 @@ import {DarkModeContext} from "../../context/darkModeContext";
 import {useDispatch, useSelector} from "react-redux";
 import {logOut} from "../../redux/service/userService.jsx";
 import {Avatar, Badge} from "@mui/material";
-import {getNotifications} from "../../redux/service/NotificationService.jsx";
+import {getNotifications, updateNotification} from "../../redux/service/NotificationService.jsx";
 import {formatDistanceToNowStrict} from "date-fns";
 import {showStatus} from "../../redux/service/statusService.jsx";
 import logo from "../../assets/logo-blueberry.png";
@@ -100,6 +100,16 @@ const Navbar = () => {
         setPopupVisible(fa);
     };
 
+    const handleEditNotification = async ({id, notification}) => {
+        console.log(id)
+        try {
+           await updateNotification({id,notification})
+            await dispatch(getNotifications())
+        }catch (e){
+            console.log(e.response.data.message)
+        }
+    }
+
     return (
         <>
             <div className="navbar">
@@ -157,7 +167,7 @@ const Navbar = () => {
                         {showNotifications && (
                             <NotificationPopup
                                 onClose={() => setShowNotifications(false)}
-                                notifications={notifications}
+                                notifications={notifications} handleEditNotification={handleEditNotification}
                                 buttonRef={notificationsRef}
                             />
                         )}
@@ -234,7 +244,7 @@ const Navbar = () => {
 
 export default Navbar;
 
-function NotificationPopup({onClose, buttonRef}) {
+function NotificationPopup({onClose, buttonRef, handleEditNotification}) {
     const notificationRef = useRef(null);
     const notifications = useSelector(
         ({notification}) => notification.notifications
@@ -265,7 +275,7 @@ function NotificationPopup({onClose, buttonRef}) {
                     {notifications.length > 0 ? (
                         notifications.map((notification) => (
                             <NotificationItem
-                                key={notification.id}
+                                key={notification.id} handleEditNotification={handleEditNotification}
                                 notification={notification}
                             />
                         ))
@@ -278,7 +288,7 @@ function NotificationPopup({onClose, buttonRef}) {
     );
 }
 
-function NotificationItem({notification}) {
+function NotificationItem({notification, handleEditNotification}) {
     const notificationMessage = () => {
         switch (notification.type) {
             case "COMMENT_ON_OWN_POST":
@@ -332,7 +342,7 @@ function NotificationItem({notification}) {
                 );
         }
     };
-    console.log(notification)
+
     const destination = () => {
         switch (notification.type) {
             case "COMMENT_ON_OWN_POST":
@@ -353,7 +363,12 @@ function NotificationItem({notification}) {
     };
 
     return (
-        <Link to={destination()} className="notification-item">
+        <Link to={destination()} className="notification-item" onClick={() => handleEditNotification({
+            id: notification.id,
+            notification: {
+                isRead: true
+            }
+        })}>
             <Avatar
                 sx={{width: 56, height: 56}}
                 src={notification.sender.avatarImage}

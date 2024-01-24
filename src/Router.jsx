@@ -78,7 +78,6 @@ function Router() {
                     if (firstRender) {
                         const notificationsData = snapshot.docs.map((doc) => doc.data()).sort((a, b) => b.id - a.id);
                         const NewNoti = notificationsData[0]
-                        console.log("Current data: ", NewNoti);
                         setNoti(NewNoti);
                         dispatch(getNotifications());
                     }
