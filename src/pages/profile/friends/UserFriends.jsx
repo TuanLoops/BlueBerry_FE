@@ -6,6 +6,7 @@ import { UrlFriend } from "../../../context/connect.jsx";
 import { Avatar } from "@mui/material";
 import { getInfoUser } from "../../../redux/service/userService.jsx";
 import UsernameLink from "../../../components/usernamelink/UsernameLink.jsx";
+import { FriendCard } from "./friendcard/FriendCard.jsx";
 export const UserFriends = () => {
   const { id } = useParams();
   const dispatch = useDispatch();
@@ -27,12 +28,10 @@ export const UserFriends = () => {
       .then((res) => {
         setUserFriends(res.data ? res.data : []);
         if (res.data) {
-          let newList = res.data.map((data) => {
-            if (currentFriends.some(data.id)) {
-              return data;
-            }
-          });
-          setMutualFriend(newList);
+          let newList = res.data.filter((data) =>
+            currentFriends.some((item) => item.id === data.id)
+          );
+          setMutualFriends(newList);
         }
       });
   };
@@ -63,15 +62,15 @@ export const UserFriends = () => {
             ""
           )}
         </div>
-        <div className="fillter">
+        <div className="filter">
           <div
-            className={`btn-fillter ${selected === 1 ? "active" : ""}`}
+            className={`btn-filter ${selected === 1 ? "active" : ""}`}
             onClick={() => setSelected(1)}
           >
             <span className="btn-name">All Friend</span>
           </div>
           <div
-            className={`btn-fillter ${selected === 2 ? "active" : ""}`}
+            className={`btn-filter ${selected === 2 ? "active" : ""}`}
             onClick={() => setSelected(2)}
           >
             <span className="btn-name">Mutual Friend</span>
@@ -86,10 +85,16 @@ export const UserFriends = () => {
                 <>
                   <div className="friend-container">
                     {userFriends.length > 0 ? (
-                      userFriends.map((friend) => <p>{friend.fullName}</p>)
+                      userFriends.map((friend) => (
+                        <FriendCard
+                          key={friend.id}
+                          id={currentUser.id}
+                          friend={friend}
+                        />
+                      ))
                     ) : (
-                      <div  className="not-found">
-                      <p>This user has no friends yet</p>
+                      <div className="not-found">
+                        <p>This user has no friends yet</p>
                       </div>
                     )}
                   </div>
@@ -97,10 +102,16 @@ export const UserFriends = () => {
               ) : selected === 2 ? (
                 <div className="friend-container">
                   {mutualFriends.length > 0 ? (
-                    mutualFriends.map((friend) => <p>{friend.fullName}</p>)
+                    mutualFriends.map((friend) => (
+                      <FriendCard
+                        key={friend.id}
+                        id={currentUser.id}
+                        friend={friend}
+                      />
+                    ))
                   ) : (
-                    <div  className="not-found">
-                    <p>There are no mutual friends</p>
+                    <div className="not-found">
+                      <p>There are no mutual friends</p>
                     </div>
                   )}
                 </div>
