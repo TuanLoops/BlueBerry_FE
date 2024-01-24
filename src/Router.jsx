@@ -55,21 +55,8 @@ function Router() {
         const currentUser = useSelector(({user}) => user.currentUser);
         const dispatch = useDispatch();
         const [noti, setNoti] = useState([]);
-        const [showNoti, setShowNoti] = useState(true);
+        const [showNoti, setShowNoti] = useState(false);
 
-        const notifor ={
-            receiver:{
-                avatarImage: "https://cdn.pixabay.com/photo/2016/08/08/09/17/avatar-1577909_1280.png",
-
-            },
-            sender:{
-                avatarImage: "https://cdn.pixabay.com/photo/2016/08/08/09/17/avatar-1577909_1280.png",
-                fullName: "Chien Minh",
-                statusId: 1,
-                statusAuthorName: "huu sy"
-            },
-            type: "COMMENT_ON_OWN_POST"
-        }
         useEffect(() => {
             dispatch(getIncomingFriendRequests());
             dispatch(getSentFriendRequests());
@@ -81,32 +68,28 @@ function Router() {
         }, []);
 
         useEffect(() => {
-            // const unsubscribe = onSnapshot(
-            //     query(
-            //         collection(firestore, "notifications"),
-            //         where("receiver.id", "==", currentUser.id),
-            //         where("timeStamp", ">=", new Date())
-            //     ),
-            //     (snapshot) => {
-            //         if (firstRender) {
-            //             const notificationsData = snapshot.docs.map((doc) => doc.data()).sort((a, b) => b.id - a.id);
-            //             const NewNoti = notificationsData[0]
-            //             console.log("Current data: ", NewNoti);
-            //             setNoti(NewNoti);
-            //             dispatch(getNotifications());
-            //         }
-            //             setFirstRender(true)
-            //
-            //     }
-            // );
-            // return () => unsubscribe();
+            const unsubscribe = onSnapshot(
+                query(
+                    collection(firestore, "notifications"),
+                    where("receiver.id", "==", currentUser.id),
+                    where("timeStamp", ">=", new Date())
+                ),
+                (snapshot) => {
+                    if (firstRender) {
+                        const notificationsData = snapshot.docs.map((doc) => doc.data()).sort((a, b) => b.id - a.id);
+                        const NewNoti = notificationsData[0]
+                        console.log("Current data: ", NewNoti);
+                        setNoti(NewNoti);
+                        dispatch(getNotifications());
+                    }
+                        setFirstRender(true)
+                        setShowNoti(true);
+                        setTimeout(()=> setShowNoti(false),4000);
+                }
+            );
+            return () => unsubscribe();
         }, []);
 
-        useEffect(() => {
-            if (noti) {
-                console.log("Display notification:", noti);
-            }
-        }, [noti]);
         const handleOffNotification = () => {
             setShowNoti(false)
         }
@@ -116,7 +99,7 @@ function Router() {
                 style={{backgroundColor: darkMode ? "#1f1f1f" : "#f6f3f3"}}
             >
                 <Navbar/>
-                {notifor && showNoti && (<Notification onClose={handleOffNotification} notifor={notifor}/>)}
+                {noti && showNoti && (<Notification onClose={handleOffNotification} notifor={noti}/>)}
                 <Outlet/>
             </div>
         );
