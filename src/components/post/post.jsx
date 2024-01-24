@@ -52,7 +52,7 @@ const Post = ({ post }) => {
       <div className="container">
         <div className="user">
           <div className="userInfo">
-            <Link to={`profile/${post.id}`}>
+            <Link to={`profile/${post.author.id}`}>
               <Avatar
                 sx={{ width: 40, height: 40 }}
                 src={post.author.avatarImage}

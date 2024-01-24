@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 import "./usernameLink.scss";
 import { useState } from "react";
 import { Avatar } from "@mui/material";
@@ -29,6 +29,7 @@ export default UsernameLink;
 
 const UserQuickView = ({ user }) => {
   const currentUser = useSelector(({ user }) => user.currentUser);
+  const navigate = useNavigate();
 
   return (
     <div className="quick-view">
@@ -55,7 +56,7 @@ const UserQuickView = ({ user }) => {
       <div className="button-group">
         {currentUser.id === user.id ? (
           <div>
-            <button>
+            <button onClick={()=> navigate('/accountsettings')}>
               <FaUserGear />
               Account settings
             </button>
