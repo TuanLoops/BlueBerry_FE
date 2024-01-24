@@ -1,9 +1,15 @@
 import './notification.scss'
 import HighlightOffIcon from "@mui/icons-material/HighlightOff";
 import {Avatar} from "@mui/material";
+import { useDispatch } from 'react-redux';
+import { getIncomingFriendRequests } from '../../redux/service/friendService';
 
 export const Notification = ({notifor, onClose}) => {
     console.log(notifor)
+    const dispatch=useDispatch();
+    const fetchFriendRequest = ()=>{
+        dispatch(getIncomingFriendRequests());
+    }
     const notificationMessage = () => {
         switch (notifor.type) {
             case "COMMENT_ON_OWN_POST":
@@ -56,6 +62,7 @@ export const Notification = ({notifor, onClose}) => {
                     </>
                 );
             case "FRIEND_REQUEST_INCOMING":
+                fetchFriendRequest()
                 return (
                     <>
                         <div className="user">
@@ -80,6 +87,7 @@ export const Notification = ({notifor, onClose}) => {
                     </>
                 );
             case "FRIEND_REQUEST_DECLINE":
+                fetchFriendRequest()
                 return (
                     <>
                         <div className="user">
