@@ -2,7 +2,7 @@
 
 .notification-intro{
   @include themify($themes) {
-    position: absolute;
+    position: fixed;
     background-color: themed("bg");
     bottom: 40px;
     left: 30px;

@@ -86,7 +86,7 @@ function Router() {
                     }
                         setFirstRender(true)
                         setShowNoti(true);
-                        setTimeout(()=> setShowNoti(false),4000);
+                        setTimeout(()=> setShowNoti(false),4000000);
                 }
             );
             return () => unsubscribe();
@@ -124,6 +124,7 @@ function Router() {
                                     <Route path="/profile/:id/friend" element={<UserFriends/>}/>
                                     <Route path="/search" element={<Search/>}/>
                                     <Route path="/saved" element={<Saved/>}/>
+                                    <Route path="/accountsettings" element={<AccountSettings/>}/>
                                     <Route path="/:currentUser/post/:postId" element={<OnePost/>}/>
                                     <Route path="/friend" element={<Friends/>}/>
                                     <Route path="*" element={<Navigate to={"/"}/>}/>
