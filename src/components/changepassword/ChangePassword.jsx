@@ -35,7 +35,7 @@ const ChangePassword = () => {
     const handleInputNewPassword = (e) => {
         setNewPassword(e.target.value)
         if (e.target.value.length < 7 || !/^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[!$@%]).*$/.test(e.target.value)) {
-            setNewPassError("Your password must have at least 7 characters, including numbers, letters, and special characters (!$@%).");
+            setNewPassError("Your password must have at least 8 characters, including numbers, letters, and special characters (!$@%).");
         } else {
             setNewPassError("");
         }
