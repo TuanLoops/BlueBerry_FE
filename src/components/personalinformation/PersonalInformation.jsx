@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import './personalinformation.scss';
 import { useDispatch, useSelector } from 'react-redux';
-import { getInfoUser, updateProfile } from '../../redux/service/userService';
+import { getCurrentUser, getInfoUser, updateProfile } from '../../redux/service/userService';
 import { AiFillEdit } from "react-icons/ai";
 
 const PersonalInformation = () => {
@@ -9,6 +9,7 @@ const PersonalInformation = () => {
   const [lastName, setLastName] = useState('');
   const [dob, setDob] = useState('');
   const [phoneNumber, setPhoneNumber] = useState('');
+  const [phoneNumberError, setPhoneNumberError] = useState('');
   const [hobbies, setHobbies] = useState('');
   const [address, setAddress] = useState('');
 
@@ -54,20 +55,18 @@ const PersonalInformation = () => {
       hobbies,
       address,
     };
-    dispatch(updateProfile(user));
+    dispatch(updateProfile(user)).then(() => dispatch(getCurrentUser()));
   };
 
-  const handleUpdate = () => {
-    const user = {
-      id: currentUser.id,
-      firstName,
-      lastName,
-      dob,
-      phoneNumber,
-      hobbies,
-      address,
+  const handleInputPhoneNumber = (e) => {
+    const value = e.target.value;
+    setPhoneNumber(value);
+
+    if (value.length !== 10 || !/^\d{10}$/.test(value)) {
+      setPhoneNumberError('Invalid phone number. Please enter a 10-digit number.');
+    } else {
+      setPhoneNumberError('');
     }
-    dispatch(updateProfile(user))
   };
 
   useEffect(() => {
@@ -140,8 +139,10 @@ const PersonalInformation = () => {
                     id="phoneNumber"
                     value={phoneNumber}
                     disabled={!editMode}
-                    onChange={(e) => setPhoneNumber(e.target.value)}
+                    // onChange={(e) => setPhoneNumber(e.target.value)}
+                    onChange={(e) => handleInputPhoneNumber(e)}
                   />
+                  {phoneNumberError && <div className="error-message">{phoneNumberError}</div>}
                 </th>
               </tr>
 
@@ -171,34 +172,33 @@ const PersonalInformation = () => {
               </tr>
             </table>
 
+          </div>
+          <div className='button-container'>
+            {showSaveCancel && (
+              <div className='update-button'>
+                <div className='update-button-container'>
+                  <div className='title-icon' onClick={handleCancel}>
+                    <span className='title-icon__cancel'>CANCEL</span>
+                  </div>
+                  <div className='title-icon' onClick={handleSave}>
+                    <span className='title-icon__save'>SAVE</span>
+                  </div>
+                </div>
+              </div>
+            )}
 
+            {!showSaveCancel && (
+              <div className='update-button'>
+                <div className='update-button-container'>
+                  <div className='title-icon' onClick={toggleEditMode}>
+                    <span className='title-icon__edit'>EDIT</span>
+                    <AiFillEdit />
+                  </div>
+                </div>
+              </div>
+            )}
 
           </div>
-        <div className='button-container'>
-          {showSaveCancel && (
-            <div className='update-button'>
-              <div className='update-button-container'>
-                <div className='title-icon' onClick={handleCancel}>
-                  <span className='title-icon__cancel'>CANCEL</span>
-                </div>
-                <div className='title-icon' onClick={handleSave}>
-                  <span className='title-icon__save'>SAVE</span>
-                </div>
-              </div>
-            </div>
-          )}
-
-          {!showSaveCancel && (
-            <div className='update-button'>
-              <div className='update-button-container'>
-                <div className='title-icon' onClick={toggleEditMode}>
-                  <span className='title-icon__edit'>EDIT</span>
-                  <AiFillEdit />
-                </div>
-              </div>
-            </div>
-          )}
-        </div>
         </form>
       </div>
     </div>

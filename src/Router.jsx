@@ -31,13 +31,14 @@ import {Notification} from "./components/notification/Notification.jsx";
 import {ResetPassword} from "./pages/reset/ResetPassword.jsx";
 import {Friends} from "./pages/friends/Friends.jsx";
 import { UserFriends } from "./pages/profile/friends/UserFriends.jsx";
+import ChatPage from "./pages/chatpage/ChatPage.jsx";
+import { getChatRooms } from "./redux/service/chatService.jsx";
 
 function Router() {
     const accessToken = useSelector(({user}) => user.accessToken);
     const currentUser = useSelector(({user}) => user.currentUser);
     const dispatch = useDispatch();
     const [fetched, setFetched] = useState(false);
-    const [firstRender, setFirstRender] = useState(false);
 
     useEffect(() => {
         const fetchData = async () => {
@@ -78,17 +79,45 @@ function Router() {
                     where("timeStamp", ">=", new Date())
                 ),
                 (snapshot) => {
-                    if (firstRender) {
-                        const notificationsData = snapshot.docs.map((doc) => doc.data()).sort((a, b) => b.id - a.id);
-                        const NewNoti = notificationsData[0]
-                        setNoti(NewNoti);
-                        dispatch(getNotifications());
-                    }
-                        setFirstRender(true)
-                        setShowNoti(true);
-                        setTimeout(()=> setShowNoti(false),4000000);
+                    const notificationsData = snapshot.docs.map((doc) => doc.data()).sort((a, b) => b.id - a.id);
+                    const NewNoti = notificationsData[0]
+                    setNoti(NewNoti);
+                    dispatch(getNotifications());
+                    setShowNoti(true);
+                    setTimeout(() => setShowNoti(false), 4000);
                 }
             );
+            return () => unsubscribe();
+        }, []);
+        useEffect(() => {
+            const unsubscribe = onSnapshot(
+                query(
+                    collection(firestore, "notifications"),
+                    where("receiver.id", "==", currentUser.id)
+                ),
+                (snapshot) => {
+                    dispatch(getNotifications());
+                }
+            );
+
+            return () => unsubscribe();
+        }, []);
+
+        useEffect(() => {
+            const unsubscribe = onSnapshot(
+                query(
+                    collection(firestore, "chat_rooms"),
+                    where("participantIds", "array-contains", currentUser.id)
+                ),
+                (snapshot) => {
+                    console.log(
+                        "Snap",
+                        snapshot.docs.map((doc) => doc.data())
+                    );
+                    dispatch(getChatRooms());
+                }
+            );
+
             return () => unsubscribe();
         }, []);
 
@@ -119,15 +148,17 @@ function Router() {
                         <Route element={<PrivateRoutes/>}>
                             {currentUser ? (
                                 <>
-                                    <Route path="/" exact element={<Home/>}/>
-                                    <Route path="/profile/:id" element={<Profile/>}/>
-                                    <Route path="/profile/:id/friend" element={<UserFriends/>}/>
-                                    <Route path="/search" element={<Search/>}/>
-                                    <Route path="/saved" element={<Saved/>}/>
-                                    <Route path="/accountsettings" element={<AccountSettings/>}/>
-                                    <Route path="/:currentUser/post/:postId" element={<OnePost/>}/>
-                                    <Route path="/friend" element={<Friends/>}/>
-                                    <Route path="*" element={<Navigate to={"/"}/>}/>
+                                    <Route path="/" exact element={<Home />} />
+                                    <Route path="/profile/:id" element={<Profile />} />
+                                    <Route path="/profile/:id/friend" element={<UserFriends />} />
+                                    <Route path="/search" element={<Search />} />
+                                    <Route path="/saved" element={<Saved />} />
+                                    <Route path="/:currentUser/post/:postId" element={<OnePost />} />
+                                    <Route path="/friend" element={<Friends />} />
+                                    <Route path="/accountsettings" element={<AccountSettings />} />
+                                    <Route path="/chat/" element={<ChatPage />} />
+                                    <Route path="/chat/:roomId" element={<ChatPage />} />
+                                    <Route path="*" element={<Navigate to={"/"} />} />
                                 </>
                             ) : (
                                 <></>

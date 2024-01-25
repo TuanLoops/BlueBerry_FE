@@ -6,7 +6,7 @@ export const getCurrentUserFriendList = createAsyncThunk(
   async () => {
     try {
       let res = await UrlFriend().get(`/list`);
-      return res.data;
+      return res.data ? res.data: [];
     } catch (e) {
       console.log(e);
       return [];
@@ -19,7 +19,7 @@ export const getIncomingFriendRequests = createAsyncThunk(
   async () => {
     try {
       let res = await UrlFriend().get(`/incoming-request`);
-      return res.data;
+      return res.data ? res.data: [];
     } catch (e) {
       console.log(e);
       return [];
@@ -32,7 +32,7 @@ export const getSentFriendRequests = createAsyncThunk(
   async () => {
     try {
       let res = await UrlFriend().get(`/sent-request`);
-      return res.data;
+      return res.data ? res.data : [];
     } catch (e) {
       console.log(e);
       return [];

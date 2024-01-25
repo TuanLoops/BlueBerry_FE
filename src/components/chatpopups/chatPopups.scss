@@ -1,0 +1,21 @@
+@import "../../style.scss";
+
+.chat-popups {
+  @include themify($themes) {
+    position: fixed;
+    bottom: 0;
+    right: 100px;
+    display: flex;
+    gap: 16px;
+    
+    .popup {
+        background-color: rgba(255, 228, 196, 0.534);
+        width: 340px;
+        height: 460px;
+        border-top-left-radius: 8px;
+        border-top-right-radius: 8px;
+        border: 1px solid themed("border");
+        overflow: hidden;
+    }
+  }
+}

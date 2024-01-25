@@ -4,8 +4,10 @@ import { useState } from "react";
 import { Avatar } from "@mui/material";
 import FriendButton from "../friendbutton/FriendButton";
 import { AiFillMessage } from "react-icons/ai";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { FaUserGear } from "react-icons/fa6";
+import { UrlChat } from "../../context/connect";
+import { openPopup } from "../../redux/reducer/chatReducer";
 
 const UsernameLink = ({ user, style }) => {
   const [showQuickView, setShowQuickView] = useState(false);
@@ -30,6 +32,16 @@ export default UsernameLink;
 const UserQuickView = ({ user }) => {
   const currentUser = useSelector(({ user }) => user.currentUser);
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  const handleMessageClick = async (id) => {
+    try {
+      const res = await UrlChat().get(`user/${id}`);
+      dispatch(openPopup(res.data.id));
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return (
     <div className="quick-view">
@@ -65,7 +77,10 @@ const UserQuickView = ({ user }) => {
           <>
             <FriendButton userId={user.id} />
             <div>
-              <button className="message">
+              <button
+                className="message"
+                onClick={() => handleMessageClick(user.id)}
+              >
                 <AiFillMessage />
                 Message
               </button>

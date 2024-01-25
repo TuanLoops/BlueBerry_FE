@@ -41,10 +41,10 @@ const LeftBar = () => {
             <img src={notification} alt="" />
             <span>Notifications</span>
           </div>
-          <div className="item">
+          <Link to="/chat" className="item">
             <img src={Messages} alt="" />
             <span>Messages</span>
-          </div>
+          </Link>
           <Link to={"saved"} className="item">
             <img src={BookMark} alt="" />
             <span>Saved</span>

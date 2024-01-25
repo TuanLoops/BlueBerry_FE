@@ -12,7 +12,7 @@
     overflow-y: auto;
     color: themed("textColor");
 
-    @include tablet {
+    @include mobile {
       display: none;
     }
 

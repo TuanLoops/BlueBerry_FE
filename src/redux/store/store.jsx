@@ -3,6 +3,7 @@ import useReducer from "../reducer/userReducer.jsx";
 import statusReducer from "../reducer/statusReducer.jsx";
 import friendReducer from "../reducer/friendReducer.jsx";
 import notificationReducer from "../reducer/notificationReducer.jsx";
+import chatReducer from "../reducer/chatReducer.jsx";
 
 export const store = configureStore({
   reducer: {
@@ -10,5 +11,6 @@ export const store = configureStore({
     status: statusReducer,
     friend: friendReducer,
     notification: notificationReducer,
+    chat: chatReducer
   },
 });

@@ -41,9 +41,10 @@
                 align-items: center;
 
                 &__cancel {
+
                   &:hover {
-                    cursor: pointer;
                     color: red;
+                    cursor: pointer;
                   }
                 }
 
@@ -71,6 +72,11 @@
           background-color: themed("bg");
           border-radius: 1rem;
 
+          .error-message {
+            font-size: smaller;
+            font-weight: lighter;
+            color: red;
+          }
           tr {
             th {
               font-size: large;

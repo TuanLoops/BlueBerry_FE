@@ -1,29 +1,38 @@
 import "./navbar.scss";
-import {FaRegBell} from "react-icons/fa6";
-import {FaBell} from "react-icons/fa6";
+import DarkModeOutlinedIcon from "@mui/icons-material/DarkModeOutlined";
+import WbSunnyOutlinedIcon from "@mui/icons-material/WbSunnyOutlined";
+import { FaRegBell } from "react-icons/fa6";
+import { FaBell } from "react-icons/fa6";
+import { AiOutlineMessage } from "react-icons/ai";
+import { AiFillMessage } from "react-icons/ai";
 import EmailOutlinedIcon from "@mui/icons-material/EmailOutlined";
 import SearchOutlinedIcon from "@mui/icons-material/SearchOutlined";
-import {Link, useNavigate} from "react-router-dom";
-import {useContext, useEffect, useRef, useState} from "react";
-import {DarkModeContext} from "../../context/darkModeContext";
-import {useDispatch, useSelector} from "react-redux";
-import {logOut} from "../../redux/service/userService.jsx";
-import {Avatar, Badge} from "@mui/material";
-import {getNotifications, updateAllNotification, updateNotification} from "../../redux/service/NotificationService.jsx";
-import {formatDistanceToNowStrict} from "date-fns";
-import {showStatus} from "../../redux/service/statusService.jsx";
+import { Link, useNavigate } from "react-router-dom";
+import { useContext, useEffect, useRef, useState } from "react";
+import { DarkModeContext } from "../../context/darkModeContext";
+import { useDispatch, useSelector } from "react-redux";
+import { logOut } from "../../redux/service/userService.jsx";
+import { Avatar, Badge } from "@mui/material";
+import { getNotifications, updateAllNotification, updateNotification } from "../../redux/service/NotificationService.jsx";
+import { formatDistanceToNowStrict } from "date-fns";
+import { showStatus } from "../../redux/service/statusService.jsx";
 import logo from "../../assets/logo-blueberry.png";
+import { getChatRooms } from "../../redux/service/chatService.jsx";
+import { openPopup } from "../../redux/reducer/chatReducer.jsx";
+import ChatPopups from "../chatpopups/ChatPopups.jsx";
 
 const Navbar = () => {
-    const currentUser = useSelector(({user}) => user.currentUser);
+    const currentUser = useSelector(({ user }) => user.currentUser);
     const notifications = useSelector(
-        ({notification}) => notification.notifications
+        ({ notification }) => notification.notifications
     );
-    const {toggle, darkMode} = useContext(DarkModeContext);
+    const { toggle, darkMode } = useContext(DarkModeContext);
     const [isPopupVisible, setPopupVisible] = useState(false);
     const [showNotifications, setShowNotifications] = useState(false);
+    const [showMessages, setShowMessages] = useState(false);
     const userRef = useRef(null);
     const notificationsRef = useRef(null);
+    const messageButtonRef = useRef(null);
     const [searchValue, setSearchValue] = useState("");
     const dispatch = useDispatch();
     const navigate = useNavigate();
@@ -36,6 +45,7 @@ const Navbar = () => {
         };
 
         dispatch(getNotifications());
+        dispatch(getChatRooms());
 
         document.addEventListener("click", handleOutsideClick);
 
@@ -47,7 +57,7 @@ const Navbar = () => {
     const handleHome = () => {
         navigate("/");
         dispatch(showStatus());
-        window.scrollTo({top: 0, behavior: "smooth"});
+        window.scrollTo({ top: 0, behavior: "smooth" });
     };
 
     const handleLogOut = () => {
@@ -100,20 +110,20 @@ const Navbar = () => {
         setPopupVisible(fa);
     };
 
-    const handleEditNotification = async ({id, notification}) => {
+    const handleEditNotification = async ({ id, notification }) => {
         try {
-           await updateNotification({id,notification})
-            await dispatch(getNotifications())
-        }catch (e){
+            await updateNotification({ id, notification })
+            dispatch(getNotifications())
+        } catch (e) {
             console.log(e.response.data.message)
         }
     }
 
     const handleEditALlNotification = async (notifications) => {
         try {
-            await updateAllNotification({isRead: true});
+            await updateAllNotification({ isRead: true });
             await dispatch(getNotifications())
-        }catch (e){
+        } catch (e) {
             console.log(e.response.data.message)
         }
     }
@@ -125,7 +135,7 @@ const Navbar = () => {
                     <Link
                         className="brand-container"
                         to="/"
-                        style={{textDecoration: "none"}}
+                        style={{ textDecoration: "none" }}
                         onClick={handleHome}
                     >
                         <div className="brand-container__logo">
@@ -139,8 +149,16 @@ const Navbar = () => {
                             <span>Blueberry</span>
                         </div>
                     </Link>
+                    <div className="nav-item">
+                        {darkMode ? (
+                            <WbSunnyOutlinedIcon onClick={toggle} />
+                        ) : (
+                            <DarkModeOutlinedIcon onClick={toggle} />
+                        )}
+                        <div className="label-acc">Mode</div>
+                    </div>
                     <div className="search">
-                        <SearchOutlinedIcon/>
+                        <SearchOutlinedIcon />
                         <input
                             type="text"
                             placeholder="Search..."
@@ -152,8 +170,26 @@ const Navbar = () => {
                 </div>
                 <div className="right">
                     <div className="nav-item-right">
-                        <EmailOutlinedIcon/>
-                        <div className="label-acc">Mail</div>
+                        <Badge
+                            max={9}
+                            color="error"
+                        >
+                            <div
+                                className="item-wrapper"
+                                onClick={() => setShowMessages(!showMessages)}
+                                ref={messageButtonRef}
+                            >
+                                {showMessages ? <AiFillMessage /> : <AiOutlineMessage />}
+                                <div className="label-acc">Messages</div>
+                            </div>
+                        </Badge>
+                        {showMessages && (
+                            <MessagePopup
+                                onClose={() => setShowMessages(false)}
+                                buttonRef={messageButtonRef}
+                            />
+                        )}
+                        <ChatPopups />
                     </div>
                     <div className="nav-item-right notification">
                         <Badge
@@ -169,7 +205,7 @@ const Navbar = () => {
                                 onClick={() => setShowNotifications(!showNotifications)}
                                 ref={notificationsRef}
                             >
-                                {showNotifications ? <FaBell/> : <FaRegBell/>}
+                                {showNotifications ? <FaBell /> : <FaRegBell />}
                             </div>
                         </Badge>
                         {showNotifications && (
@@ -183,7 +219,7 @@ const Navbar = () => {
                         <div className="label-acc">Notification</div>
                     </div>
                     <div className="user" onClick={togglePopup} ref={userRef}>
-                        <img src={currentUser?.avatarImage} alt=""/>
+                        <img src={currentUser?.avatarImage} alt="" />
                         <span></span>
                         <div className="label-acc">Account</div>
                         {isPopupVisible && (
@@ -195,7 +231,7 @@ const Navbar = () => {
                                             className="icon-user"
                                         >
                                             <div className="icon">
-                                                <img src={currentUser.avatarImage} alt=""/>
+                                                <img src={currentUser.avatarImage} alt="" />
                                             </div>
                                             <div className="name-uer">
                                                 <span>{currentUser.fullName}</span>
@@ -282,8 +318,8 @@ function NotificationPopup({onClose, buttonRef, handleEditNotification, handleEd
         <div className="notification-container" ref={notificationRef}>
             <div className="notification-wrapper">
                 <div className="notification-header">Notifications</div>
-                <div className="see-all" onClick={()=> handleEditALlNotification(
-                    {notifications: {isRead: true}}
+                <div className="see-all" onClick={() => handleEditALlNotification(
+                    { notifications: { isRead: true } }
                 )}><button>See all</button></div>
                 <div className="notification-body">
                     {notifications.length > 0 ? (
@@ -303,7 +339,7 @@ function NotificationPopup({onClose, buttonRef, handleEditNotification, handleEd
     );
 }
 
-function NotificationItem({notification, handleEditNotification}) {
+function NotificationItem({ notification, handleEditNotification }) {
     const notificationMessage = () => {
         switch (notification.type) {
             case "COMMENT_ON_OWN_POST":
@@ -385,7 +421,7 @@ function NotificationItem({notification, handleEditNotification}) {
             }
         })}>
             <Avatar
-                sx={{width: 56, height: 56}}
+                sx={{ width: 56, height: 56 }}
                 src={notification.sender.avatarImage}
                 alt=""
             />
@@ -401,3 +437,82 @@ function NotificationItem({notification, handleEditNotification}) {
         </Link>
     );
 }
+
+function MessagePopup({ onClose, buttonRef }) {
+    const messageRef = useRef(null);
+    const chatRooms = useSelector(({ chat }) => chat.chatRooms).filter(
+        (room) => room.messages.length > 0
+    );
+
+    useEffect(() => {
+        function handleClickOutside(event) {
+            if (
+                !messageRef.current.contains(event.target) &&
+                !buttonRef.current.contains(event.target)
+            ) {
+                onClose();
+            }
+        }
+
+        document.addEventListener("mousedown", handleClickOutside);
+
+        return () => {
+            document.removeEventListener("mousedown", handleClickOutside);
+        };
+    }, []);
+
+    return (
+        <div ref={messageRef} className="message-container">
+            <div className="message-wrapper">
+                <div className="message-header">Chats</div>
+                <div className="message-body">
+                    {chatRooms.length > 0 ? (
+                        chatRooms.map((chatRoom) => (
+                            <ChatItem
+                                key={chatRoom.id}
+                                chatRoom={chatRoom}
+                                onClose={onClose}
+                            />
+                        ))
+                    ) : (
+                        <div className="placeholder">You don't have any messages</div>
+                    )}
+                </div>
+            </div>
+        </div>
+    );
+}
+
+function ChatItem({ chatRoom, onClose }) {
+    const currentUser = useSelector(({ user }) => user.currentUser);
+    const dispatch = useDispatch();
+
+    const findOtherUser = () => {
+        return chatRoom.participants.find(
+            (participant) => participant.id !== currentUser.id
+        );
+    };
+
+    const handleClick = () => {
+        dispatch(openPopup(chatRoom.id));
+        onClose();
+    };
+
+    return (
+        <div className="chat-item" onClick={handleClick}>
+            <Avatar
+                sx={{ width: 56, height: 56 }}
+                src={findOtherUser().avatarImage}
+                alt=""
+            />
+            <div className="chat-detail">
+                <div className="chat-room-name">{findOtherUser().fullName}</div>
+                <div className="last-message">
+                    {chatRoom.lastMessage.sender.id === currentUser.id ? "You:" : ""}{" "}
+                    {chatRoom.lastMessage.content}
+                </div>
+            </div>
+        </div>
+    );
+}
+
