@@ -1,5 +1,10 @@
+import { useNavigate } from "react-router-dom"
 
 export const AllFriend = ({friend, handleUnFriend}) => {
+    const navigate= useNavigate();
+    const handleClickName = (id)=>{
+        navigate("/profile/"+id);
+    }
 
     return (
         <div className="list-friend">
@@ -16,18 +21,8 @@ export const AllFriend = ({friend, handleUnFriend}) => {
                         </div>
                         <div className="info">
                             <div className="info-user">
-                                <div className="name">
+                                <div className="name" onClick={()=>handleClickName(friend.id)}>
                                     {friend.fullName}
-                                </div>
-                                <div className="friend">
-                                    <div className="img-friend">
-                                        <img
-                                            src="https://th.bing.com/th/id/OIP.HicU2ITeTeFEHIv-NTUGegHaEK?w=261&h=180&c=7&r=0&o=5&dpr=1.5&pid=1.7"
-                                            alt=""/>
-                                    </div>
-                                    <div className="info-more">
-                                        <span>ban be chung</span>
-                                    </div>
                                 </div>
                             </div>
                             <div className="action-user">

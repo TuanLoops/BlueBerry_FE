@@ -5,7 +5,7 @@
     flex-direction: column;
     box-shadow: 0 2px 6px rgba(0, 0, 0, 10);
     width: 260px;
-    height: 400px;
+    height: 360px;
     margin-bottom: 30px;
     margin-right: 20px;
     border-radius: 10px;
@@ -27,8 +27,7 @@
         display: flex;
         justify-content: center;
         .name{
-          margin-bottom: 10px;
-          font-size: 18px;
+          font-size: 20px;
         }
 
         .friend{
@@ -60,12 +59,28 @@
         align-items: center;
         width: 100%;
         margin-top: 15px;
+        .account-settings{
+          button{
+            gap: 5px;
+            border: none;
+            background-color: themed("commentBgColor");
+            color: themed("textColor");
+            border-radius: 5px;
+            width: 150px;
+            height: 35px;
+            cursor: pointer;
+            &:hover{
+              background-color: themed("commentBgColorHover");
+          }
+          }
+        }
 
         .messages{
             margin-top: 5px;
           button{
             gap: 5px;
-            background-color: themed("bgHover");
+            border: none;
+            background-color: themed("commentBgColor");
             color: themed("textColor");
             border-radius: 5px;
             width: 150px;

@@ -2,13 +2,16 @@ import './notification.scss'
 import HighlightOffIcon from "@mui/icons-material/HighlightOff";
 import {Avatar} from "@mui/material";
 import { useDispatch } from 'react-redux';
-import { getIncomingFriendRequests } from '../../redux/service/friendService';
+import { getFriendList, getIncomingFriendRequests } from '../../redux/service/friendService';
 
 export const Notification = ({notifor, onClose}) => {
     console.log(notifor)
     const dispatch=useDispatch();
     const fetchFriendRequest = ()=>{
         dispatch(getIncomingFriendRequests());
+    }
+    const fetchListFriend=()=>{
+        dispatch(getFriendList())
     }
     const notificationMessage = () => {
         switch (notifor.type) {
@@ -75,6 +78,7 @@ export const Notification = ({notifor, onClose}) => {
                     </>
                 );
             case "FRIEND_REQUEST_ACCEPT":
+                fetchListFriend()
                 return (
                     <>
                         <div className="user">
