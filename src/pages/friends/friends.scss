@@ -1,27 +1,32 @@
 @import "../../style.scss";
 
-.friend-page{
+.friend-page {
   @include themify($themes) {
     display: flex;
     color: themed("textColor");
-    .left-friend{
+    .left-friend {
       background-color: themed("bg");
       display: flex;
       position: sticky;
+      padding: 8px;
       top: 56px;
       height: calc(100vh - 56px);
       flex-direction: column;
       width: 340px;
-      .title{
+      -webkit-box-shadow: 0px 0px 25px -10px rgba(0, 0, 0, 0.25);
+      -moz-box-shadow: 0px 0px 25px -10px rgba(0, 0, 0, 0.25);
+      box-shadow: 0px 0px 25px -10px rgba(0, 0, 0, 0.25);
+
+      .title {
         padding: 20px 0 0 20px;
       }
 
-      .btn{
-          display: flex;
+      .btn {
+        display: flex;
         flex-direction: column;
         margin-top: 30px;
 
-        button{
+        button {
           margin-bottom: 5px;
           padding: 10px;
           background-color: themed("bg");
@@ -32,49 +37,61 @@
           text-align: left;
           font-size: 20px;
           color: themed("textColor");
+          font-weight: 600;
           &:hover {
             background-color: themed("bgHover");
           }
         }
       }
     }
-    .right-friend{
+    .right-friend {
       display: flex;
       width: 100%;
       background-color: themed("bgSoft");
-      .right-friend-container{
-        min-width: 520px;
-        max-width: 800px;
+      .right-friend-container {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+
+        .people {
+          width: 520px !important;
+        }
       }
-      .list-friend{
+      .list-friend {
         display: flex;
         flex-direction: column;
         padding: 35px;
         min-height: 560px;
-      max-width: 920px;
-        .title{
+        max-width: 920px;
+        .title {
           margin-bottom: 15px;
           font-size: 20px;
           margin-left: 45px;
+          font-weight: 600;
+          font-size: 20px;
         }
 
-        .grip{
+        .grip {
           display: flex;
           flex-wrap: wrap;
           // justify-content: center;
-          .oneGrip{
+          .oneGrip {
             display: flex;
             flex-direction: column;
-            box-shadow: 0 2px 6px rgba(0, 0, 0, 10);
+
+            -webkit-box-shadow: 0px 0px 25px -10px rgba(0, 0, 0, 0.25);
+            -moz-box-shadow: 0px 0px 25px -10px rgba(0, 0, 0, 0.25);
+            box-shadow: 0px 0px 25px -10px rgba(0, 0, 0, 0.25);
             width: 260px;
             height: 400px;
             margin-bottom: 30px;
             margin-right: 20px;
             border-radius: 10px;
-            .image{
+            background-color: themed("bg");
 
-              img{
-                width:100%;
+            .image {
+              img {
+                width: 100%;
                 height: 200px;
                 object-fit: cover;
                 border-top-right-radius: 10px;
@@ -82,59 +99,85 @@
               }
             }
 
-            .info{
+            .info {
               height: 100%;
-              .info-user{
-                padding: 10px;
-                .name{
+              padding: 16px;
+              .info-user {
+                padding: 0;
+                .name {
                   margin-bottom: 10px;
                   font-size: 18px;
                   cursor: pointer;
-                  &:hover{
+                  font-weight: 600;
+                  font-size: 20px;
+                  &:hover {
                     text-decoration: underline;
                   }
                 }
 
-                .friend{
+                .friend {
                   display: flex;
                   justify-content: flex-start;
                   height: 100%;
                   align-items: center;
-                  .img-friend{
+                  .img-friend {
                     margin-right: 10px;
                     display: flex;
                     align-items: center;
 
-                    img{
+                    img {
                       width: 30px;
                       height: 30px;
                       border-radius: 50%;
                     }
                   }
 
-                  .info-more{
+                  .info-more {
                     font-size: 14px;
                   }
                 }
               }
 
-              .action-user{
+              .action-user {
                 display: flex;
                 flex-direction: column;
                 align-items: center;
                 width: 100%;
                 margin-top: 15px;
+                gap: 8px;
 
-                .unfriend, .messages{
+                .friend-button {
+                  width: 100% !important;
+                }
 
-                  button{
-                    width: 150px;
-                    height: 35px;
+                button {
+                  width: 100%;
+                  padding: 8px 8px;
+                  font-size: 16px;
+                  border: none;
+                  outline: none;
+                  border-radius: 6px;
+                  font-weight: 600;
+                  cursor: pointer;
+                  display: flex;
+                  justify-content: center;
+                  align-items: center;
+                  gap: 4px;
+                  background-color: themed("commentBgColor");
+                  color: themed("textColor");
+
+                  &:hover {
+                    background-color: themed("commentBgColorHover");
                   }
                 }
 
-                .unfriend{
-                  margin-bottom: 10px;
+                .message {
+                  color: white;
+                  background-color: themed("bluePrimary");
+
+                  &:hover {
+                    background-color: themed("bluePrimaryHover");
+                  }
                 }
               }
             }

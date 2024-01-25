@@ -14,9 +14,13 @@ export const Friends = () => {
   const dispatch = useDispatch();
   const [friendAll, setFriendAll] = useState("All");
   const [friend, setFriend] = useState([]);
-  const incomingFriendRequests= useSelector(({friend}) => friend.incomingFriendRequests);
-  const sentFriendRequests= useSelector(({friend}) => friend.sentFriendRequests);
-console.log(sentFriendRequests)
+  const incomingFriendRequests = useSelector(
+    ({ friend }) => friend.incomingFriendRequests
+  );
+  const sentFriendRequests = useSelector(
+    ({ friend }) => friend.sentFriendRequests
+  );
+  console.log(sentFriendRequests);
   const fetchData = async () => {
     const res = await UrlFriend().get("/list");
     setFriend(res.data);
@@ -40,21 +44,29 @@ console.log(sentFriendRequests)
         </div>
         <div className="btn">
           <button onClick={() => setFriendAll("All")}>All Friend</button>
-          <button onClick={() => setFriendAll("COMING")}>InComing Friend Request</button>
-          <button onClick={() => setFriendAll("RESIDENT")}>Resident Friend Request</button>
+          <button onClick={() => setFriendAll("COMING")}>
+            Incoming Friend Request
+          </button>
+          <button onClick={() => setFriendAll("RESIDENT")}>
+            Sent Friend Request
+          </button>
         </div>
       </div>
       <div className="right-friend">
         {friendAll === "All" ? (
           <AllFriend friend={friend} handleUnFriend={handleUnFriend} />
-        ):
-        friendAll === "COMING" ? <div className="right-friend-container"> { 
-            incomingFriendRequests &&
-            <FriendInComing request={incomingFriendRequests}/>
-        } </div>:<div className="right-friend-container">
-             <FriendSend request={sentFriendRequests}/>
-        </div>
-    }
+        ) : friendAll === "COMING" ? (
+          <div className="right-friend-container">
+            {" "}
+            {incomingFriendRequests && (
+              <FriendInComing request={incomingFriendRequests} />
+            )}{" "}
+          </div>
+        ) : (
+          <div className="right-friend-container">
+            <FriendSend request={sentFriendRequests} />
+          </div>
+        )}
       </div>
     </div>
   );
