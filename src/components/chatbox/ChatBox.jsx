@@ -1,7 +1,13 @@
 import { Avatar, TextareaAutosize } from "@mui/material";
 import "./chatBox.scss";
 import { useDispatch, useSelector } from "react-redux";
-import { formatDistanceToNow, set } from "date-fns";
+import {
+  differenceInDays,
+  differenceInHours,
+  differenceInMinutes,
+  differenceInMonths,
+  differenceInYears,
+} from "date-fns";
 import { useState } from "react";
 import { UrlChat } from "../../context/connect";
 import { IoMdClose } from "react-icons/io";
@@ -105,6 +111,20 @@ function Message({ message }) {
     return message.sender.id === currentUser.id;
   };
 
+  const formatTimestamp = (timestamp) => {
+    if (differenceInMinutes(new Date(), timestamp) < 60) {
+      return `${differenceInMinutes(new Date(), timestamp)}m`;
+    } else if (differenceInHours(new Date(), timestamp) < 24) {
+      return `${differenceInHours(new Date(), timestamp)}h`;
+    } else if (differenceInDays(new Date(), timestamp) < 7) {
+      return `${differenceInDays(new Date(), timestamp)}d`;
+    } else if (differenceInMonths(new Date(), timestamp) < 12) {
+      return `${differenceInMonths(new Date(), timestamp)}mo`;
+    } else {
+      return `${differenceInYears(new Date(), timestamp)}yr`;
+    }
+  };
+
   return (
     <div className={`message ${isSender(message) ? "sender" : ""}`}>
       <div className="avatar">
@@ -115,7 +135,7 @@ function Message({ message }) {
         />
       </div>
       <div className="content">{message.content}</div>
-      <div className="timestamp">{`${formatDistanceToNow(
+      <div className="timestamp">{`${formatTimestamp(
         message.timeStamp
       )} ago`}</div>
     </div>

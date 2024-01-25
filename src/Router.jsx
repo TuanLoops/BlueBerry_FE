@@ -1,64 +1,64 @@
-import {useDispatch, useSelector} from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import {
-    BrowserRouter,
-    Navigate,
-    Outlet,
-    Route,
-    Routes,
+  BrowserRouter,
+  Navigate,
+  Outlet,
+  Route,
+  Routes,
 } from "react-router-dom";
 import Navbar from "./components/navbar/Navbar";
-import {useContext, useEffect, useState} from "react";
-import {DarkModeContext} from "./context/darkModeContext";
+import { useContext, useEffect, useState } from "react";
+import { DarkModeContext } from "./context/darkModeContext";
 import Home from "./pages/home/Home";
 import Profile from "./pages/profile/Profile";
-import {ConfirmAccount} from "./pages/confirm/ConfirmAccount";
+import { ConfirmAccount } from "./pages/confirm/ConfirmAccount";
 import Register from "./pages/register/Register";
 import Login from "./pages/login/Login";
-import {getCurrentUser} from "./redux/service/userService";
+import { getCurrentUser } from "./redux/service/userService";
 import AccountSettings from "./pages/settings/AccountSettings";
 import Search from "./pages/search/Search";
 import {
-    getCurrentUserFriendList,
-    getIncomingFriendRequests,
-    getSentFriendRequests,
+  getCurrentUserFriendList,
+  getIncomingFriendRequests,
+  getSentFriendRequests,
 } from "./redux/service/friendService";
-import {Saved} from "./components/saved/Saved.jsx";
-import {OnePost} from "./components/onepost/OnePost.jsx";
-import {collection, onSnapshot, query, where} from "firebase/firestore";
-import {firestore} from "./firebase";
-import {getNotifications} from "./redux/service/NotificationService";
-import {Notification} from "./components/notification/Notification.jsx";
-import {ResetPassword} from "./pages/reset/ResetPassword.jsx";
-import {Friends} from "./pages/friends/Friends.jsx";
+import { Saved } from "./components/saved/Saved.jsx";
+import { OnePost } from "./components/onepost/OnePost.jsx";
+import { collection, onSnapshot, query, where } from "firebase/firestore";
+import { firestore } from "./firebase";
+import { getNotifications } from "./redux/service/NotificationService";
+import { Notification } from "./components/notification/Notification.jsx";
+import { ResetPassword } from "./pages/reset/ResetPassword.jsx";
+import { Friends } from "./pages/friends/Friends.jsx";
 import { UserFriends } from "./pages/profile/friends/UserFriends.jsx";
 import ChatPage from "./pages/chatpage/ChatPage.jsx";
 import { getChatRooms } from "./redux/service/chatService.jsx";
-import {compareDesc} from "date-fns";
+import { compareDesc } from "date-fns";
+import { openPopup } from "./redux/reducer/chatReducer.jsx";
 
 function Router() {
-    const accessToken = useSelector(({user}) => user.accessToken);
-    const currentUser = useSelector(({user}) => user.currentUser);
-    const dispatch = useDispatch();
-    const [fetched, setFetched] = useState(false);
-    const [firstRender, setFirstRender] = useState(false);
+  const accessToken = useSelector(({ user }) => user.accessToken);
+  const currentUser = useSelector(({ user }) => user.currentUser);
+  const dispatch = useDispatch();
+  const [fetched, setFetched] = useState(false);
 
-    useEffect(() => {
-        const fetchData = async () => {
-            if (accessToken && !currentUser) {
-                dispatch(getCurrentUser());
-                setTimeout(() => {
-                    setFetched(true);
-                }, 100);
-            } else {
-                setFetched(true);
-            }
-        };
-        fetchData();
-    }, [accessToken]);
+  useEffect(() => {
+    const fetchData = async () => {
+      if (accessToken && !currentUser) {
+        dispatch(getCurrentUser());
+        setTimeout(() => {
+          setFetched(true);
+        }, 100);
+      } else {
+        setFetched(true);
+      }
+    };
+    fetchData();
+  }, [accessToken]);
 
     const PrivateRoutes = () => {
-        const {darkMode} = useContext(DarkModeContext);
-        const currentUser = useSelector(({user}) => user.currentUser);
+        const { darkMode } = useContext(DarkModeContext);
+        const currentUser = useSelector(({ user }) => user.currentUser);
         const dispatch = useDispatch();
         const [noti, setNoti] = useState([]);
         const [showNoti, setShowNoti] = useState(false);
@@ -107,23 +107,26 @@ function Router() {
             return () => unsubscribe();
         }, []);
 
-        useEffect(() => {
-            const unsubscribe = onSnapshot(
-                query(
-                    collection(firestore, "chat_rooms"),
-                    where("participantIds", "array-contains", currentUser.id)
-                ),
-                (snapshot) => {
-                    console.log(
-                        "Snap",
-                        snapshot.docs.map((doc) => doc.data())
-                    );
-                    dispatch(getChatRooms());
-                }
-            );
+    useEffect(() => {
+      const unsubscribe = onSnapshot(
+        query(
+          collection(firestore, "chat_rooms"),
+          where("participantIds", "array-contains", currentUser.id),
+          where("lastActivity", ">=", new Date())
+        ),
+        (snapshot) => {
+          const data = snapshot.docs.map((doc) => doc.data());
+          const newMessageRoom = data.sort((a, b) =>
+            compareDesc(a.lastActivity, b.lastActivity)
+          )[0];
+          dispatch(getChatRooms());
+          if (!newMessageRoom) return;
+          dispatch(openPopup(newMessageRoom.id));
+        }
+      );
 
-            return () => unsubscribe();
-        }, []);
+      return () => unsubscribe();
+    }, []);
 
         const handleOffNotification = () => {
             setShowNoti(false)
@@ -131,17 +134,17 @@ function Router() {
         return (
             <div
                 className={`theme-${darkMode ? "dark" : "light"}`}
-                style={{backgroundColor: darkMode ? "#1f1f1f" : "#f6f3f3"}}
+                style={{ backgroundColor: darkMode ? "#1f1f1f" : "#f6f3f3" }}
             >
-                <Navbar/>
-                {noti && showNoti && (<Notification onClose={handleOffNotification} notifor={noti}/>)}
-                <Outlet/>
+                <Navbar />
+                {noti && showNoti && (<Notification onClose={handleOffNotification} notifor={noti} />)}
+                <Outlet />
             </div>
         );
     };
 
     const PublicRoutes = () => {
-        return <Outlet/>;
+        return <Outlet />;
     };
 
     if (fetched) {
@@ -149,7 +152,7 @@ function Router() {
             <BrowserRouter>
                 <Routes>
                     {accessToken ? (
-                        <Route element={<PrivateRoutes/>}>
+                        <Route element={<PrivateRoutes />}>
                             {currentUser ? (
                                 <>
                                     <Route path="/" exact element={<Home />} />
@@ -169,12 +172,12 @@ function Router() {
                             )}
                         </Route>
                     ) : (
-                        <Route element={<PublicRoutes/>}>
-                            <Route path="/login" element={<Login/>}/>
-                            <Route path="/confirm" element={<ConfirmAccount/>}/>
-                            <Route path="/register" element={<Register/>}/>
+                        <Route element={<PublicRoutes />}>
+                            <Route path="/login" element={<Login />} />
+                            <Route path="/confirm" element={<ConfirmAccount />} />
+                            <Route path="/register" element={<Register />} />
                             <Route path="/reset-password" element={<ResetPassword />} />
-                            <Route path="*" element={<Navigate to={"/login"}/>}/>
+                            <Route path="*" element={<Navigate to={"/login"} />} />
                         </Route>
                     )}
                 </Routes>
