@@ -155,10 +155,7 @@ function Router() {
                                     <Route path="/saved" element={<Saved />} />
                                     <Route path="/:currentUser/post/:postId" element={<OnePost />} />
                                     <Route path="/friend" element={<Friends />} />
-                                    <Route
-                                        path="/accountsettings"
-                                        element={<AccountSettings />}
-                                    />
+                                    <Route path="/accountsettings" element={<AccountSettings />} />
                                     <Route path="/chat/" element={<ChatPage />} />
                                     <Route path="/chat/:roomId" element={<ChatPage />} />
                                     <Route path="*" element={<Navigate to={"/"} />} />

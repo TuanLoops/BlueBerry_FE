@@ -54,7 +54,6 @@ const userReducer = createSlice({
     });
     builder.addCase(updateProfile.fulfilled, (state, { payload }) => {
       state.infoUser = payload;
-      state.currentUser = state.infoUser;
     });
     builder.addCase(searchUsers.fulfilled, (state, { payload }) => {
       state.list = payload;

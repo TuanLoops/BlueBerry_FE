@@ -28,7 +28,7 @@ export const getCurrentUser = createAsyncThunk(
 
 export const getInfoUser = createAsyncThunk(
     "GET_INFO_CURRENT_USER",
-    async (id,{ rejectWithValue}) => {
+    async (id) => {
         try {
             const res = await UrlAppUser().get(`${id}`);
             return res.data;

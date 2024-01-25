@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import './personalinformation.scss';
 import { useDispatch, useSelector } from 'react-redux';
-import { getInfoUser, updateProfile } from '../../redux/service/userService';
+import { getCurrentUser, getInfoUser, updateProfile } from '../../redux/service/userService';
 import { AiFillEdit } from "react-icons/ai";
 
 const PersonalInformation = () => {
@@ -55,7 +55,8 @@ const PersonalInformation = () => {
       hobbies,
       address,
     };
-    dispatch(updateProfile(user));
+    console.log(user);
+    dispatch(updateProfile(user)).then(() => dispatch(getCurrentUser()));
   };
 
   const handleInputPhoneNumber = (e) => {
