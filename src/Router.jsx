@@ -22,11 +22,13 @@ import {
   getIncomingFriendRequests,
   getSentFriendRequests,
 } from "./redux/service/friendService";
-import {Saved} from "./components/saved/Saved.jsx";
-import {OnePost} from "./components/onepost/OnePost.jsx";
+import { Saved } from "./components/saved/Saved.jsx";
+import { OnePost } from "./components/onepost/OnePost.jsx";
 import { collection, onSnapshot, query, where } from "firebase/firestore";
 import { firestore } from "./firebase";
 import { getNotifications } from "./redux/service/NotificationService";
+import ChatPage from "./pages/chatpage/ChatPage.jsx";
+import { getChatRooms } from "./redux/service/chatService.jsx";
 
 function Router() {
   const accessToken = useSelector(({ user }) => user.accessToken);
@@ -50,7 +52,6 @@ function Router() {
 
   const PrivateRoutes = () => {
     const { darkMode } = useContext(DarkModeContext);
-    const [stompClient, setStompClient] = useState(null);
     const currentUser = useSelector(({ user }) => user.currentUser);
     const dispatch = useDispatch();
 
@@ -71,8 +72,25 @@ function Router() {
           where("receiver.id", "==", currentUser.id)
         ),
         (snapshot) => {
-          console.log("Current data: ", snapshot);
           dispatch(getNotifications());
+        }
+      );
+
+      return () => unsubscribe();
+    }, []);
+
+    useEffect(() => {
+      const unsubscribe = onSnapshot(
+        query(
+          collection(firestore, "chat_rooms"),
+          where("participantIds", "array-contains", currentUser.id)
+        ),
+        (snapshot) => {
+          console.log(
+            "Snap",
+            snapshot.docs.map((doc) => doc.data())
+          );
+          dispatch(getChatRooms());
         }
       );
 
@@ -104,10 +122,18 @@ function Router() {
                 <>
                   <Route path="/" exact element={<Home />} />
                   <Route path="/profile/:id" element={<Profile />} />
-                  <Route path="/search" element={<Search />}/>
-                  <Route path="/saved" element={<Saved/>} />
-                  <Route path="/:currentUser/post/:postId" element={<OnePost/>} />
-                  <Route path="/accountsettings" element={<AccountSettings />} />
+                  <Route path="/search" element={<Search />} />
+                  <Route path="/saved" element={<Saved />} />
+                  <Route
+                    path="/:currentUser/post/:postId"
+                    element={<OnePost />}
+                  />
+                  <Route
+                    path="/accountsettings"
+                    element={<AccountSettings />}
+                  />
+                  <Route path="/chat/" element={<ChatPage />} />
+                  <Route path="/chat/:roomId" element={<ChatPage />} />
                   <Route path="*" element={<Navigate to={"/"} />} />
                 </>
               ) : (

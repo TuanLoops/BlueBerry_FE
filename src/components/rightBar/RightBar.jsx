@@ -3,7 +3,12 @@ import "./rightBar.scss";
 import Avatar from "@mui/material/Avatar";
 import { useDispatch, useSelector } from "react-redux";
 import { differenceInSeconds } from "date-fns";
-import { acceptFriendRequest, declineFriendRequest } from "../../redux/service/friendService";
+import {
+  acceptFriendRequest,
+  declineFriendRequest,
+} from "../../redux/service/friendService";
+import { openPopup } from "../../redux/reducer/chatReducer";
+import { UrlChat } from "../../context/connect";
 
 const RightBar = () => {
   const friendList = useSelector(({ friend }) => friend.friendList);
@@ -68,11 +73,27 @@ const FriendRequestQuickView = ({ requests }) => {
 };
 
 const FriendList = ({ friendList }) => {
+  const dispatch = useDispatch();
+  const chatRooms = useSelector(({ chat }) => chat.chatRooms);
+
+  const handleClick = async (id) => {
+    try {
+      const res = await UrlChat().get(`user/${id}`);
+      dispatch(openPopup(res.data.id));
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <div className="friend-list">
       <div className="title">Friend list</div>
       {friendList.map((friend) => (
-        <div key={friend.id} className="friend">
+        <div
+          key={friend.id}
+          className="friend"
+          onClick={() => handleClick(friend.id)}
+        >
           {differenceInSeconds(Date.now(), new Date(friend.lastOnline)) <=
           60 ? (
             <>
