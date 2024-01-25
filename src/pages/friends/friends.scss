@@ -1,10 +1,10 @@
 @import "../../style.scss";
 
-.friend-page{
+.friend-page {
   @include themify($themes) {
     display: flex;
     color: themed("textColor");
-    .left-friend{
+    .left-friend {
       background-color: themed("bg");
       display: flex;
       position: sticky;
@@ -12,16 +12,16 @@
       height: calc(100vh - 56px);
       flex-direction: column;
       width: 340px;
-      .title{
+      .title {
         padding: 20px 0 0 20px;
       }
 
-      .btn{
-          display: flex;
+      .btn {
+        display: flex;
         flex-direction: column;
         margin-top: 30px;
 
-        button{
+        button {
           margin-bottom: 5px;
           padding: 10px;
           background-color: themed("bg");
@@ -38,33 +38,33 @@
         }
       }
     }
-    .right-friend{
+    .right-friend {
       display: flex;
       width: 100%;
       justify-content: center;
       background-color: themed("bgSoft");
-      .right-friend-container{
+      .right-friend-container {
         min-width: 520px;
         max-width: 800px;
       }
-      .list-friend{
+      .list-friend {
         display: flex;
         flex-direction: column;
         justify-content: center;
         padding: 35px;
         min-height: 560px;
-      max-width: 920px;
-        .title{
+        max-width: 920px;
+        .title {
           margin-bottom: 15px;
           font-size: 20px;
           margin-left: 45px;
         }
 
-        .grip{
+        .grip {
           display: flex;
           flex-wrap: wrap;
           // justify-content: center;
-          .oneGrip{
+          .oneGrip {
             display: flex;
             flex-direction: column;
             box-shadow: 0 2px 6px rgba(0, 0, 0, 10);
@@ -73,10 +73,9 @@
             margin-bottom: 30px;
             margin-right: 20px;
             border-radius: 10px;
-            .image{
-
-              img{
-                width:100%;
+            .image {
+              img {
+                width: 100%;
                 height: 200px;
                 object-fit: cover;
                 border-top-right-radius: 10px;
@@ -84,58 +83,58 @@
               }
             }
 
-            .info{
+            .info {
               height: 100%;
-              .info-user{
+              .info-user {
                 padding: 10px;
-                .name{
+                .name {
                   margin-bottom: 10px;
                   font-size: 18px;
                   cursor: pointer;
-                  &:hover{
+                  &:hover {
                     text-decoration: underline;
                   }
                 }
 
-                .friend{
+                .friend {
                   display: flex;
                   justify-content: flex-start;
                   height: 100%;
                   align-items: center;
-                  .img-friend{
+                  .img-friend {
                     margin-right: 10px;
                     display: flex;
                     align-items: center;
 
-                    img{
+                    img {
                       width: 30px;
                       height: 30px;
                       border-radius: 50%;
                     }
                   }
 
-                  .info-more{
+                  .info-more {
                     font-size: 14px;
                   }
                 }
               }
 
-              .action-user{
+              .action-user {
                 display: flex;
                 flex-direction: column;
                 align-items: center;
                 width: 100%;
                 margin-top: 15px;
 
-                .unfriend, .messages{
-
-                  button{
+                .unfriend,
+                .messages {
+                  button {
                     width: 150px;
                     height: 35px;
                   }
                 }
 
-                .unfriend{
+                .unfriend {
                   margin-bottom: 10px;
                 }
               }
