@@ -1,11 +1,15 @@
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import "./deletePost.scss";
-import {useDispatch} from "react-redux";
-import {deleteStatus} from "../../../redux/service/statusService.jsx";
+import { useDispatch } from "react-redux";
+import { deleteStatus } from "../../../redux/service/statusService.jsx";
+import Snackbar from "@mui/material/Snackbar";
+import IconButton from "@mui/material/IconButton";
+import CloseIcon from "@mui/icons-material/Close";
 
 function DeletePost({ postId, onClose }) {
   const modalRef = useRef(null);
   const dispatch = useDispatch();
+  const [open, setOpen] = useState();
   const handleClose = (e) => {
     if (e.target === modalRef.current) {
       onClose();
@@ -13,15 +17,35 @@ function DeletePost({ postId, onClose }) {
   };
 
   const handleDelete = () => {
-    //TODO: delete post
     try {
       dispatch(deleteStatus(postId)).then();
       onClose();
-    }catch (e) {
-      if(e.response){}
-      alert(e.response.data.message);
+      setOpen(true);
+    } catch (e) {
+      console.log(e);
     }
   };
+
+  const handleCloseToast = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+
+    setOpen(false);
+  };
+
+  const action = (
+    <>
+      <IconButton
+        size="small"
+        aria-label="close"
+        color="inherit"
+        onClick={handleCloseToast}
+      >
+        <CloseIcon fontSize="small" />
+      </IconButton>
+    </>
+  );
 
   return (
     <div className="delete-post-modal" ref={modalRef} onClick={handleClose}>
@@ -43,6 +67,13 @@ function DeletePost({ postId, onClose }) {
           </div>
         </div>
       </div>
+      <Snackbar
+        open={open}
+        autoHideDuration={4000}
+        onClose={handleCloseToast}
+        message="Post deleted"
+        action={action}
+      />
     </div>
   );
 }

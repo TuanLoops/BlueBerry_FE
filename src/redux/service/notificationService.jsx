@@ -6,7 +6,7 @@ export const getNotifications = createAsyncThunk("GET_NOTIFICATION", async () =>
     const res = await UrlNotification().get(``);
     return res.data;
   } catch (e) {
-    console.log(e.response.data.message);
+    console.log(e);
   }
 });
 

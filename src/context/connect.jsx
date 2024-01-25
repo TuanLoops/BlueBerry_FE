@@ -89,3 +89,17 @@ export const UrlNotification = () => {
     });
   }
 };
+
+export const UrlChat = () => {
+  let accessToken = JSON.parse(localStorage.getItem("AccessToken"));
+  if (accessToken) {
+    return axios.create({
+      baseURL: "http://localhost:8080/auth/api/chat",
+      headers: { Authorization: `Bearer ${accessToken}` },
+    });
+  } else {
+    return axios.create({
+      baseURL: "http://localhost:8080/auth/api/chat",
+    });
+  }
+}
