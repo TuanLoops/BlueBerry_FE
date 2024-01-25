@@ -33,12 +33,14 @@ import {Friends} from "./pages/friends/Friends.jsx";
 import { UserFriends } from "./pages/profile/friends/UserFriends.jsx";
 import ChatPage from "./pages/chatpage/ChatPage.jsx";
 import { getChatRooms } from "./redux/service/chatService.jsx";
+import {compareDesc} from "date-fns";
 
 function Router() {
     const accessToken = useSelector(({user}) => user.accessToken);
     const currentUser = useSelector(({user}) => user.currentUser);
     const dispatch = useDispatch();
     const [fetched, setFetched] = useState(false);
+    const [firstRender, setFirstRender] = useState(false);
 
     useEffect(() => {
         const fetchData = async () => {
@@ -79,12 +81,14 @@ function Router() {
                     where("timeStamp", ">=", new Date())
                 ),
                 (snapshot) => {
-                    const notificationsData = snapshot.docs.map((doc) => doc.data()).sort((a, b) => b.id - a.id);
-                    const NewNoti = notificationsData[0]
-                    setNoti(NewNoti);
-                    dispatch(getNotifications());
+                        const notificationsData = snapshot.docs.map((doc) => doc.data()).sort((a, b) => compareDesc(a.timeStamp, b.timeStamp));
+                        const NewNoti = notificationsData[0]
+                        setNoti(NewNoti);
+                        console.log(notificationsData)
+                        dispatch(getNotifications());
+                    setFirstRender(true)
                     setShowNoti(true);
-                    setTimeout(() => setShowNoti(false), 4000);
+                    setTimeout(()=> setShowNoti(false),4000);
                 }
             );
             return () => unsubscribe();
