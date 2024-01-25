@@ -59,6 +59,21 @@
         align-items: center;
         width: 100%;
         margin-top: 15px;
+        .account-settings{
+          button{
+            gap: 5px;
+            border: none;
+            background-color: themed("commentBgColor");
+            color: themed("textColor");
+            border-radius: 5px;
+            width: 150px;
+            height: 35px;
+            cursor: pointer;
+            &:hover{
+              background-color: themed("commentBgColorHover");
+          }
+          }
+        }
 
         .messages{
             margin-top: 5px;
