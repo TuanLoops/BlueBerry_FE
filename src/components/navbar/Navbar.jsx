@@ -149,14 +149,6 @@ const Navbar = () => {
                             <span>Blueberry</span>
                         </div>
                     </Link>
-                    <div className="nav-item">
-                        {darkMode ? (
-                            <WbSunnyOutlinedIcon onClick={toggle} />
-                        ) : (
-                            <DarkModeOutlinedIcon onClick={toggle} />
-                        )}
-                        <div className="label-acc">Mode</div>
-                    </div>
                     <div className="search">
                         <SearchOutlinedIcon />
                         <input
@@ -205,7 +197,8 @@ const Navbar = () => {
                                 onClick={() => setShowNotifications(!showNotifications)}
                                 ref={notificationsRef}
                             >
-                                {showNotifications ? <FaBell /> : <FaRegBell />}
+                                {showNotifications ? <FaBell/> : <FaRegBell/>}
+                                <div className="label-acc">Notification</div>
                             </div>
                         </Badge>
                         {showNotifications && (
@@ -216,7 +209,6 @@ const Navbar = () => {
                                 buttonRef={notificationsRef}
                             />
                         )}
-                        <div className="label-acc">Notification</div>
                     </div>
                     <div className="user" onClick={togglePopup} ref={userRef}>
                         <img src={currentUser?.avatarImage} alt="" />

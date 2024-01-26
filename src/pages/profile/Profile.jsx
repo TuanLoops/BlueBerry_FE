@@ -308,7 +308,7 @@ const Profile = () => {
 
                 <div className="gallery-photos">
                   <div className="gallery-photos-rowFirst">
-                    {userFriendList.slice(0, 9).map((friend) => (
+                    {userFriendList.slice(0, 10).map((friend) => (
                       <Link
                         to={`/profile/${friend.id}`}
                         className="first-friend"
